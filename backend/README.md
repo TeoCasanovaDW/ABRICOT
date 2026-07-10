@@ -102,3 +102,9 @@ Le script crée les éléments suivants :
 | Créer des tâches              | ✅            | ✅     | ✅            |
 | Modifier des tâches           | ✅            | ✅     | ✅            |
 | Supprimer des tâches          | ✅            | ✅     | ✅            |
+
+## Modifications apportées
+
+Les ajustements réalisés sur le backend fourni sont documentés dans :
+
+[`BACKEND_CHANGES.md`](./BACKEND_CHANGES.md)
