@@ -19,7 +19,7 @@ interface SeedTask {
   title: string;
   description: string;
   status: "TODO" | "IN_PROGRESS" | "DONE" | "CANCELLED";
-  priority: "LOW" | "MEDIUM" | "HIGH";
+  priority: "LOW" | "MEDIUM" | "HIGH" | "URGENT";
   dueDate: Date;
   projectName: string;
   assignees: string[];
@@ -28,6 +28,32 @@ interface SeedTask {
 interface SeedComment {
   content: string;
   authorId: string;
+}
+
+// Date de référence et helpers pour des échéances relatives à l'exécution du seed
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+function daysFromToday(days: number): Date {
+  const result = new Date(today);
+  result.setDate(result.getDate() + days);
+  return result;
+}
+
+function lastDayOfMonth(date: Date): Date {
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+}
+
+// Décalage clampé à la fin du mois courant, pour rester "plus tard ce mois-ci"
+// quelle que soit la date d'exécution du seed
+function laterThisMonth(days: number): Date {
+  const target = daysFromToday(days);
+  const monthEnd = lastDayOfMonth(today);
+  return target > monthEnd ? monthEnd : target;
+}
+
+function nextMonth(dayOfMonth: number): Date {
+  return new Date(today.getFullYear(), today.getMonth() + 1, dayOfMonth);
 }
 
 // Données de test
@@ -121,7 +147,7 @@ const tasks: SeedTask[] = [
       "Créer le schéma de base de données pour les produits, utilisateurs, commandes et paiements.",
     status: "DONE",
     priority: "HIGH",
-    dueDate: new Date("2024-01-15"),
+    dueDate: daysFromToday(-20),
     projectName: "Application E-commerce",
     assignees: ["bob@example.com", "caroline@example.com"],
   },
@@ -130,8 +156,8 @@ const tasks: SeedTask[] = [
     description:
       "Implémenter les endpoints pour la gestion des produits, panier et commandes.",
     status: "IN_PROGRESS",
-    priority: "HIGH",
-    dueDate: new Date("2024-02-01"),
+    priority: "URGENT",
+    dueDate: daysFromToday(3),
     projectName: "Application E-commerce",
     assignees: ["david@example.com"],
   },
@@ -141,7 +167,7 @@ const tasks: SeedTask[] = [
       "Créer les composants React pour la liste des produits, panier et checkout.",
     status: "TODO",
     priority: "MEDIUM",
-    dueDate: new Date("2024-02-15"),
+    dueDate: daysFromToday(4),
     projectName: "Application E-commerce",
     assignees: ["alice@example.com", "caroline@example.com"],
   },
@@ -150,7 +176,7 @@ const tasks: SeedTask[] = [
     description: "Intégrer Stripe pour le traitement des paiements sécurisés.",
     status: "TODO",
     priority: "HIGH",
-    dueDate: new Date("2024-02-28"),
+    dueDate: laterThisMonth(14),
     projectName: "Application E-commerce",
     assignees: ["bob@example.com"],
   },
@@ -160,7 +186,7 @@ const tasks: SeedTask[] = [
       "Écrire les tests unitaires et d'intégration pour l'API et l'interface.",
     status: "TODO",
     priority: "MEDIUM",
-    dueDate: new Date("2024-03-10"),
+    dueDate: nextMonth(10),
     projectName: "Application E-commerce",
     assignees: ["david@example.com", "caroline@example.com"],
   },
@@ -172,7 +198,7 @@ const tasks: SeedTask[] = [
       "Développer le système de demande et validation des congés avec workflow d'approbation.",
     status: "IN_PROGRESS",
     priority: "HIGH",
-    dueDate: new Date("2024-01-20"),
+    dueDate: daysFromToday(2),
     projectName: "Système de Gestion RH",
     assignees: ["emma@example.com", "francois@example.com"],
   },
@@ -182,7 +208,7 @@ const tasks: SeedTask[] = [
       "Créer les formulaires d'évaluation et le système de notation.",
     status: "TODO",
     priority: "MEDIUM",
-    dueDate: new Date("2024-02-05"),
+    dueDate: daysFromToday(-5),
     projectName: "Système de Gestion RH",
     assignees: ["gabrielle@example.com"],
   },
@@ -192,7 +218,7 @@ const tasks: SeedTask[] = [
       "Dashboard avec statistiques sur les effectifs, congés et performances.",
     status: "TODO",
     priority: "LOW",
-    dueDate: new Date("2024-02-20"),
+    dueDate: nextMonth(15),
     projectName: "Système de Gestion RH",
     assignees: ["emma@example.com"],
   },
@@ -203,7 +229,7 @@ const tasks: SeedTask[] = [
     description: "Créer les maquettes et prototypes pour l'application mobile.",
     status: "DONE",
     priority: "HIGH",
-    dueDate: new Date("2024-01-10"),
+    dueDate: daysFromToday(-30),
     projectName: "Application Mobile Fitness",
     assignees: ["henri@example.com"],
   },
@@ -212,8 +238,8 @@ const tasks: SeedTask[] = [
     description:
       "Implémenter les écrans d'accueil, profil utilisateur et suivi d'entraînement.",
     status: "IN_PROGRESS",
-    priority: "HIGH",
-    dueDate: new Date("2024-01-25"),
+    priority: "URGENT",
+    dueDate: daysFromToday(-1),
     projectName: "Application Mobile Fitness",
     assignees: ["isabelle@example.com", "henri@example.com"],
   },
@@ -223,7 +249,7 @@ const tasks: SeedTask[] = [
       "Connecter l'app à une API de données nutritionnelles pour les calories et nutriments.",
     status: "TODO",
     priority: "MEDIUM",
-    dueDate: new Date("2024-02-10"),
+    dueDate: laterThisMonth(10),
     projectName: "Application Mobile Fitness",
     assignees: ["henri@example.com"],
   },
@@ -235,7 +261,7 @@ const tasks: SeedTask[] = [
       "Créer l'interface d'administration pour ajouter et organiser les cours.",
     status: "DONE",
     priority: "HIGH",
-    dueDate: new Date("2024-01-05"),
+    dueDate: daysFromToday(-25),
     projectName: "Plateforme de Formation",
     assignees: ["jacques@example.com"],
   },
@@ -244,8 +270,8 @@ const tasks: SeedTask[] = [
     description:
       "Développer un lecteur vidéo avec contrôles de progression et notes.",
     status: "IN_PROGRESS",
-    priority: "HIGH",
-    dueDate: new Date("2024-01-30"),
+    priority: "MEDIUM",
+    dueDate: daysFromToday(6),
     projectName: "Plateforme de Formation",
     assignees: ["alice@example.com", "jacques@example.com"],
   },
@@ -254,8 +280,8 @@ const tasks: SeedTask[] = [
     description:
       "Créer les quiz avec questions à choix multiples et évaluation automatique.",
     status: "TODO",
-    priority: "MEDIUM",
-    dueDate: new Date("2024-02-15"),
+    priority: "LOW",
+    dueDate: nextMonth(5),
     projectName: "Plateforme de Formation",
     assignees: ["alice@example.com"],
   },
@@ -267,7 +293,7 @@ const tasks: SeedTask[] = [
       "Concevoir l'architecture pour la collecte et le stockage des données analytiques.",
     status: "DONE",
     priority: "HIGH",
-    dueDate: new Date("2024-01-08"),
+    dueDate: daysFromToday(-18),
     projectName: "Dashboard Analytics",
     assignees: ["bob@example.com"],
   },
@@ -277,7 +303,7 @@ const tasks: SeedTask[] = [
       "Implémenter les composants de visualisation avec Chart.js ou D3.js.",
     status: "IN_PROGRESS",
     priority: "HIGH",
-    dueDate: new Date("2024-01-22"),
+    dueDate: daysFromToday(1),
     projectName: "Dashboard Analytics",
     assignees: ["emma@example.com", "henri@example.com"],
   },
@@ -286,8 +312,8 @@ const tasks: SeedTask[] = [
     description:
       "Créer le système de notifications pour les seuils et anomalies détectées.",
     status: "TODO",
-    priority: "MEDIUM",
-    dueDate: new Date("2024-02-08"),
+    priority: "URGENT",
+    dueDate: laterThisMonth(9),
     projectName: "Dashboard Analytics",
     assignees: ["bob@example.com"],
   },
