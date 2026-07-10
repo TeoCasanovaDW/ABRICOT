@@ -301,13 +301,34 @@ export const getProjects = async (
       },
     });
 
-    // Ajouter le rôle de l'utilisateur pour chaque projet
+    // Récupérer le nombre de tâches terminées (DONE) en une seule requête groupée
+    const completedTaskCounts =
+      projects.length > 0
+        ? await prisma.task.groupBy({
+            by: ["projectId"],
+            where: {
+              projectId: { in: projects.map((project) => project.id) },
+              status: "DONE",
+            },
+            _count: true,
+          })
+        : [];
+
+    const completedByProject = new Map(
+      completedTaskCounts.map((entry) => [entry.projectId, entry._count])
+    );
+
+    // Ajouter le rôle de l'utilisateur et les statistiques de tâches pour chaque projet
     const projectsWithRoles = await Promise.all(
       projects.map(async (project) => {
         const role = await getUserProjectRole(authReq.user!.id, project.id);
         return {
           ...project,
           userRole: role,
+          taskStats: {
+            total: project._count.tasks,
+            completed: completedByProject.get(project.id) ?? 0,
+          },
         };
       })
     );
