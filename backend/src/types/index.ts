@@ -66,6 +66,7 @@ export interface RemoveContributorRequest {
 export interface CreateTaskRequest {
   title: string;
   description?: string;
+  status?: "TODO" | "IN_PROGRESS" | "DONE" | "CANCELLED";
   priority?: "LOW" | "MEDIUM" | "HIGH" | "URGENT";
   dueDate?: string; // ISO date string
   assigneeIds?: string[]; // IDs des utilisateurs assignés à la tâche

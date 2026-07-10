@@ -286,6 +286,7 @@ export const validateUpdateProjectData = (data: {
 export const validateCreateTaskData = (data: {
   title: string;
   description?: string;
+  status?: string;
   priority?: string;
   dueDate?: string;
   assigneeIds?: string[];
@@ -312,6 +313,17 @@ export const validateCreateTaskData = (data: {
     errors.push({
       field: "description",
       message: "La description ne peut pas dépasser 1000 caractères",
+    });
+  }
+
+  // Validation du statut
+  if (
+    data.status &&
+    !["TODO", "IN_PROGRESS", "DONE", "CANCELLED"].includes(data.status)
+  ) {
+    errors.push({
+      field: "status",
+      message: "Le statut doit être TODO, IN_PROGRESS, DONE ou CANCELLED",
     });
   }
 

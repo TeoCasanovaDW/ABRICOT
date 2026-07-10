@@ -24,8 +24,99 @@ import {
 import { getTaskComments } from "../utils/taskComments";
 
 /**
- * Créer une nouvelle tâche
- * POST /projects/:id/tasks
+ * @swagger
+ * /projects/{id}/tasks:
+ *   post:
+ *     summary: Créer une nouvelle tâche
+ *     description: Crée une tâche dans un projet spécifique. Le statut est optionnel et vaut TODO par défaut.
+ *     tags: [Projets]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID du projet
+ *         example: "clm123abc456"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: Titre de la tâche
+ *               description:
+ *                 type: string
+ *                 description: Description de la tâche
+ *               status:
+ *                 type: string
+ *                 enum: [TODO, IN_PROGRESS, DONE, CANCELLED]
+ *                 description: Statut initial de la tâche (par défaut TODO si omis)
+ *               priority:
+ *                 type: string
+ *                 enum: [LOW, MEDIUM, HIGH, URGENT]
+ *                 description: Priorité de la tâche (par défaut MEDIUM si omise)
+ *               dueDate:
+ *                 type: string
+ *                 format: date-time
+ *                 description: Date d'échéance de la tâche (ISO 8601)
+ *               assigneeIds:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: IDs des utilisateurs assignés à la tâche
+ *     responses:
+ *       201:
+ *         description: Tâche créée avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               allOf:
+ *                 - $ref: '#/components/schemas/Success'
+ *                 - type: object
+ *                   properties:
+ *                     data:
+ *                       type: object
+ *                       properties:
+ *                         task:
+ *                           $ref: '#/components/schemas/Task'
+ *       400:
+ *         description: Données de création de tâche invalides
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       401:
+ *         description: Non authentifié
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       403:
+ *         description: Accès refusé - L'utilisateur n'a pas les permissions pour créer des tâches dans ce projet
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Projet non trouvé
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Erreur serveur
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 export const createTask = async (
   req: Request,
@@ -41,6 +132,7 @@ export const createTask = async (
     const {
       title,
       description,
+      status,
       priority,
       dueDate,
       assigneeIds,
@@ -56,6 +148,7 @@ export const createTask = async (
     const validationErrors = validateCreateTaskData({
       title,
       description,
+      status,
       priority,
       dueDate,
       assigneeIds,
@@ -119,6 +212,7 @@ export const createTask = async (
     const taskData = {
       title: title.trim(),
       description: description?.trim() || null,
+      status: status || "TODO",
       priority: priority || "MEDIUM",
       dueDate: dueDate ? new Date(dueDate) : null,
       projectId,
