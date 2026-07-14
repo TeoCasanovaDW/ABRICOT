@@ -1,4 +1,4 @@
-// Hand-written client types mirroring specs/01 API contract response shapes,
+// Hand-written client types mirroring the backend API's response shapes,
 // verified against backend/prisma/schema.prisma and the controllers that build
 // each response (Prisma `include` always returns base scalars, so relation
 // selection alone does not make a scalar field optional — only entirely
@@ -22,7 +22,7 @@ export interface UserSummary {
 
 // The authenticated user's own record, returned only by /auth/* endpoints.
 // id/email/name are always present (name nullable); createdAt/updatedAt vary
-// per endpoint (specs/01 "Authentication and profile").
+// per endpoint.
 export interface User {
   id: string;
   email: string;
@@ -58,8 +58,7 @@ export interface Comment {
 }
 
 // Task shape embedded only in ProjectDetail.tasks (GET /projects/:id).
-// That endpoint includes `creator` but never `assignees`/`comments`
-// (specs/01: "GET /projects/:id's embedded tasks lack assignees/comments").
+// That endpoint includes `creator` but never `assignees`/`comments`.
 export interface TaskSummary {
   id: string;
   title: string;

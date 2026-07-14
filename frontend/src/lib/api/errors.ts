@@ -1,7 +1,7 @@
 import type { ApiError } from "@/types";
 
-// Backend envelope shape on error responses (specs/01 "Global conventions" /
-// "Validation and error notes"): { success: false, message, error?, data?: { errors? } }.
+// Backend envelope shape on error responses:
+// { success: false, message, error?, data?: { errors? } }.
 interface BackendErrorBody {
   message?: string;
   error?: string;

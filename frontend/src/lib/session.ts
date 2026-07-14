@@ -1,8 +1,8 @@
 import { cookies } from "next/headers";
 
 // Name/flags shared by every place the session cookie is read, set, or
-// cleared (specs/02 "Authentication & session handling"). Write/clear
-// helpers built on top of this are added in specs/05 T1.
+// cleared. Write/clear helpers built on top of this live alongside the
+// login/register/logout Route Handlers, not here.
 export const SESSION_COOKIE_NAME = "abricot_session";
 
 export const SESSION_COOKIE_OPTIONS = {
@@ -13,7 +13,7 @@ export const SESSION_COOKIE_OPTIONS = {
 };
 
 // Read-only; available to Server Components and Route Handlers alike.
-// Cookie mutation only happens in a Route Handler or proxy.ts (specs/02).
+// Cookie mutation only happens in a Route Handler or proxy.ts.
 export async function getSessionToken(): Promise<string | undefined> {
   const cookieStore = await cookies();
   return cookieStore.get(SESSION_COOKIE_NAME)?.value;
@@ -28,7 +28,7 @@ const EXPIRES_IN_UNIT_SECONDS: Record<string, number> = {
 
 // Converts a jsonwebtoken-style JWT_EXPIRES_IN string (e.g. "7d") into a
 // seconds integer for the cookie `maxAge` API, which never accepts the raw
-// string (specs/02).
+// string.
 export function parseExpiresInToSeconds(expiresIn: string): number {
   const match = /^(\d+)\s*(s|m|h|d)$/.exec(expiresIn.trim());
 
