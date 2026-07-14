@@ -165,3 +165,26 @@ h5 {
   font-size: var(--font-h5);
   line-height: var(--line-height-h5);
 }
+
+.container {
+  width: min(100% - 64px, 1250px);
+  margin-inline: auto;
+}
+
+@media (max-width: 1024px) {
+  /* tablet */
+  .container {
+    width: min(100% - 48px, 1250px);
+  }
+}
+
+@media (max-width: 768px) {
+  /* small tablet / mobile */
+  .container {
+    width: min(100% - 32px, 1250px);
+  }
+}
+
+@media (max-width: 480px) {
+  /* compact mobile */
+}
