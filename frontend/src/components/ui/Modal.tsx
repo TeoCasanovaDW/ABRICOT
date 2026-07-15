@@ -84,7 +84,7 @@ export function Modal({ open, onClose, title, children, className }: ModalProps)
           <h2 id={titleId} className={styles.title}>
             {title}
           </h2>
-          <button type="button" className={styles.close} onClick={onClose} aria-label="Close">
+          <button type="button" className={styles.close} onClick={onClose} aria-label="Fermer">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>

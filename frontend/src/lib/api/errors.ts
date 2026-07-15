@@ -18,19 +18,19 @@ export async function normalizeApiError(source: Response | unknown): Promise<Api
       return {
         status: source.status,
         code: body.error,
-        message: body.message ?? "Request failed",
+        message: body.message ?? "Échec de la requête",
         fieldErrors: body.data?.errors,
       };
     } catch {
       return {
         status: source.status,
-        message: "Invalid response from server",
+        message: "Réponse invalide du serveur",
       };
     }
   }
 
   return {
     status: 0,
-    message: source instanceof Error ? source.message : "Network error",
+    message: source instanceof Error ? source.message : "Erreur réseau",
   };
 }
