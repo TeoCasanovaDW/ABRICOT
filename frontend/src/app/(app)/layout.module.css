@@ -19,12 +19,6 @@
   box-shadow: 0 4px 16px rgb(15 15 15 / 0.04);
 }
 
-.headerInner {
-  display: flex;
-  align-items: center;
-  min-height: 72px;
-}
-
 .main {
   flex: 1;
   padding-block: var(--space-8);

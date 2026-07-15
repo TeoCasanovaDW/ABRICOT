@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getSessionToken } from "@/lib/session";
 import { apiServer } from "@/lib/api/server";
 import { AuthProvider } from "@/lib/auth/AuthContext";
+import { Header } from "@/components/layout/Header";
 import { Logo } from "@/components/ui/Logo";
 import type { User } from "@/types";
 import styles from "./layout.module.css";
@@ -33,9 +34,7 @@ export default async function AppLayout({
         Aller au contenu principal
       </a>
       <header className={styles.header}>
-        <div className={`container ${styles.headerInner}`}>
-          <Logo />
-        </div>
+        <Header />
       </header>
       <main id="main-content" className={`container ${styles.main}`}>
         {children}
