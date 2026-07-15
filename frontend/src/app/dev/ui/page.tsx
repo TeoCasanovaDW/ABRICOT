@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Avatar } from "@/components/ui/Avatar";
@@ -5,6 +6,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
+import { Logo } from "@/components/ui/Logo";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
@@ -127,6 +129,37 @@ export default function DevUiPage() {
           <Avatar name="Jane Doe" />
           <Avatar name="Jane Doe" size={64} />
           <Avatar name="A" />
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2>Logo</h2>
+        <div className={styles.row}>
+          <Logo variant="orange" />
+          <Logo variant="black" />
+        </div>
+        <div className={`${styles.row} ${styles.darkRow}`}>
+          <Logo variant="white" />
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2>Auth illustrations</h2>
+        <div className={styles.row}>
+          <Image
+            src="/images/log_in.webp"
+            alt=""
+            width={240}
+            height={240}
+            className={styles.illustration}
+          />
+          <Image
+            src="/images/sign_in.webp"
+            alt=""
+            width={240}
+            height={240}
+            className={styles.illustration}
+          />
         </div>
       </section>
     </main>
