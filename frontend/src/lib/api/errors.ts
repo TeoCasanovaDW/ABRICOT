@@ -34,3 +34,9 @@ export async function normalizeApiError(source: Response | unknown): Promise<Api
     message: source instanceof Error ? source.message : "Erreur réseau",
   };
 }
+
+// apiServer() throws the plain ApiError shape above, not an Error instance —
+// narrow an unknown catch value before branching on `status`.
+export function isApiError(error: unknown): error is ApiError {
+  return typeof error === "object" && error !== null && "status" in error && "message" in error;
+}
