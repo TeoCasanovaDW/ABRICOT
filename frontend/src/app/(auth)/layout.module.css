@@ -1,0 +1,32 @@
+.shell {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+.formColumn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+}
+
+.illustrationColumn {
+  position: relative;
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .illustrationColumn {
+    display: none;
+  }
+
+  .formColumn {
+    padding: var(--space-5);
+  }
+}

@@ -15,8 +15,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Abricot",
-  description: "Abricot",
+  title: {
+    template: "%s · Abricot",
+    default: "Abricot",
+  },
+  description: "Abricot, l'outil de gestion de projets et de tâches en équipe.",
 };
 
 export default function RootLayout({

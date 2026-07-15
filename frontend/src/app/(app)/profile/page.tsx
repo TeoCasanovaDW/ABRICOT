@@ -1,7 +1,9 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Profil",
+};
+
 export default function ProfilePage() {
-  return (
-    <main className="container">
-      <h1>Profil</h1>
-    </main>
-  );
+  return <h1>Profil</h1>;
 }
