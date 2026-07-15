@@ -10,6 +10,8 @@ import { Logo } from "@/components/ui/Logo";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
+import { LiveRegionPlayground } from "./LiveRegionPlayground";
+import { ModalPlayground } from "./ModalPlayground";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -161,6 +163,16 @@ export default function DevUiPage() {
             className={styles.illustration}
           />
         </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2>Modal</h2>
+        <ModalPlayground />
+      </section>
+
+      <section className={styles.section}>
+        <h2>Live region</h2>
+        <LiveRegionPlayground />
       </section>
     </main>
   );
