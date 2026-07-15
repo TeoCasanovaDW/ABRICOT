@@ -39,3 +39,19 @@ export function parseExpiresInToSeconds(expiresIn: string): number {
   const [, amount, unit] = match;
   return Number(amount) * EXPIRES_IN_UNIT_SECONDS[unit];
 }
+
+// Write/clear helpers, used only by the register/login/logout Route
+// Handlers. "7d" mirrors the backend's own default (backend/src/utils/jwt.ts)
+// since no frontend env var carries this value.
+export async function setSessionCookie(token: string): Promise<void> {
+  const cookieStore = await cookies();
+  cookieStore.set(SESSION_COOKIE_NAME, token, {
+    ...SESSION_COOKIE_OPTIONS,
+    maxAge: parseExpiresInToSeconds(process.env.JWT_EXPIRES_IN ?? "7d"),
+  });
+}
+
+export async function clearSessionCookie(): Promise<void> {
+  const cookieStore = await cookies();
+  cookieStore.delete(SESSION_COOKIE_NAME);
+}
