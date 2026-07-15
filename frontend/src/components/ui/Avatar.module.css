@@ -1,0 +1,13 @@
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--radius-circle);
+  background-color: var(--color-brand-light);
+  color: var(--color-grey-800);
+  font-family: var(--font-family-body);
+  font-weight: var(--font-weight-label);
+  font-size: var(--font-caption-m);
+  user-select: none;
+}

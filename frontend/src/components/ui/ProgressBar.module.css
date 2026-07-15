@@ -1,0 +1,46 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.label {
+  font-size: var(--font-body-s);
+  font-weight: var(--font-weight-label);
+  color: var(--color-text-primary);
+}
+
+.percentage {
+  font-size: var(--font-body-xs);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.track {
+  width: 100%;
+  height: 6px;
+  background-color: var(--color-grey-200);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  background-color: var(--color-brand-dark);
+  border-radius: var(--radius-pill);
+  transition: width 0.2s ease;
+}
+
+.helperText {
+  font-size: var(--font-body-xs);
+  color: var(--color-text-secondary);
+}

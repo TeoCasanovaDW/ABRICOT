@@ -1,0 +1,36 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.input {
+  min-height: 50px;
+  width: 100%;
+  border-radius: var(--radius-field);
+  border: 1px solid var(--color-grey-200);
+  background-color: var(--color-surface);
+  padding-inline: var(--space-4);
+  font-family: var(--font-family-body);
+  font-size: var(--font-body-m);
+  color: var(--color-text-primary);
+}
+
+.input::placeholder {
+  color: var(--color-grey-400);
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 1px;
+  border-color: var(--color-border-focus);
+}
+
+.invalid {
+  border-color: var(--color-error);
+}
+
+.error {
+  font-size: var(--font-body-xs);
+  color: var(--color-error);
+}

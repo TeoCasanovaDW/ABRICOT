@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${manrope.variable} ${inter.variable}`}>
+    <html lang="fr" className={`${manrope.variable} ${inter.variable}`}>
       <body>{children}</body>
     </html>
   );
