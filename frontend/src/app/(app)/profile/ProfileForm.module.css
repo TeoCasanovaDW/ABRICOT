@@ -1,0 +1,62 @@
+.wrapper {
+  width: 100%;
+}
+
+.card {
+  width: 100%;
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.title {
+  margin: 0;
+}
+
+.subtitle {
+  color: var(--color-text-secondary);
+  font-size: var(--font-body-m);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--font-body-s);
+  font-weight: var(--font-weight-label);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.generalError {
+  border-radius: var(--radius-field);
+  background-color: var(--color-error-light);
+  color: var(--color-error);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-body-s);
+}
+
+.confirmation {
+  border-radius: var(--radius-field);
+  background-color: var(--color-success-light);
+  color: var(--color-success);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-body-s);
+}

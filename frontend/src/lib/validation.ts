@@ -39,6 +39,10 @@ export function zodResolver<T extends FieldValues>(schema: z.ZodType<T>): Resolv
   };
 }
 
+const PASSWORD_STRENGTH_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+const PASSWORD_STRENGTH_MESSAGE =
+  "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial (@$!%*?&).";
+
 // Client-side UX layer only (specs/02) — the backend re-validates and is
 // authoritative; this just mirrors its rules from specs/01 for fast feedback.
 export const registerSchema = z.object({
@@ -51,10 +55,7 @@ export const registerSchema = z.object({
   password: z
     .string()
     .min(1, "Le mot de passe est requis.")
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/,
-      "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial (@$!%*?&)."
-    ),
+    .regex(PASSWORD_STRENGTH_REGEX, PASSWORD_STRENGTH_MESSAGE),
 });
 
 export type RegisterFormValues = z.infer<typeof registerSchema>;
@@ -66,3 +67,61 @@ export const loginSchema = z.object({
 });
 
 export type LoginFormValues = z.infer<typeof loginSchema>;
+
+// Same name/email rules as registration, applied to profile edits. Password
+// fields are optional here — the profile form only sends a password change
+// when the user fills both, so the pair is validated together below.
+export const profileSchema = z
+  .object({
+    name: z.string().trim().min(2, "Le nom doit contenir au moins 2 caractères."),
+    email: z
+      .string()
+      .trim()
+      .min(1, "L'adresse e-mail est requise.")
+      .email("Adresse e-mail invalide."),
+    currentPassword: z.string().optional(),
+    newPassword: z.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    const current = data.currentPassword ?? "";
+    const next = data.newPassword ?? "";
+
+    if (!current && !next) return;
+
+    if (!current) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["currentPassword"],
+        message: "Le mot de passe actuel est requis pour changer de mot de passe.",
+      });
+      return;
+    }
+
+    if (!next) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["newPassword"],
+        message: "Le nouveau mot de passe est requis.",
+      });
+      return;
+    }
+
+    if (!PASSWORD_STRENGTH_REGEX.test(next)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["newPassword"],
+        message: PASSWORD_STRENGTH_MESSAGE,
+      });
+      return;
+    }
+
+    if (next === current) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["newPassword"],
+        message: "Le nouveau mot de passe doit être différent de l'actuel.",
+      });
+    }
+  });
+
+export type ProfileFormValues = z.infer<typeof profileSchema>;
