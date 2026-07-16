@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { apiServer } from "@/lib/api/server";
 import { isApiError } from "@/lib/api/errors";
+import { ProjectOverview } from "./ProjectOverview";
 import type { ProjectDetail } from "@/types";
 
 interface ProjectPageProps {
@@ -44,5 +45,5 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     throw error;
   }
 
-  return <h1>{project.name}</h1>;
+  return <ProjectOverview project={project} />;
 }

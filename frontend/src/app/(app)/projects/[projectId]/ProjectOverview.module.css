@@ -1,0 +1,133 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-7);
+}
+
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border: 1px solid var(--color-grey-200);
+  border-radius: var(--radius-button);
+  color: var(--color-text-primary);
+}
+
+.backLink:hover {
+  border-color: var(--color-brand-main);
+  color: var(--color-brand-main);
+}
+
+.backLink:focus-visible {
+  border-color: var(--color-brand-main);
+  color: var(--color-brand-main);
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+.headerMain {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.name {
+  margin: 0;
+}
+
+.editAction {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-brand-dark);
+  font-size: var(--font-body-m);
+  font-weight: var(--font-weight-label);
+  cursor: pointer;
+}
+
+.editAction:hover {
+  text-decoration: underline;
+}
+
+.editAction:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-field);
+}
+
+.description {
+  color: var(--color-text-secondary);
+  font-size: var(--font-body-m);
+}
+
+.contributorPanel {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  background-color: var(--color-surface-muted);
+  border-radius: var(--radius-card);
+  padding: var(--space-3) var(--space-4);
+}
+
+.contributorInfo {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.contributorLabel {
+  font-size: var(--font-body-s);
+  font-weight: var(--font-weight-label);
+  color: var(--color-text-primary);
+}
+
+.contributorCount {
+  font-size: var(--font-body-s);
+  color: var(--color-text-secondary);
+}
+
+.contributorGroup {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.contributorItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.contributorAvatar.contributorAvatar {
+  background-color: var(--color-grey-200);
+  color: var(--color-grey-600);
+}
+
+.nameBadge {
+  background-color: var(--color-grey-100);
+  border-radius: var(--radius-pill);
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--font-body-s);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
