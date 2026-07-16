@@ -1,0 +1,13 @@
+.main {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 1025px) {
+  .main {
+    align-items: stretch;
+  }
+}

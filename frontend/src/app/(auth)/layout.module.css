@@ -1,14 +1,13 @@
 .shell {
   flex: 1;
+  min-height: 100dvh;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 3fr;
   grid-template-rows: 1fr;
 }
 
 .formColumn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 100%;
   padding: var(--space-6);
 }
 

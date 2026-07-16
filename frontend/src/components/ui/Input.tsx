@@ -6,16 +6,24 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ error, className, ...props }, ref) => {
+  ({ error, className, id, "aria-describedby": describedBy, ...props }, ref) => {
+    const errorId = error && id ? `${id}-error` : undefined;
+
     return (
       <div className={styles.wrapper}>
         <input
           ref={ref}
+          id={id}
           className={[styles.input, error && styles.invalid, className].filter(Boolean).join(" ")}
           aria-invalid={error ? true : undefined}
+          aria-describedby={[describedBy, errorId].filter(Boolean).join(" ") || undefined}
           {...props}
         />
-        {error && <p className={styles.error}>{error}</p>}
+        {error && (
+          <p className={styles.error} id={errorId}>
+            {error}
+          </p>
+        )}
       </div>
     );
   }

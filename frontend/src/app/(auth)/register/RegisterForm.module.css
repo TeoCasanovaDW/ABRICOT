@@ -1,0 +1,97 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  width: 100%;
+  max-width: 360px;
+}
+
+.logo {
+  margin-inline: auto;
+}
+
+.centerZone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  width: 100%;
+}
+
+.heading {
+  color: var(--color-brand-main);
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--font-body-s);
+  font-weight: var(--font-weight-label);
+}
+
+.submit {
+  align-self: center;
+  width: 200px;
+  margin-top: var(--space-2);
+}
+
+.generalError {
+  width: 100%;
+  border-radius: var(--radius-field);
+  background-color: var(--color-error-light);
+  color: var(--color-error);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-body-s);
+}
+
+.altAction {
+  font-size: var(--font-body-s);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.link {
+  color: var(--color-brand-main);
+  text-decoration: underline;
+  text-decoration-color: var(--color-brand-main);
+}
+
+/* Desktop split-panel only: three vertical zones spanning the panel's full
+   height (logo / centered form / footer link), instead of the mobile stacked
+   block. Requires .main, formColumn and .shell to all have a definite height
+   (see the auth layout and this page's page.module.css) so the 1fr row can
+   actually size against real pixels — with that in place, auto/1fr/auto
+   alone places the logo and footer correctly, no per-element offsets needed.
+   Mobile keeps the original centered, top-to-bottom stacked layout untouched. */
+@media (min-width: 1025px) {
+  .wrapper {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    justify-items: center;
+    gap: 0;
+  }
+
+  .centerZone {
+    height: 100%;
+    justify-content: center;
+  }
+
+  .logo {
+    margin-top: 50px;
+  }
+
+  .altAction {
+    margin-bottom: 50px;
+  }
+}
