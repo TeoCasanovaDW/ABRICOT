@@ -125,3 +125,20 @@ export const profileSchema = z
   });
 
 export type ProfileFormValues = z.infer<typeof profileSchema>;
+
+// Contributors are handled as separate combobox-selection state, not a form
+// field — creation only ever sends search-picked emails, never free text.
+export const createProjectSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, "Le nom doit contenir au moins 2 caractères.")
+    .max(100, "Le nom ne peut pas dépasser 100 caractères."),
+  description: z
+    .string()
+    .trim()
+    .min(1, "La description est requise.")
+    .max(500, "La description ne peut pas dépasser 500 caractères."),
+});
+
+export type CreateProjectFormValues = z.infer<typeof createProjectSchema>;

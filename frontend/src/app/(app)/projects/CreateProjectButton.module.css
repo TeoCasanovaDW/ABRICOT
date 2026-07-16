@@ -1,0 +1,105 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  margin-top: var(--space-4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--font-body-s);
+  font-weight: var(--font-weight-label);
+}
+
+.generalError {
+  border-radius: var(--radius-field);
+  background-color: var(--color-error-light);
+  color: var(--color-error);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-body-s);
+}
+
+.comboboxWrapper {
+  position: relative;
+}
+
+.listbox {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + var(--space-1));
+  left: 0;
+  right: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-grey-200);
+  border-radius: var(--radius-field);
+  box-shadow: 0 4px 16px rgb(15 15 15 / 0.08);
+  list-style: none;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-body-s);
+  font-weight: var(--font-weight-body);
+  cursor: pointer;
+}
+
+.option:hover,
+.optionActive {
+  background-color: var(--color-surface-muted);
+}
+
+.chipList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  list-style: none;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  background-color: var(--color-surface-muted);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-body-s);
+  font-weight: var(--font-weight-body);
+}
+
+.chipRemove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: none;
+  border-radius: var(--radius-circle);
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  font-size: var(--font-body-m);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.chipRemove:hover {
+  background-color: var(--color-grey-200);
+}
+
+.chipRemove:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 1px;
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}

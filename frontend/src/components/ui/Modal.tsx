@@ -1,16 +1,11 @@
 "use client";
 
-import {
-  useEffect,
-  useId,
-  useRef,
-  type KeyboardEvent as ReactKeyboardEvent,
-  type ReactNode,
-} from "react";
-import { createPortal } from "react-dom";
+import { useEffect, useId, useRef, type ReactNode } from "react";
 import { moveFocusTo, returnFocusTo } from "@/lib/focusManagement";
 import styles from "./Modal.module.css";
 
+// Used once per open, scoped to the body only, to pick a deliberate initial
+// focus target that skips the header's close button — not a Tab-trap query.
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
@@ -23,74 +18,51 @@ interface ModalProps {
 }
 
 export function Modal({ open, onClose, title, children, className }: ModalProps) {
-  const dialogRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
   const titleId = useId();
 
   useEffect(() => {
-    if (!open) return;
+    const dialog = dialogRef.current;
+    if (!dialog || !open) return;
 
     triggerRef.current = document.activeElement as HTMLElement | null;
-    moveFocusTo(dialogRef.current);
+    dialog.showModal();
+
+    const firstField = bodyRef.current?.querySelector<HTMLElement>(FOCUSABLE_SELECTOR);
+    moveFocusTo(firstField ?? dialog);
 
     return () => {
+      if (dialog.open) dialog.close();
       returnFocusTo(triggerRef.current);
     };
   }, [open]);
 
-  const handleKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
-    if (event.key === "Escape") {
-      event.stopPropagation();
-      onClose();
-      return;
-    }
-
-    if (event.key !== "Tab" || !dialogRef.current) return;
-
-    const focusable = Array.from(
-      dialogRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
-    );
-    if (focusable.length === 0) {
-      event.preventDefault();
-      return;
-    }
-
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
-  };
-
-  if (!open) return null;
-
-  return createPortal(
-    <div className={styles.backdrop}>
-      <div
-        ref={dialogRef}
-        className={[styles.modal, className].filter(Boolean).join(" ")}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        tabIndex={-1}
-        onKeyDown={handleKeyDown}
-      >
-        <div className={styles.header}>
-          <h2 id={titleId} className={styles.title}>
-            {title}
-          </h2>
-          <button type="button" className={styles.close} onClick={onClose} aria-label="Fermer">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div className={styles.body}>{children}</div>
+  return (
+    <dialog
+      ref={dialogRef}
+      className={[styles.modal, className].filter(Boolean).join(" ")}
+      aria-labelledby={titleId}
+      onCancel={(event) => {
+        // Escape fires this before the browser closes the dialog on its own —
+        // block that and let onClose flip the controlled `open` prop instead,
+        // so React stays the single source of truth for open/closed state.
+        event.preventDefault();
+        onClose();
+      }}
+    >
+      <div className={styles.header}>
+        <h2 id={titleId} className={styles.title}>
+          {title}
+        </h2>
+        <button type="button" className={styles.close} onClick={onClose} aria-label="Fermer">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    </div>,
-    document.body
+      <div ref={bodyRef} className={styles.body}>
+        {children}
+      </div>
+    </dialog>
   );
 }

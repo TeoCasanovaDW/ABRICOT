@@ -2,22 +2,26 @@ import type { HTMLAttributes } from "react";
 import type { TaskStatus } from "@/types";
 import styles from "./Badge.module.css";
 
-const STATUS_STYLE: Record<TaskStatus, string> = {
+export type BadgeStatus = TaskStatus | "OWNER";
+
+const STATUS_STYLE: Record<BadgeStatus, string> = {
   TODO: styles.todo,
   IN_PROGRESS: styles.inProgress,
   DONE: styles.done,
   CANCELLED: styles.cancelled,
+  OWNER: styles.owner,
 };
 
-const STATUS_LABEL: Record<TaskStatus, string> = {
+const STATUS_LABEL: Record<BadgeStatus, string> = {
   TODO: "À faire",
   IN_PROGRESS: "En cours",
   DONE: "Terminée",
   CANCELLED: "Annulée",
+  OWNER: "Propriétaire",
 };
 
 interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
-  status: TaskStatus;
+  status: BadgeStatus;
 }
 
 export function Badge({ status, className, ...props }: BadgeProps) {
