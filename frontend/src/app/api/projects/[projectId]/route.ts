@@ -38,3 +38,28 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     );
   }
 }
+
+// Thin proxy to DELETE /projects/:id. Backend returns no `data` on success.
+export async function DELETE(_request: NextRequest, { params }: RouteParams) {
+  const { projectId } = await params;
+
+  try {
+    await apiServer(`/projects/${projectId}`, { method: "DELETE" });
+
+    return NextResponse.json({
+      success: true,
+      message: "Projet supprimé avec succès",
+    });
+  } catch (error) {
+    if (!isApiError(error)) throw error;
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: error.message,
+        error: error.code,
+      },
+      { status: error.status }
+    );
+  }
+}

@@ -1,0 +1,18 @@
+.generalError {
+  border-radius: var(--radius-field);
+  background-color: var(--color-error-light);
+  color: var(--color-error);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-body-s);
+}
+
+.consequence {
+  color: var(--color-text-secondary);
+  font-size: var(--font-body-m);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}

@@ -6,8 +6,22 @@
 
 .headerRow {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.headerLeft {
+  display: flex;
   align-items: flex-start;
   gap: var(--space-4);
+  flex: 1;
+  min-width: 0;
+}
+
+.deleteButton {
+  flex-shrink: 0;
 }
 
 .backLink {
@@ -80,11 +94,19 @@
 .contributorPanel {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   flex-wrap: wrap;
   gap: var(--space-5);
   background-color: var(--color-surface-muted);
   border-radius: var(--radius-card);
   padding: var(--space-3) var(--space-4);
+}
+
+@media (max-width: 768px) {
+  .contributorPanel {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 .contributorInfo {

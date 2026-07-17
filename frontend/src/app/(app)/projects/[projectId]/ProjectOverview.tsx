@@ -3,11 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Trash2 } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
 import { LiveRegion } from "@/components/ui/LiveRegion";
 import { useAuth } from "@/lib/auth/AuthContext";
+import { DeleteProjectDialog } from "./DeleteProjectDialog";
 import { EditProjectModal } from "./EditProjectModal";
 import type { ProjectDetail, ProjectMember } from "@/types";
 import styles from "./ProjectOverview.module.css";
@@ -29,9 +31,11 @@ export function ProjectOverview({ project: initialProject }: ProjectOverviewProp
   const currentUser = useAuth();
   const [project, setProject] = useState(initialProject);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [announcement, setAnnouncement] = useState("");
 
-  const canEdit = project.owner.id === currentUser.id || project.userRole === "ADMIN";
+  const isOwner = project.owner.id === currentUser.id;
+  const canEdit = isOwner || project.userRole === "ADMIN";
   const ownerName = memberName(project.owner);
   const teamCount = project.members.length + 1;
 
@@ -44,21 +48,35 @@ export function ProjectOverview({ project: initialProject }: ProjectOverviewProp
   return (
     <div className={styles.wrapper}>
       <div className={styles.headerRow}>
-        <Link href="/projects" className={styles.backLink} aria-label="Retour aux projets">
-          <ArrowLeft size={20} aria-hidden="true" />
-        </Link>
+        <div className={styles.headerLeft}>
+          <Link href="/projects" className={styles.backLink} aria-label="Retour aux projets">
+            <ArrowLeft size={20} aria-hidden="true" />
+          </Link>
 
-        <div className={styles.headerMain}>
-          <div className={styles.titleRow}>
-            <h1 className={styles.name}>{project.name}</h1>
-            {canEdit && (
-              <button type="button" className={styles.editAction} onClick={() => setIsModalOpen(true)}>
-                Modifier
-              </button>
-            )}
+          <div className={styles.headerMain}>
+            <div className={styles.titleRow}>
+              <h1 className={styles.name}>{project.name}</h1>
+              {canEdit && (
+                <button type="button" className={styles.editAction} onClick={() => setIsModalOpen(true)}>
+                  Modifier
+                </button>
+              )}
+            </div>
+            {project.description && <p className={styles.description}>{project.description}</p>}
           </div>
-          {project.description && <p className={styles.description}>{project.description}</p>}
         </div>
+
+        {isOwner && (
+          <Button
+            type="button"
+            variant="danger"
+            className={styles.deleteButton}
+            onClick={() => setIsDeleteDialogOpen(true)}
+          >
+            <Trash2 size={16} fill="currentColor" aria-hidden="true" />
+            Supprimer
+          </Button>
+        )}
       </div>
 
       <div className={styles.contributorPanel}>
@@ -87,6 +105,16 @@ export function ProjectOverview({ project: initialProject }: ProjectOverviewProp
           open={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onSaved={handleSaved}
+          onAnnounce={setAnnouncement}
+        />
+      )}
+
+      {isOwner && (
+        <DeleteProjectDialog
+          projectId={project.id}
+          projectName={project.name}
+          open={isDeleteDialogOpen}
+          onClose={() => setIsDeleteDialogOpen(false)}
           onAnnounce={setAnnouncement}
         />
       )}
