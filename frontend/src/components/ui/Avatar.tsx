@@ -1,8 +1,11 @@
 import styles from "./Avatar.module.css";
 
+type AvatarVariant = "default" | "muted";
+
 interface AvatarProps {
   name: string;
   size?: number;
+  variant?: AvatarVariant;
   className?: string;
 }
 
@@ -13,10 +16,12 @@ function getInitials(name: string): string {
   return (parts[0]![0] + parts[parts.length - 1]![0]).toUpperCase();
 }
 
-export function Avatar({ name, size = 40, className }: AvatarProps) {
+export function Avatar({ name, size = 40, variant = "default", className }: AvatarProps) {
   return (
     <span
-      className={[styles.avatar, className].filter(Boolean).join(" ")}
+      className={[styles.avatar, variant === "muted" && styles.muted, className]
+        .filter(Boolean)
+        .join(" ")}
       style={{ width: size, height: size }}
       role="img"
       aria-label={name}

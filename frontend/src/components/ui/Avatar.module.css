@@ -11,3 +11,8 @@
   font-size: var(--font-caption-m);
   user-select: none;
 }
+
+.muted {
+  background-color: var(--color-grey-200);
+  color: var(--color-grey-600);
+}

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Trash2 } from "lucide-react";
+import { ArrowLeft, Trash2, Astroid } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -61,22 +61,31 @@ export function ProjectOverview({ project: initialProject }: ProjectOverviewProp
                   Modifier
                 </button>
               )}
+              {isOwner && (
+                <button
+                  type="button"
+                  className={styles.deleteAction}
+                  aria-label="Supprimer le projet"
+                  onClick={() => setIsDeleteDialogOpen(true)}
+                >
+                  <Trash2 size={16} fill="currentColor" aria-hidden="true" />
+                  Supprimer
+                </button>
+              )}
             </div>
             {project.description && <p className={styles.description}>{project.description}</p>}
           </div>
         </div>
 
-        {isOwner && (
-          <Button
-            type="button"
-            variant="danger"
-            className={styles.deleteButton}
-            onClick={() => setIsDeleteDialogOpen(true)}
-          >
-            <Trash2 size={16} fill="currentColor" aria-hidden="true" />
-            Supprimer
+        <div className={styles.headerActions}>
+          <Button type="button" variant="primary">
+            Créer une tâche
           </Button>
-        )}
+          <Button type="button" variant="brand">
+            <Astroid  size={16} fill="currentColor" aria-hidden="true"/>
+            IA
+          </Button>
+        </div>
       </div>
 
       <div className={styles.contributorPanel}>

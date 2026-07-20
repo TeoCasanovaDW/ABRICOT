@@ -6,7 +6,7 @@
 
 .headerRow {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: var(--space-4);
@@ -18,9 +18,13 @@
   gap: var(--space-4);
   flex: 1;
   min-width: 0;
+  max-width: 720px;
 }
 
-.deleteButton {
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
   flex-shrink: 0;
 }
 
@@ -86,6 +90,34 @@
   border-radius: var(--radius-field);
 }
 
+.deleteAction {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 32px;
+  padding-inline: var(--space-2);
+  margin-inline: calc(var(--space-2) * -1);
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  border-radius: var(--radius-field);
+  color: rgba(239, 68, 68, 0.75);
+  font-size: var(--font-body-m);
+  font-weight: var(--font-weight-label);
+  cursor: pointer;
+}
+
+.deleteAction:hover {
+  color: var(--color-error);
+  text-decoration: underline;
+}
+
+.deleteAction:focus-visible {
+  color: var(--color-error);
+  outline: 2px solid var(--color-error);
+  outline-offset: 2px;
+}
+
 .description {
   color: var(--color-text-secondary);
   font-size: var(--font-body-m);
@@ -111,7 +143,7 @@
 
 .contributorInfo {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: var(--space-2);
   flex-shrink: 0;
 }
@@ -131,7 +163,7 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: var(--space-3);
+  gap: var(--space-2);
 }
 
 .contributorItem {
