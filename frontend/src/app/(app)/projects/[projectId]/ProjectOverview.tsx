@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { LiveRegion } from "@/components/ui/LiveRegion";
 import { useAuth } from "@/lib/auth/AuthContext";
+import { TaskModal } from "@/components/task/TaskModal";
 import { DeleteProjectDialog } from "./DeleteProjectDialog";
 import { EditProjectModal } from "./EditProjectModal";
 import type { ProjectDetail, ProjectMember } from "@/types";
@@ -32,6 +33,7 @@ export function ProjectOverview({ project: initialProject }: ProjectOverviewProp
   const [project, setProject] = useState(initialProject);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [announcement, setAnnouncement] = useState("");
 
   const isOwner = project.owner.id === currentUser.id;
@@ -78,7 +80,7 @@ export function ProjectOverview({ project: initialProject }: ProjectOverviewProp
         </div>
 
         <div className={styles.headerActions}>
-          <Button type="button" variant="primary">
+          <Button type="button" variant="primary" onClick={() => setIsTaskModalOpen(true)}>
             Créer une tâche
           </Button>
           <Button type="button" variant="brand">
@@ -127,6 +129,19 @@ export function ProjectOverview({ project: initialProject }: ProjectOverviewProp
           onAnnounce={setAnnouncement}
         />
       )}
+
+      <TaskModal
+        projectId={project.id}
+        owner={project.owner}
+        members={project.members}
+        open={isTaskModalOpen}
+        onClose={() => setIsTaskModalOpen(false)}
+        onCreated={() => {
+          setIsTaskModalOpen(false);
+          router.refresh();
+        }}
+        onAnnounce={setAnnouncement}
+      />
 
       <LiveRegion message={announcement} />
     </div>

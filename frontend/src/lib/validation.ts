@@ -143,3 +143,31 @@ export const projectSchema = z.object({
 });
 
 export type ProjectFormValues = z.infer<typeof projectSchema>;
+
+// Shared by both task creation and editing. `CANCELLED` is never a
+// selectable status here — only the three statuses a task can be set to;
+// a legacy `CANCELLED` task is handled separately in edit mode as a fixed,
+// read-only value until the user picks one of these three. `dueDate` stays
+// optional: the backend's create/update validation treats it as optional,
+// so client-side validation can't require it without diverging from the API
+// contract.
+export const taskSchema = z.object({
+  title: z
+    .string()
+    .trim()
+    .min(2, "Le titre doit contenir au moins 2 caractères.")
+    .max(200, "Le titre ne peut pas dépasser 200 caractères."),
+  description: z
+    .string()
+    .trim()
+    .min(1, "La description est requise.")
+    .max(1000, "La description ne peut pas dépasser 1000 caractères."),
+  dueDate: z
+    .string()
+    .trim()
+    .refine((value) => !value || !Number.isNaN(Date.parse(value)), "Date d'échéance invalide."),
+  status: z.enum(["TODO", "IN_PROGRESS", "DONE"]),
+  assigneeIds: z.array(z.string()),
+});
+
+export type TaskFormValues = z.infer<typeof taskSchema>;

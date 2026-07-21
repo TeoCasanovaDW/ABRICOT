@@ -1,0 +1,251 @@
+dialog.modal {
+  width: min(calc(100% - var(--space-4) * 2), 460px);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  margin-top: var(--space-5);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--font-body-s);
+  font-weight: var(--font-weight-label);
+}
+
+.generalError {
+  border-radius: var(--radius-field);
+  background-color: var(--color-error-light);
+  color: var(--color-error);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-body-s);
+}
+
+.dateWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Input renders its own wrapper div around the <input> — this is the only
+   div directly inside .dateWrapper, so grow it instead of the icon (an svg)
+   to make the actual input fill the row. */
+.dateWrapper > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.dateIcon {
+  position: absolute;
+  right: var(--space-4);
+  color: var(--color-text-secondary);
+  pointer-events: none;
+}
+
+.dateInput {
+  width: 100%;
+  padding-right: calc(var(--space-4) * 2 + 16px);
+}
+
+/* The custom icon is the only visible calendar affordance — the
+   native indicator stays in place (and clickable, opening the browser's own
+   picker) but fully transparent so it doesn't render a second icon. */
+.dateInput::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  cursor: pointer;
+}
+
+.hint {
+  font-size: var(--font-body-xs);
+  font-weight: var(--font-weight-body);
+  color: var(--color-text-secondary);
+}
+
+.assigneeField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--font-body-s);
+  font-weight: var(--font-weight-label);
+}
+
+.assigneeControl {
+  position: relative;
+}
+
+.assigneeTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: 50px;
+  border-radius: var(--radius-field);
+  border: 1px solid var(--color-grey-200);
+  background-color: var(--color-surface);
+  padding-inline: var(--space-4);
+  font-family: var(--font-family-body);
+  font-size: var(--font-body-m);
+  font-weight: var(--font-weight-body);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  text-align: left;
+}
+
+.assigneeTrigger:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.assigneeTrigger:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 1px;
+  border-color: var(--color-border-focus);
+}
+
+.assigneeTriggerText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.assigneePlaceholder {
+  color: var(--color-grey-400);
+}
+
+.assigneeChevron {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+
+.assigneeListbox {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + var(--space-1));
+  left: 0;
+  right: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-grey-200);
+  border-radius: var(--radius-field);
+  box-shadow: 0 4px 16px rgb(15 15 15 / 0.08);
+  list-style: none;
+}
+
+.assigneeOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-body-s);
+  font-weight: var(--font-weight-body);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.assigneeOption:hover,
+.assigneeOptionActive {
+  background-color: var(--color-surface-muted);
+}
+
+.assigneeChipList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  list-style: none;
+}
+
+.assigneeChip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  background-color: var(--color-surface-muted);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-body-s);
+  font-weight: var(--font-weight-body);
+}
+
+.assigneeChipRemove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: none;
+  border-radius: var(--radius-circle);
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  font-size: var(--font-body-m);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.assigneeChipRemove:hover {
+  background-color: var(--color-grey-200);
+}
+
+.assigneeChipRemove:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 1px;
+}
+
+.statusGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.statusPill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-secondary);
+  font-size: var(--font-body-s);
+  font-weight: var(--font-weight-label);
+  cursor: pointer;
+}
+
+.statusRadio {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.statusPill:has(.statusRadio:focus-visible) {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+.statusPill.todo:has(.statusRadio:checked) {
+  background-color: var(--color-error-light);
+  color: var(--color-error);
+}
+
+.statusPill.inProgress:has(.statusRadio:checked) {
+  background-color: var(--color-warning-light);
+  color: var(--color-warning);
+}
+
+.statusPill.done:has(.statusRadio:checked) {
+  background-color: var(--color-success-light);
+  color: var(--color-success);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
