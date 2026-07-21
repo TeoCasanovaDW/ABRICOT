@@ -40,9 +40,27 @@ dialog.modal {
   min-width: 0;
 }
 
-.dateIcon {
+.dateIconButton {
   position: absolute;
+  top: 50%;
   right: var(--space-4);
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.dateIconButton:disabled {
+  cursor: not-allowed;
+}
+
+.dateIcon {
   color: var(--color-text-secondary);
   pointer-events: none;
 }
@@ -52,10 +70,15 @@ dialog.modal {
   padding-right: calc(var(--space-4) * 2 + 16px);
 }
 
-/* The custom icon is the only visible calendar affordance — the
-   native indicator stays in place (and clickable, opening the browser's own
-   picker) but fully transparent so it doesn't render a second icon. */
+/* Native indicator is invisible but resized/repositioned to sit exactly
+   under the icon button's hit area, so clicks there also open the picker
+   in browsers where the button's showPicker() call isn't reached first. */
 .dateInput::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 0;
+  width: calc(var(--space-4) * 2 + 16px);
+  height: 100%;
+  margin: 0;
   opacity: 0;
   cursor: pointer;
 }

@@ -209,6 +209,7 @@ function AssigneeSelect({ id, label, options, control, disabled }: AssigneeSelec
 
 export function TaskModal({ projectId, owner, members, open, onClose, onCreated, onAnnounce }: TaskModalProps) {
   const [generalError, setGeneralError] = useState("");
+  const dueDateInputRef = useRef<HTMLInputElement | null>(null);
 
   const {
     register,
@@ -221,6 +222,17 @@ export function TaskModal({ projectId, owner, members, open, onClose, onCreated,
     resolver: zodResolver(taskSchema),
     defaultValues: DEFAULT_VALUES,
   });
+
+  const dueDateField = register("dueDate");
+
+  const openDueDatePicker = () => {
+    const input = dueDateInputRef.current;
+    if (!input) return;
+    input.focus();
+    if (typeof input.showPicker === "function") {
+      input.showPicker();
+    }
+  };
 
   const assigneeOptions = [owner, ...members.map((member) => member.user)];
   const watchedValues = useWatch({ control });
@@ -297,15 +309,28 @@ export function TaskModal({ projectId, owner, members, open, onClose, onCreated,
         <label className={styles.field}>
           Échéance
           <div className={styles.dateWrapper}>
-            <CalendarDays size={16} aria-hidden="true" className={styles.dateIcon} />
             <Input
               id="task-due-date"
               type="date"
               className={styles.dateInput}
               disabled={isSubmitting}
               error={errors.dueDate?.message}
-              {...register("dueDate")}
+              {...dueDateField}
+              ref={(element) => {
+                dueDateField.ref(element);
+                dueDateInputRef.current = element;
+              }}
             />
+            <button
+              type="button"
+              className={styles.dateIconButton}
+              tabIndex={-1}
+              aria-hidden="true"
+              disabled={isSubmitting}
+              onClick={openDueDatePicker}
+            >
+              <CalendarDays size={16} aria-hidden="true" className={styles.dateIcon} />
+            </button>
           </div>
         </label>
 
