@@ -30,6 +30,7 @@ export function TaskList({ projectId, owner, members, tasks, className }: TaskLi
             onEdit={() => setSelectedTask(task)}
             // Deletion confirmation isn't built yet — this is a ready hook for it.
             onDelete={() => {}}
+            onAnnounce={setAnnouncement}
           />
         ))}
       </div>

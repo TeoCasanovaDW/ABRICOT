@@ -14,7 +14,7 @@
   font-family: var(--font-family-body);
   font-size: var(--font-body-m);
   color: var(--color-text-primary);
-  resize: vertical;
+  resize: none;
 }
 
 .textarea::placeholder {

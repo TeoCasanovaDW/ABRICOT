@@ -1,17 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import { CalendarDays, ChevronDown, MoreHorizontal } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import type { Task } from "@/types";
+import { TaskComments } from "@/components/task/TaskComments";
+import type { Comment, Task } from "@/types";
 import styles from "./TaskCard.module.css";
 
 interface TaskCardProps {
   task: Task;
   onEdit: () => void;
   onDelete: () => void;
+  onAnnounce: (message: string) => void;
 }
 
 function assigneeName(user: { name: string | null; email: string }): string {
@@ -26,9 +28,12 @@ function formatDueDate(dueDate: string): string {
   });
 }
 
-export function TaskCard({ task, onEdit, onDelete }: TaskCardProps) {
+export function TaskCard({ task, onEdit, onDelete, onAnnounce }: TaskCardProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [commentsOpen, setCommentsOpen] = useState(false);
+  const [comments, setComments] = useState(task.comments);
   const menuWrapperRef = useRef<HTMLDivElement>(null);
+  const commentsSectionId = useId();
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -124,9 +129,35 @@ export function TaskCard({ task, onEdit, onDelete }: TaskCardProps) {
         )}
       </div>
 
-      <div className={styles.commentsRow}>
-        <span className={styles.commentsLabel}>Commentaires ({task.comments.length})</span>
-        <ChevronDown size={16} aria-hidden="true" />
+      <div className={styles.commentsSection}>
+        <button
+          type="button"
+          className={styles.commentsRow}
+          aria-expanded={commentsOpen}
+          aria-controls={commentsSectionId}
+          onClick={() => setCommentsOpen((open) => !open)}
+        >
+          <span className={styles.commentsLabel}>Commentaires ({comments.length})</span>
+          <ChevronDown
+            size={16}
+            aria-hidden="true"
+            className={[styles.commentsChevron, commentsOpen && styles.commentsChevronOpen]
+              .filter(Boolean)
+              .join(" ")}
+          />
+        </button>
+
+        {commentsOpen && (
+          <div id={commentsSectionId}>
+            <TaskComments
+              projectId={task.projectId}
+              taskId={task.id}
+              comments={comments}
+              onCommentAdded={(comment: Comment) => setComments((current) => [...current, comment])}
+              onAnnounce={onAnnounce}
+            />
+          </div>
+        )}
       </div>
     </Card>
   );

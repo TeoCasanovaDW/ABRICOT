@@ -143,17 +143,38 @@
   color: var(--color-text-muted);
 }
 
+.commentsSection {
+  border-top: 1px solid var(--color-grey-200);
+}
+
 .commentsRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--color-grey-200);
+  width: 100%;
+  padding: var(--space-4) 0;
+  border: none;
+  background: none;
   color: var(--color-text-secondary);
+  font-family: var(--font-family-body);
   font-size: var(--font-body-s);
+  cursor: pointer;
+}
+
+.commentsRow:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
 }
 
 .commentsLabel {
   font-weight: var(--font-weight-label);
   color: var(--color-text-primary);
+}
+
+.commentsChevron {
+  transition: transform 0.15s ease;
+}
+
+.commentsChevronOpen {
+  transform: rotate(180deg);
 }
