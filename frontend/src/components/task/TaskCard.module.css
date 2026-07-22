@@ -27,6 +27,11 @@
   line-height: var(--line-height-h5);
 }
 
+.menuWrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
 .menuButton {
   display: inline-flex;
   align-items: center;
@@ -49,6 +54,48 @@
 .menuButton:focus-visible {
   outline: 2px solid var(--color-border-focus);
   outline-offset: 2px;
+}
+
+.menu {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + var(--space-1));
+  right: 0;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-grey-200);
+  border-radius: var(--radius-field);
+  box-shadow: 0 4px 16px rgb(15 15 15 / 0.08);
+  overflow: hidden;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  border: none;
+  background: none;
+  font-family: var(--font-family-body);
+  font-size: var(--font-body-s);
+  font-weight: var(--font-weight-body);
+  color: var(--color-text-primary);
+  text-align: left;
+  cursor: pointer;
+}
+
+.menuItem:hover {
+  background-color: var(--color-surface-muted);
+}
+
+.menuItem:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: -2px;
+}
+
+.menuItemDanger {
+  color: var(--color-error);
 }
 
 .description {

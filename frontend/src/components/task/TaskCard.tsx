@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { CalendarDays, ChevronDown, MoreHorizontal } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
@@ -7,6 +10,8 @@ import styles from "./TaskCard.module.css";
 
 interface TaskCardProps {
   task: Task;
+  onEdit: () => void;
+  onDelete: () => void;
 }
 
 function assigneeName(user: { name: string | null; email: string }): string {
@@ -21,7 +26,30 @@ function formatDueDate(dueDate: string): string {
   });
 }
 
-export function TaskCard({ task }: TaskCardProps) {
+export function TaskCard({ task, onEdit, onDelete }: TaskCardProps) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuWrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const handlePointerDown = (event: MouseEvent) => {
+      if (!menuWrapperRef.current?.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+    return () => document.removeEventListener("mousedown", handlePointerDown);
+  }, [menuOpen]);
+
+  const handleMenuKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      setMenuOpen(false);
+    }
+  };
+
   return (
     <Card className={styles.card}>
       <div className={styles.topRow}>
@@ -29,9 +57,45 @@ export function TaskCard({ task }: TaskCardProps) {
           <h3 className={styles.title}>{task.title}</h3>
           <Badge status={task.status} />
         </div>
-        <button type="button" className={styles.menuButton} aria-label="Actions de la tâche">
-          <MoreHorizontal size={18} aria-hidden="true" />
-        </button>
+        <div className={styles.menuWrapper} ref={menuWrapperRef} onKeyDown={handleMenuKeyDown}>
+          <button
+            type="button"
+            className={styles.menuButton}
+            aria-haspopup="menu"
+            aria-expanded={menuOpen}
+            aria-label={`Actions pour la tâche ${task.title}`}
+            onClick={() => setMenuOpen((current) => !current)}
+          >
+            <MoreHorizontal size={18} aria-hidden="true" />
+          </button>
+
+          {menuOpen && (
+            <div role="menu" className={styles.menu} aria-label={`Actions pour la tâche ${task.title}`}>
+              <button
+                type="button"
+                role="menuitem"
+                className={styles.menuItem}
+                onClick={() => {
+                  setMenuOpen(false);
+                  onEdit();
+                }}
+              >
+                Modifier
+              </button>
+              <button
+                type="button"
+                role="menuitem"
+                className={[styles.menuItem, styles.menuItemDanger].join(" ")}
+                onClick={() => {
+                  setMenuOpen(false);
+                  onDelete();
+                }}
+              >
+                Supprimer
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       {task.description && <p className={styles.description}>{task.description}</p>}

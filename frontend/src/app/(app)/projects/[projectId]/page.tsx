@@ -8,7 +8,7 @@ import { sortTasks } from "@/lib/sort";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
-import { TaskCard } from "@/components/task/TaskCard";
+import { TaskList } from "@/components/task/TaskList";
 import { ProjectOverview } from "./ProjectOverview";
 import type { ProjectDetail, Task } from "@/types";
 import styles from "./page.module.css";
@@ -109,11 +109,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <p>Aucune tâche pour le moment.</p>
           </div>
         ) : (
-          <div className={styles.list}>
-            {tasks.map((task) => (
-              <TaskCard key={task.id} task={task} />
-            ))}
-          </div>
+          <TaskList
+            projectId={projectId}
+            owner={project.owner}
+            members={project.members}
+            tasks={tasks}
+            className={styles.list}
+          />
         )}
       </Card>
     </div>

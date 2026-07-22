@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
-import { CalendarDays, Check, ChevronDown } from "lucide-react";
-import { useController, useForm, useWatch, type Control } from "react-hook-form";
+import { useRef, useState } from "react";
+import { CalendarDays } from "lucide-react";
+import { useController, useForm, useWatch } from "react-hook-form";
+import { AssigneeSelect } from "@/components/task/AssigneeSelect";
+import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Modal } from "@/components/ui/Modal";
@@ -17,9 +19,10 @@ interface TaskModalProps {
   projectId: string;
   owner: UserSummary;
   members: ProjectMember[];
+  task?: Task;
   open: boolean;
   onClose: () => void;
-  onCreated: () => void;
+  onSuccess: () => void;
   onAnnounce: (message: string) => void;
 }
 
@@ -31,197 +34,55 @@ const DEFAULT_VALUES: TaskFormValues = {
   assigneeIds: [],
 };
 
+// <input type="date"> only accepts "YYYY-MM-DD" — the backend's ISO datetime
+// string is truncated rather than reparsed, which would shift the date under
+// non-UTC local timezones.
+function toDateInputValue(dueDate: string | null): string {
+  return dueDate ? dueDate.slice(0, 10) : "";
+}
+
+function buildDefaultValues(task?: Task): TaskFormValues {
+  if (!task) return DEFAULT_VALUES;
+
+  return {
+    title: task.title,
+    description: task.description ?? "",
+    dueDate: toDateInputValue(task.dueDate),
+    status: task.status === "CANCELLED" ? "TODO" : task.status,
+    assigneeIds: task.assignees.map((assignee) => assignee.user.id),
+  };
+}
+
 const STATUS_OPTIONS: { value: TaskFormValues["status"]; label: string; className: string }[] = [
   { value: "TODO", label: "À faire", className: styles.todo },
   { value: "IN_PROGRESS", label: "En cours", className: styles.inProgress },
   { value: "DONE", label: "Terminée", className: styles.done },
 ];
 
-function memberLabel(user: UserSummary): string {
-  return user.name ?? user.email;
-}
-
-interface AssigneeSelectProps {
-  id: string;
-  label: string;
-  options: UserSummary[];
-  control: Control<TaskFormValues>;
-  disabled?: boolean;
-}
-
-// Closed-by-default multi-select restricted to the project's own owner and
-// members — never backed by GET /users/search. A native `<select multiple>`
-// always renders as an open listbox, which is why this is hand-built instead.
-function AssigneeSelect({ id, label, options, control, disabled }: AssigneeSelectProps) {
-  const {
-    field: { value, onChange },
-  } = useController({ control, name: "assigneeIds" });
-
-  const [open, setOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(-1);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  const listboxId = useId();
-
-  useEffect(() => {
-    if (!open) return;
-
-    const handlePointerDown = (event: MouseEvent) => {
-      if (!containerRef.current?.contains(event.target as Node)) {
-        setOpen(false);
-        setActiveIndex(-1);
-      }
-    };
-
-    document.addEventListener("mousedown", handlePointerDown);
-    return () => document.removeEventListener("mousedown", handlePointerDown);
-  }, [open]);
-
-  const selectedUsers = options.filter((user) => value.includes(user.id));
-
-  const toggleOption = (userId: string) => {
-    onChange(value.includes(userId) ? value.filter((id) => id !== userId) : [...value, userId]);
-  };
-
-  const removeOption = (userId: string) => {
-    onChange(value.filter((id) => id !== userId));
-  };
-
-  const handleTriggerKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
-    if (disabled) return;
-
-    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-      event.preventDefault();
-      if (!open) {
-        setOpen(true);
-        setActiveIndex(0);
-        return;
-      }
-      setActiveIndex((index) => {
-        if (options.length === 0) return -1;
-        const direction = event.key === "ArrowDown" ? 1 : -1;
-        return (index + direction + options.length) % options.length;
-      });
-    } else if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      if (!open) {
-        setOpen(true);
-        setActiveIndex(0);
-      } else if (activeIndex >= 0) {
-        toggleOption(options[activeIndex]!.id);
-      }
-    } else if (event.key === "Escape") {
-      if (open) {
-        event.preventDefault();
-        setOpen(false);
-        setActiveIndex(-1);
-      }
-    }
-  };
-
-  const activeOptionId = activeIndex >= 0 ? `${listboxId}-option-${activeIndex}` : undefined;
-
-  return (
-    <div className={styles.assigneeField} ref={containerRef}>
-      {label}
-      <div className={styles.assigneeControl}>
-        <button
-          ref={triggerRef}
-          id={id}
-          type="button"
-          role="combobox"
-          aria-haspopup="listbox"
-          aria-expanded={open}
-          aria-controls={listboxId}
-          aria-activedescendant={activeOptionId}
-          className={styles.assigneeTrigger}
-          disabled={disabled}
-          onClick={() => {
-            setOpen((current) => !current);
-            setActiveIndex(-1);
-          }}
-          onKeyDown={handleTriggerKeyDown}
-        >
-          <span
-            className={[styles.assigneeTriggerText, selectedUsers.length === 0 && styles.assigneePlaceholder]
-              .filter(Boolean)
-              .join(" ")}
-          >
-            {selectedUsers.length === 0
-              ? "Choisir un ou plusieurs collaborateurs"
-              : `${selectedUsers.length} collaborateur${selectedUsers.length > 1 ? "s" : ""} sélectionné${
-                  selectedUsers.length > 1 ? "s" : ""
-                }`}
-          </span>
-          <ChevronDown size={16} aria-hidden="true" className={styles.assigneeChevron} />
-        </button>
-
-        {open && (
-          <ul id={listboxId} role="listbox" aria-multiselectable="true" aria-label={label} className={styles.assigneeListbox}>
-            {options.map((user, index) => {
-              const isSelected = value.includes(user.id);
-              return (
-                <li
-                  key={user.id}
-                  id={`${listboxId}-option-${index}`}
-                  role="option"
-                  aria-selected={isSelected}
-                  className={[styles.assigneeOption, index === activeIndex && styles.assigneeOptionActive]
-                    .filter(Boolean)
-                    .join(" ")}
-                  onMouseEnter={() => setActiveIndex(index)}
-                  onMouseDown={(event) => {
-                    event.preventDefault();
-                    toggleOption(user.id);
-                    triggerRef.current?.focus();
-                  }}
-                >
-                  <span>{memberLabel(user)}</span>
-                  {isSelected && <Check size={16} aria-hidden="true" />}
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </div>
-
-      {selectedUsers.length > 0 && (
-        <ul className={styles.assigneeChipList}>
-          {selectedUsers.map((user) => (
-            <li key={user.id} className={styles.assigneeChip}>
-              <span>{memberLabel(user)}</span>
-              <button
-                type="button"
-                className={styles.assigneeChipRemove}
-                aria-label={`Retirer ${memberLabel(user)}`}
-                disabled={disabled}
-                onClick={() => removeOption(user.id)}
-              >
-                &times;
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-}
-
-export function TaskModal({ projectId, owner, members, open, onClose, onCreated, onAnnounce }: TaskModalProps) {
+export function TaskModal({ projectId, owner, members, task, open, onClose, onSuccess, onAnnounce }: TaskModalProps) {
+  const isEditMode = Boolean(task);
   const [generalError, setGeneralError] = useState("");
+  const [legacyCancelled, setLegacyCancelled] = useState(task?.status === "CANCELLED");
+  // Fixed for this instance's lifetime — the parent gives every open/task a
+  // fresh `key`, so `task` never changes under a mounted TaskModal and this
+  // never needs to be resynced.
+  const initialLegacyCancelled = task?.status === "CANCELLED";
   const dueDateInputRef = useRef<HTMLInputElement | null>(null);
 
   const {
     register,
     handleSubmit,
-    reset,
     setError,
     control,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isDirty },
   } = useForm<TaskFormValues>({
     resolver: zodResolver(taskSchema),
-    defaultValues: DEFAULT_VALUES,
+    defaultValues: buildDefaultValues(task),
   });
+
+  const {
+    field: { value: statusValue, onChange: setStatusValue },
+  } = useController({ control, name: "status" });
 
   const dueDateField = register("dueDate");
 
@@ -234,14 +95,22 @@ export function TaskModal({ projectId, owner, members, open, onClose, onCreated,
     }
   };
 
+  const handleStatusChange = (value: TaskFormValues["status"]) => {
+    setStatusValue(value);
+    setLegacyCancelled(false);
+  };
+
   const assigneeOptions = [owner, ...members.map((member) => member.user)];
   const watchedValues = useWatch({ control });
-  const canSubmit = !isSubmitting && taskSchema.safeParse(watchedValues).success;
+  const isValid = taskSchema.safeParse(watchedValues).success;
+  // A legacy-CANCELLED task moving off that placeholder is a real change even
+  // when the picked value happens to match the form's internal default.
+  const hasChanges = isDirty || (initialLegacyCancelled && !legacyCancelled);
+  const canSubmit = !isSubmitting && isValid && (!isEditMode || hasChanges);
 
   const handleClose = () => {
     if (isSubmitting) return;
     setGeneralError("");
-    reset(DEFAULT_VALUES);
     onClose();
   };
 
@@ -251,24 +120,34 @@ export function TaskModal({ projectId, owner, members, open, onClose, onCreated,
     const payload: {
       title: string;
       description: string;
-      dueDate?: string;
-      status: TaskFormValues["status"];
+      dueDate: string;
+      status?: TaskFormValues["status"];
       assigneeIds: string[];
     } = {
       title: values.title,
       description: values.description,
-      status: values.status,
+      dueDate: values.dueDate,
       assigneeIds: values.assigneeIds,
     };
-    if (values.dueDate) payload.dueDate = values.dueDate;
+
+    // Omitted preserves the existing status; the legacy-CANCELLED display is
+    // fixed/read-only until the user picks a real status, so nothing is sent
+    // while it's still showing that placeholder.
+    if (!isEditMode || !legacyCancelled) payload.status = values.status;
 
     try {
-      await apiClient<{ task: Task }>(`/projects/${projectId}/tasks`, {
-        method: "POST",
-        body: JSON.stringify(payload),
-      });
-      reset(DEFAULT_VALUES);
-      onCreated();
+      if (isEditMode && task) {
+        await apiClient<{ task: Task }>(`/projects/${projectId}/tasks/${task.id}`, {
+          method: "PUT",
+          body: JSON.stringify(payload),
+        });
+      } else {
+        await apiClient<{ task: Task }>(`/projects/${projectId}/tasks`, {
+          method: "POST",
+          body: JSON.stringify(payload),
+        });
+      }
+      onSuccess();
     } catch (error) {
       if (!isApiError(error)) throw error;
 
@@ -283,7 +162,12 @@ export function TaskModal({ projectId, owner, members, open, onClose, onCreated,
   });
 
   return (
-    <Modal open={open} onClose={handleClose} title="Créer une tâche" className={styles.modal}>
+    <Modal
+      open={open}
+      onClose={handleClose}
+      title={isEditMode ? "Modifier la tâche" : "Créer une tâche"}
+      className={styles.modal}
+    >
       {generalError && (
         <p role="alert" className={styles.generalError}>
           {generalError}
@@ -307,7 +191,7 @@ export function TaskModal({ projectId, owner, members, open, onClose, onCreated,
         </label>
 
         <label className={styles.field}>
-          Échéance
+          Échéance *
           <div className={styles.dateWrapper}>
             <Input
               id="task-due-date"
@@ -337,6 +221,7 @@ export function TaskModal({ projectId, owner, members, open, onClose, onCreated,
         <AssigneeSelect
           id="task-assignees"
           label="Assigné à :"
+          name="assigneeIds"
           options={assigneeOptions}
           control={control}
           disabled={isSubmitting}
@@ -344,15 +229,22 @@ export function TaskModal({ projectId, owner, members, open, onClose, onCreated,
 
         <div className={styles.field}>
           <span id="task-status-label">Statut</span>
+          {legacyCancelled && (
+            <div className={styles.legacyStatus}>
+              <Badge status="CANCELLED" />
+            </div>
+          )}
           <div className={styles.statusGroup} role="radiogroup" aria-labelledby="task-status-label">
             {STATUS_OPTIONS.map((option) => (
               <label key={option.value} className={[styles.statusPill, option.className].join(" ")}>
                 <input
                   type="radio"
+                  name="task-status"
                   value={option.value}
                   className={styles.statusRadio}
                   disabled={isSubmitting}
-                  {...register("status")}
+                  checked={!legacyCancelled && statusValue === option.value}
+                  onChange={() => handleStatusChange(option.value)}
                 />
                 {option.label}
               </label>
@@ -362,7 +254,7 @@ export function TaskModal({ projectId, owner, members, open, onClose, onCreated,
 
         <div className={styles.actions}>
           <Button type="submit" variant="primary" loading={isSubmitting} disabled={!canSubmit}>
-            + Ajouter une tâche
+            {isEditMode ? "Enregistrer les modifications" : "+ Ajouter une tâche"}
           </Button>
         </div>
       </form>

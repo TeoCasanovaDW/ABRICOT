@@ -70,7 +70,6 @@ export function ProjectOverview({ project: initialProject }: ProjectOverviewProp
                   aria-label="Supprimer le projet"
                   onClick={() => setIsDeleteDialogOpen(true)}
                 >
-                  <Trash2 size={16} fill="currentColor" aria-hidden="true" />
                   Supprimer
                 </button>
               )}
@@ -84,7 +83,7 @@ export function ProjectOverview({ project: initialProject }: ProjectOverviewProp
             Créer une tâche
           </Button>
           <Button type="button" variant="brand">
-            <Astroid  size={16} fill="currentColor" aria-hidden="true"/>
+            <Astroid size={16} fill="currentColor" aria-hidden="true"/>
             IA
           </Button>
         </div>
@@ -131,12 +130,13 @@ export function ProjectOverview({ project: initialProject }: ProjectOverviewProp
       )}
 
       <TaskModal
+        key={isTaskModalOpen ? "open" : "closed"}
         projectId={project.id}
         owner={project.owner}
         members={project.members}
         open={isTaskModalOpen}
         onClose={() => setIsTaskModalOpen(false)}
-        onCreated={() => {
+        onSuccess={() => {
           setIsTaskModalOpen(false);
           router.refresh();
         }}
