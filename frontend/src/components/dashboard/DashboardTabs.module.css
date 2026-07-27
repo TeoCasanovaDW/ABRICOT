@@ -1,0 +1,49 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.tabList {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: fit-content;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-block: var(--space-3);
+  padding-inline: var(--space-4);
+  border: none;
+  border-radius: var(--radius-button);
+  background-color: var(--color-surface);
+  color: var(--color-brand-dark);
+  font-size: var(--font-body-s);
+  font-weight: var(--font-weight-label);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tab:hover {
+  background-color: var(--color-surface-muted);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+.tabActive,
+.tabActive:hover {
+  background-color: var(--color-brand-light);
+  color: var(--color-brand-dark);
+}
+
+.panel {
+  min-width: 0;
+}

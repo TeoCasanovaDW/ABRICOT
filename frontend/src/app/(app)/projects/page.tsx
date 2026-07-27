@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { FolderKanban } from "lucide-react";
 import { apiServer } from "@/lib/api/server";
 import { ProjectCard } from "@/components/project/ProjectCard";
-import { CreateProjectButton } from "./CreateProjectButton";
+import { CreateProjectButton } from "@/components/project/CreateProjectButton";
 import type { ProjectListItem } from "@/types";
 import styles from "./page.module.css";
 
