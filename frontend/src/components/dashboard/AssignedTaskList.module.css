@@ -96,7 +96,3 @@
   flex-shrink: 0;
   gap: var(--space-4);
 }
-
-.viewButton {
-  min-width: 120px;
-}

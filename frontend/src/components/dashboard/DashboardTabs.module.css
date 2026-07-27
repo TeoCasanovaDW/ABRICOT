@@ -11,6 +11,11 @@
   width: fit-content;
   max-width: 100%;
   overflow-x: auto;
+  /* overflow-x: auto implicitly computes overflow-y to auto too, which clips
+     the focus outline above/below the tabs; padding gives the ring room and
+     the matching negative margin keeps the box's outer footprint unchanged. */
+  padding: var(--space-1);
+  margin: calc(var(--space-1) * -1);
 }
 
 .tab {

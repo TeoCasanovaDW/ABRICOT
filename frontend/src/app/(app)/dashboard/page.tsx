@@ -3,6 +3,7 @@ import { apiServer } from "@/lib/api/server";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { DashboardTabs } from "@/components/dashboard/DashboardTabs";
 import { AssignedTaskList, type AssignedTask } from "@/components/dashboard/AssignedTaskList";
+import { KanbanView } from "@/components/dashboard/KanbanView";
 import { CreateProjectButton } from "@/components/project/CreateProjectButton";
 import type { Project, Task } from "@/types";
 import styles from "./page.module.css";
@@ -27,7 +28,7 @@ export default async function DashboardPage() {
       </DashboardHeader>
       <DashboardTabs
         assignedView={<AssignedTaskList tasks={tasks} />}
-        kanbanView={<p>Vue Kanban à venir.</p>}
+        kanbanView={<KanbanView tasks={tasks} />}
       />
     </div>
   );

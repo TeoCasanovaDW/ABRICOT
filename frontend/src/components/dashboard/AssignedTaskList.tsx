@@ -6,45 +6,15 @@ import { AlertTriangle, CalendarDays, Clock, Folder, MessageSquare } from "lucid
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { TaskSearchFilter } from "@/components/dashboard/TaskSearchFilter";
+import { formatDueDate, isDueSoon, isOverdue } from "@/lib/dashboardDates";
 import { sortTasks } from "@/lib/sort";
-import type { Project, Task, TaskStatus } from "@/types";
+import type { Project, Task } from "@/types";
 import buttonStyles from "@/components/ui/Button.module.css";
 import styles from "./AssignedTaskList.module.css";
 
 // GET /dashboard/assigned-tasks embeds the owning project, unlike the task
 // CRUD endpoints — shared with KanbanView, which derives from the same fetch.
 export type AssignedTask = Task & { project: Pick<Project, "id" | "name"> };
-
-function startOfDay(date: Date): Date {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-}
-
-// Local calendar days, not UTC/24h buckets, so a due date at any time of day
-// compares against the browser's local "today" per the dashboard date rules.
-function daysUntil(dueDate: string): number {
-  const MS_PER_DAY = 24 * 60 * 60 * 1000;
-  return Math.round(
-    (startOfDay(new Date(dueDate)).getTime() - startOfDay(new Date()).getTime()) / MS_PER_DAY,
-  );
-}
-
-type DueUrgency = "overdue" | "dueSoon" | null;
-
-function getDueUrgency(dueDate: string | null, status: TaskStatus): DueUrgency {
-  if (!dueDate || status === "DONE") return null;
-  const diff = daysUntil(dueDate);
-  if (diff < 0) return "overdue";
-  if (diff <= 3) return "dueSoon";
-  return null;
-}
-
-function formatDueDate(dueDate: string): string {
-  return new Date(dueDate).toLocaleDateString("fr-FR", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
 
 interface AssignedTaskListProps {
   tasks: AssignedTask[];
@@ -79,7 +49,8 @@ export function AssignedTaskList({ tasks }: AssignedTaskListProps) {
 }
 
 function AssignedTaskRow({ task }: { task: AssignedTask }) {
-  const urgency = getDueUrgency(task.dueDate, task.status);
+  const overdue = isOverdue(task.dueDate, task.status);
+  const dueSoon = isDueSoon(task.dueDate, task.status);
   const accessibleName = `Ouvrir la tâche « ${task.title} » du projet « ${task.project.name} »`;
 
   return (
@@ -110,14 +81,14 @@ function AssignedTaskRow({ task }: { task: AssignedTask }) {
             {task.comments.length}
           </span>
 
-          {urgency === "overdue" && (
+          {overdue && (
             <span className={`${styles.metaItem} ${styles.overdue}`}>
               <AlertTriangle size={16} aria-hidden="true" />
               En retard
             </span>
           )}
 
-          {urgency === "dueSoon" && (
+          {dueSoon && (
             <span className={`${styles.metaItem} ${styles.dueSoon}`}>
               <Clock size={16} aria-hidden="true" />
               Échéance proche
@@ -130,7 +101,7 @@ function AssignedTaskRow({ task }: { task: AssignedTask }) {
         <Badge status={task.status} />
         <Link
           href={`/projects/${task.project.id}`}
-          className={`${buttonStyles.button} ${buttonStyles.primary} ${styles.viewButton}`}
+          className={`${buttonStyles.button} ${buttonStyles.primary} ${buttonStyles.wide}`}
           aria-label={accessibleName}
         >
           Voir

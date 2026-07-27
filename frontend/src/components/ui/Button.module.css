@@ -78,6 +78,10 @@
   filter: brightness(0.92);
 }
 
+.wide {
+  min-width: 136px;
+}
+
 .spinner {
   width: 16px;
   height: 16px;
