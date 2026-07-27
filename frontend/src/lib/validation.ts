@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { FieldErrors, FieldValues, Path, Resolver, UseFormSetError } from "react-hook-form";
+import { taskDescriptionSchema, taskDueDateSchema, taskStatusSchema, taskTitleSchema } from "@/lib/taskFieldRules";
 import type { ApiError } from "@/types";
 
 // Per-form zod schemas are added incrementally by specs/05, 06, 07, 09.
@@ -149,22 +150,10 @@ export type ProjectFormValues = z.infer<typeof projectSchema>;
 // a legacy `CANCELLED` task is handled separately in edit mode as a fixed,
 // read-only value until the user picks one of these three.
 export const taskSchema = z.object({
-  title: z
-    .string()
-    .trim()
-    .min(2, "Le titre doit contenir au moins 2 caractères.")
-    .max(200, "Le titre ne peut pas dépasser 200 caractères."),
-  description: z
-    .string()
-    .trim()
-    .min(1, "La description est requise.")
-    .max(1000, "La description ne peut pas dépasser 1000 caractères."),
-  dueDate: z
-    .string()
-    .trim()
-    .min(1, "La date d'échéance est requise.")
-    .refine((value) => !Number.isNaN(Date.parse(value)), "Date d'échéance invalide."),
-  status: z.enum(["TODO", "IN_PROGRESS", "DONE"]),
+  title: taskTitleSchema,
+  description: taskDescriptionSchema,
+  dueDate: taskDueDateSchema,
+  status: taskStatusSchema,
   assigneeIds: z.array(z.string()),
 });
 
