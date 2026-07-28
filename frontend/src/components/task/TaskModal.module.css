@@ -93,53 +93,6 @@ dialog.modal {
   display: flex;
 }
 
-.statusGroup {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-}
-
-.statusPill {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-muted);
-  color: var(--color-text-secondary);
-  font-size: var(--font-body-s);
-  font-weight: var(--font-weight-label);
-  cursor: pointer;
-}
-
-.statusRadio {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.statusPill:has(.statusRadio:focus-visible) {
-  outline: 2px solid var(--color-border-focus);
-  outline-offset: 2px;
-}
-
-.statusPill.todo:has(.statusRadio:checked) {
-  background-color: var(--color-error-light);
-  color: var(--color-error);
-}
-
-.statusPill.inProgress:has(.statusRadio:checked) {
-  background-color: var(--color-warning-light);
-  color: var(--color-warning);
-}
-
-.statusPill.done:has(.statusRadio:checked) {
-  background-color: var(--color-success-light);
-  color: var(--color-success);
-}
-
 .actions {
   display: flex;
   gap: var(--space-3);

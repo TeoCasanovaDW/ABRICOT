@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { LiveRegion } from "@/components/ui/LiveRegion";
 import { useAuth } from "@/lib/auth/AuthContext";
+import { AiComposer } from "@/components/ai/AiComposer";
 import { TaskModal } from "@/components/task/TaskModal";
 import { DeleteProjectDialog } from "./DeleteProjectDialog";
 import { EditProjectModal } from "./EditProjectModal";
@@ -34,6 +35,7 @@ export function ProjectOverview({ project: initialProject }: ProjectOverviewProp
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [isAiModalOpen, setIsAiModalOpen] = useState(false);
   const [announcement, setAnnouncement] = useState("");
 
   const isOwner = project.owner.id === currentUser.id;
@@ -82,7 +84,7 @@ export function ProjectOverview({ project: initialProject }: ProjectOverviewProp
           <Button type="button" variant="primary" onClick={() => setIsTaskModalOpen(true)}>
             Créer une tâche
           </Button>
-          <Button type="button" variant="brand">
+          <Button type="button" variant="brand" onClick={() => setIsAiModalOpen(true)}>
             <Astroid size={16} fill="currentColor" aria-hidden="true"/>
             IA
           </Button>
@@ -130,7 +132,7 @@ export function ProjectOverview({ project: initialProject }: ProjectOverviewProp
       )}
 
       <TaskModal
-        key={isTaskModalOpen ? "open" : "closed"}
+        key={`task-${isTaskModalOpen ? "open" : "closed"}`}
         projectId={project.id}
         owner={project.owner}
         members={project.members}
@@ -140,6 +142,16 @@ export function ProjectOverview({ project: initialProject }: ProjectOverviewProp
           setIsTaskModalOpen(false);
           router.refresh();
         }}
+        onAnnounce={setAnnouncement}
+      />
+
+      <AiComposer
+        key={`ai-${isAiModalOpen ? "open" : "closed"}`}
+        projectId={project.id}
+        owner={project.owner}
+        members={project.members}
+        open={isAiModalOpen}
+        onClose={() => setIsAiModalOpen(false)}
         onAnnounce={setAnnouncement}
       />
 

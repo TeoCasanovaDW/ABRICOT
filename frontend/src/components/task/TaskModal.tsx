@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { CalendarDays } from "lucide-react";
 import { useController, useForm, useWatch } from "react-hook-form";
 import { AssigneeSelect } from "@/components/task/AssigneeSelect";
+import { StatusPicker } from "@/components/task/StatusPicker";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -52,12 +53,6 @@ function buildDefaultValues(task?: Task): TaskFormValues {
     assigneeIds: task.assignees.map((assignee) => assignee.user.id),
   };
 }
-
-const STATUS_OPTIONS: { value: TaskFormValues["status"]; label: string; className: string }[] = [
-  { value: "TODO", label: "À faire", className: styles.todo },
-  { value: "IN_PROGRESS", label: "En cours", className: styles.inProgress },
-  { value: "DONE", label: "Terminée", className: styles.done },
-];
 
 export function TaskModal({ projectId, owner, members, task, open, onClose, onSuccess, onAnnounce }: TaskModalProps) {
   const isEditMode = Boolean(task);
@@ -234,22 +229,14 @@ export function TaskModal({ projectId, owner, members, task, open, onClose, onSu
               <Badge status="CANCELLED" />
             </div>
           )}
-          <div className={styles.statusGroup} role="radiogroup" aria-labelledby="task-status-label">
-            {STATUS_OPTIONS.map((option) => (
-              <label key={option.value} className={[styles.statusPill, option.className].join(" ")}>
-                <input
-                  type="radio"
-                  name="task-status"
-                  value={option.value}
-                  className={styles.statusRadio}
-                  disabled={isSubmitting}
-                  checked={!legacyCancelled && statusValue === option.value}
-                  onChange={() => handleStatusChange(option.value)}
-                />
-                {option.label}
-              </label>
-            ))}
-          </div>
+          <StatusPicker
+            name="task-status"
+            labelledBy="task-status-label"
+            value={statusValue}
+            onChange={handleStatusChange}
+            disabled={isSubmitting}
+            noSelection={legacyCancelled}
+          />
         </div>
 
         <div className={styles.actions}>
