@@ -1,0 +1,37 @@
+.modal {
+  width: min(calc(100% - var(--space-4) * 2), 560px);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  margin-top: var(--space-5);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--font-body-s);
+  font-weight: var(--font-weight-label);
+}
+
+.warning {
+  font-size: var(--font-caption-l);
+  color: var(--color-text-secondary);
+}
+
+.generalError {
+  border-radius: var(--radius-field);
+  background-color: var(--color-error-light);
+  color: var(--color-error);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-body-s);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
