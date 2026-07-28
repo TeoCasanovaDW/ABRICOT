@@ -121,7 +121,15 @@ export function AiComposer({ projectId, owner, members, open, onClose, onAnnounc
       <div className={styles.body}>
         <div className={styles.main}>
           {isReview && (
-            <DraftList drafts={drafts} owner={owner} members={members} onRemove={removeDraft} onUpdate={updateDraft} />
+            <DraftList
+              projectId={projectId}
+              drafts={drafts}
+              owner={owner}
+              members={members}
+              onRemove={removeDraft}
+              onUpdate={updateDraft}
+              onClose={handleClose}
+            />
           )}
         </div>
 

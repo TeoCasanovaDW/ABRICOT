@@ -18,7 +18,7 @@ import styles from "./DraftCard.module.css";
 
 export type DraftItem = Draft & { draftId: string; assigneeIds: string[] };
 
-const draftFormSchema = z.object({
+export const draftFormSchema = z.object({
   title: taskTitleSchema,
   description: taskDescriptionSchema,
   dueDate: taskDueDateSchema,
@@ -34,6 +34,7 @@ interface DraftCardProps {
   members: ProjectMember[];
   onRemove: (draftId: string) => void;
   onUpdate: (draftId: string, values: DraftFormValues) => void;
+  disabled?: boolean;
 }
 
 function toDateInputValue(dueDate: string): string {
@@ -50,7 +51,7 @@ function buildDefaultValues(draft: DraftItem): DraftFormValues {
   };
 }
 
-export function DraftCard({ draft, owner, members, onRemove, onUpdate }: DraftCardProps) {
+export function DraftCard({ draft, owner, members, onRemove, onUpdate, disabled = false }: DraftCardProps) {
   const [isEditing, setIsEditing] = useState(false);
   const assigneeOptions = [owner, ...members.map((member) => member.user)];
 
@@ -97,12 +98,13 @@ export function DraftCard({ draft, owner, members, onRemove, onUpdate }: DraftCa
             type="button"
             className={[styles.action, styles.actionDanger].join(" ")}
             onClick={() => onRemove(draft.draftId)}
+            disabled={disabled}
           >
             <Trash2 size={16} aria-hidden="true" />
             Supprimer
           </button>
           <span className={styles.actionSeparator} aria-hidden="true" />
-          <button type="button" className={styles.action} onClick={startEditing}>
+          <button type="button" className={styles.action} onClick={startEditing} disabled={disabled}>
             <Pencil size={16} aria-hidden="true" />
             Modifier
           </button>
