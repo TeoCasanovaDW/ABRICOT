@@ -5,7 +5,6 @@ import { useForm, useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Modal } from "@/components/ui/Modal";
-import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
 import { ContributorPicker } from "@/components/project/ContributorPicker";
 import { apiClient } from "@/lib/api/client";
@@ -16,7 +15,7 @@ import {
   zodResolver,
   type ProjectFormValues,
 } from "@/lib/validation";
-import type { ProjectDetail, ProjectMember, Role, UserSummary } from "@/types";
+import type { ProjectDetail, ProjectMember, UserSummary } from "@/types";
 import styles from "./EditProjectModal.module.css";
 
 interface EditProjectModalProps {
@@ -35,7 +34,6 @@ export function EditProjectModal({ project, open, onClose, onSaved, onAnnounce }
   const [generalError, setGeneralError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [selected, setSelected] = useState<UserSummary[]>(() => project.members.map((member) => member.user));
-  const [newRoles, setNewRoles] = useState<Record<string, Role>>({});
   const [wasOpen, setWasOpen] = useState(open);
 
   const {
@@ -57,7 +55,6 @@ export function EditProjectModal({ project, open, onClose, onSaved, onAnnounce }
     if (open) {
       reset({ name: project.name, description: project.description ?? "" });
       setSelected(project.members.map((member) => member.user));
-      setNewRoles({});
       setGeneralError("");
     }
   }
@@ -76,22 +73,12 @@ export function EditProjectModal({ project, open, onClose, onSaved, onAnnounce }
 
   const addContributor = (user: UserSummary) => {
     setSelected((current) => [...current, user]);
-    setNewRoles((current) => ({ ...current, [user.id]: "CONTRIBUTOR" }));
     onAnnounce(`${contributorLabel(user)} ajouté aux contributeurs.`);
   };
 
   const removeContributor = (user: UserSummary) => {
     setSelected((current) => current.filter((existing) => existing.id !== user.id));
-    setNewRoles((current) => {
-      const next = { ...current };
-      delete next[user.id];
-      return next;
-    });
     onAnnounce(`${contributorLabel(user)} retiré des contributeurs.`);
-  };
-
-  const changeNewContributorRole = (user: UserSummary, role: Role) => {
-    setNewRoles((current) => ({ ...current, [user.id]: role }));
   };
 
   const handleClose = () => {
@@ -118,7 +105,7 @@ export function EditProjectModal({ project, open, onClose, onSaved, onAnnounce }
       for (const user of addedUsers) {
         await apiClient(`/projects/${project.id}/contributors`, {
           method: "POST",
-          body: JSON.stringify({ email: user.email, role: newRoles[user.id] ?? "CONTRIBUTOR" }),
+          body: JSON.stringify({ email: user.email, role: "CONTRIBUTOR" }),
         });
       }
 
@@ -131,7 +118,7 @@ export function EditProjectModal({ project, open, onClose, onSaved, onAnnounce }
         return (
           existingMember ?? {
             id: user.id,
-            role: newRoles[user.id] ?? "CONTRIBUTOR",
+            role: "CONTRIBUTOR",
             joinedAt: new Date().toISOString(),
             user,
           }
@@ -198,24 +185,6 @@ export function EditProjectModal({ project, open, onClose, onSaved, onAnnounce }
           disabled={submitting}
           excludeIds={[project.owner.id]}
         />
-
-        {addedUsers.length > 0 && (
-          <div className={styles.roleList}>
-            {addedUsers.map((user) => (
-              <label key={user.id} className={styles.field}>
-                {`Rôle de ${contributorLabel(user)}`}
-                <Select
-                  value={newRoles[user.id] ?? "CONTRIBUTOR"}
-                  disabled={submitting}
-                  onChange={(event) => changeNewContributorRole(user, event.target.value as Role)}
-                >
-                  <option value="CONTRIBUTOR">Contributeur</option>
-                  <option value="ADMIN">Administrateur</option>
-                </Select>
-              </label>
-            ))}
-          </div>
-        )}
 
         <div className={styles.actions}>
           <Button type="submit" variant="primary" loading={submitting} disabled={!canSave}>

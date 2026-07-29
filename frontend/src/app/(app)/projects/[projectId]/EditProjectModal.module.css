@@ -20,12 +20,6 @@
   font-size: var(--font-body-s);
 }
 
-.roleList {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
 .actions {
   display: flex;
   gap: var(--space-3);
