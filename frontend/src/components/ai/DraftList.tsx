@@ -20,9 +20,19 @@ interface DraftListProps {
   onRemove: (draftId: string) => void;
   onUpdate: (draftId: string, values: DraftFormValues) => void;
   onClose: () => void;
+  onSavingChange: (saving: boolean) => void;
 }
 
-export function DraftList({ projectId, drafts, owner, members, onRemove, onUpdate, onClose }: DraftListProps) {
+export function DraftList({
+  projectId,
+  drafts,
+  owner,
+  members,
+  onRemove,
+  onUpdate,
+  onClose,
+  onSavingChange,
+}: DraftListProps) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [progressMessage, setProgressMessage] = useState("");
@@ -37,6 +47,7 @@ export function DraftList({ projectId, drafts, owner, members, onRemove, onUpdat
 
     setGeneralError("");
     setSaving(true);
+    onSavingChange(true);
 
     const total = drafts.length;
     const { succeededIds, stopReason } = await saveDrafts({
@@ -47,6 +58,7 @@ export function DraftList({ projectId, drafts, owner, members, onRemove, onUpdat
 
     setProgressMessage("");
     setSaving(false);
+    onSavingChange(false);
 
     // Full success is one atomic reset+close (onClose already clears
     // prompt/errors/drafts and closes the modal) — never routed through the
@@ -98,7 +110,13 @@ export function DraftList({ projectId, drafts, owner, members, onRemove, onUpdat
       ))}
 
       <div className={styles.addRow}>
-        <Button type="button" variant="primary" onClick={handleSave} disabled={saving || drafts.length === 0}>
+        <Button
+          type="button"
+          variant="primary"
+          onClick={handleSave}
+          loading={saving}
+          disabled={saving || drafts.length === 0}
+        >
           + Ajouter les tâches
         </Button>
       </div>

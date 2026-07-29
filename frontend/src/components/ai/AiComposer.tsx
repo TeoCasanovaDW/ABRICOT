@@ -26,6 +26,7 @@ export function AiComposer({ projectId, owner, members, open, onClose, onAnnounc
   const [prompt, setPrompt] = useState("");
   const [drafts, setDrafts] = useState<DraftItem[]>([]);
   const [generating, setGenerating] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [generalError, setGeneralError] = useState("");
   const abortControllerRef = useRef<AbortController | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -55,6 +56,9 @@ export function AiComposer({ projectId, owner, members, open, onClose, onAnnounc
   };
 
   const handleClose = () => {
+    // Save sequences are non-cancelable — close button, backdrop, and
+    // Escape must all be no-ops until the sequence ends or stops.
+    if (saving) return;
     if (generating) handleCancel();
     setGeneralError("");
     setPrompt("");
@@ -129,6 +133,7 @@ export function AiComposer({ projectId, owner, members, open, onClose, onAnnounc
               onRemove={removeDraft}
               onUpdate={updateDraft}
               onClose={handleClose}
+              onSavingChange={setSaving}
             />
           )}
         </div>
@@ -144,7 +149,7 @@ export function AiComposer({ projectId, owner, members, open, onClose, onAnnounc
               className={styles.textarea}
               value={prompt}
               onChange={(event) => setPrompt(event.target.value)}
-              disabled={generating}
+              disabled={generating || saving}
               required
               aria-describedby={WARNING_ID}
               placeholder="Décrivez les tâches que vous souhaitez ajouter..."
@@ -153,7 +158,7 @@ export function AiComposer({ projectId, owner, members, open, onClose, onAnnounc
             <button
               type="submit"
               className={styles.submit}
-              disabled={generating || !prompt.trim()}
+              disabled={generating || saving || !prompt.trim()}
               aria-label="Générer les tâches"
               aria-busy={generating || undefined}
             >
