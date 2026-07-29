@@ -172,13 +172,22 @@ export function TaskModal({ projectId, owner, members, task, open, onClose, onSu
       <form className={styles.form} onSubmit={onSubmit} noValidate>
         <label className={styles.field}>
           Titre *
-          <Input id="task-title" disabled={isSubmitting} error={errors.title?.message} {...register("title")} />
+          <Input
+            id="task-title"
+            required
+            aria-required="true"
+            disabled={isSubmitting}
+            error={errors.title?.message}
+            {...register("title")}
+          />
         </label>
 
         <label className={styles.field}>
           Description *
           <Textarea
             id="task-description"
+            required
+            aria-required="true"
             disabled={isSubmitting}
             error={errors.description?.message}
             {...register("description")}
@@ -192,6 +201,8 @@ export function TaskModal({ projectId, owner, members, task, open, onClose, onSu
               id="task-due-date"
               type="date"
               className={styles.dateInput}
+              required
+              aria-required="true"
               disabled={isSubmitting}
               error={errors.dueDate?.message}
               {...dueDateField}

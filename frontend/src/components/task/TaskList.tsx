@@ -24,17 +24,18 @@ export function TaskList({ projectId, owner, members, tasks, className }: TaskLi
 
   return (
     <>
-      <div className={className}>
+      <ul className={className}>
         {tasks.map((task) => (
-          <TaskCard
-            key={task.id}
-            task={task}
-            onEdit={() => setSelectedTask(task)}
-            onDelete={() => setTaskToDelete(task)}
-            onAnnounce={setAnnouncement}
-          />
+          <li key={task.id}>
+            <TaskCard
+              task={task}
+              onEdit={() => setSelectedTask(task)}
+              onDelete={() => setTaskToDelete(task)}
+              onAnnounce={setAnnouncement}
+            />
+          </li>
         ))}
-      </div>
+      </ul>
 
       <TaskModal
         key={`edit-${selectedTask?.id ?? "closed"}`}

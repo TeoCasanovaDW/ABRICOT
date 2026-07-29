@@ -27,11 +27,25 @@ export function Modal({ open, onClose, title, children, className }: ModalProps)
     const dialog = dialogRef.current;
     if (!dialog || !open) return;
 
-    triggerRef.current = document.activeElement as HTMLElement | null;
+    const trigger = document.activeElement as HTMLElement | null;
+    triggerRef.current = trigger;
+    // A click leaves the trigger not matching `:focus-visible`; a keyboard
+    // activation (Tab + Enter/Space) leaves it matching. Moving focus to the
+    // first field happens via script either way, so the browser's own
+    // heuristic can't tell them apart on the *new* element — this carries
+    // the trigger's input modality forward instead.
+    const openedViaPointer = trigger ? !trigger.matches(":focus-visible") : false;
+
     dialog.showModal();
 
     const firstField = bodyRef.current?.querySelector<HTMLElement>(FOCUSABLE_SELECTOR);
-    moveFocusTo(firstField ?? dialog);
+    const target = firstField ?? dialog;
+    moveFocusTo(target);
+
+    if (openedViaPointer) {
+      target.style.outline = "none";
+      target.addEventListener("blur", () => { target.style.outline = ""; }, { once: true });
+    }
 
     return () => {
       if (dialog.open) dialog.close();

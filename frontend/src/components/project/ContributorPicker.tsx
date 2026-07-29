@@ -110,7 +110,7 @@ export function ContributorPicker({
 
   return (
     <div className={styles.field}>
-      {label}
+      <label htmlFor={id}>{label}</label>
       <div className={styles.comboboxWrapper}>
         <Input
           ref={searchInputRef}

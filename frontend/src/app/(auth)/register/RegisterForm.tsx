@@ -68,10 +68,12 @@ export function RegisterForm() {
 
         <form className={styles.form} onSubmit={onSubmit} noValidate>
           <label className={styles.field}>
-            Nom
+            Nom *
             <Input
               id="name"
               autoComplete="name"
+              required
+              aria-required="true"
               disabled={isSubmitting}
               error={errors.name?.message}
               {...register("name")}
@@ -79,11 +81,13 @@ export function RegisterForm() {
           </label>
 
           <label className={styles.field}>
-            E-mail
+            E-mail *
             <Input
               id="email"
               type="email"
               autoComplete="email"
+              required
+              aria-required="true"
               disabled={isSubmitting}
               error={errors.email?.message}
               {...register("email")}
@@ -91,11 +95,13 @@ export function RegisterForm() {
           </label>
 
           <label className={styles.field}>
-            Mot de passe
+            Mot de passe *
             <Input
               id="password"
               type="password"
               autoComplete="new-password"
+              required
+              aria-required="true"
               disabled={isSubmitting}
               error={errors.password?.message}
               {...register("password")}

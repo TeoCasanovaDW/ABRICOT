@@ -167,13 +167,22 @@ export function EditProjectModal({ project, open, onClose, onSaved, onAnnounce }
       <form className={styles.form} onSubmit={onSubmit} noValidate>
         <label className={styles.field}>
           Titre *
-          <Input id="edit-project-name" disabled={submitting} error={errors.name?.message} {...register("name")} />
+          <Input
+            id="edit-project-name"
+            required
+            aria-required="true"
+            disabled={submitting}
+            error={errors.name?.message}
+            {...register("name")}
+          />
         </label>
 
         <label className={styles.field}>
           Description *
           <Textarea
             id="edit-project-description"
+            required
+            aria-required="true"
             disabled={submitting}
             error={errors.description?.message}
             {...register("description")}

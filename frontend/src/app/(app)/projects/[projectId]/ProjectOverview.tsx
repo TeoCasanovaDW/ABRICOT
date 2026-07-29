@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Trash2, Astroid } from "lucide-react";
+import { ArrowLeft, Astroid } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -97,18 +97,18 @@ export function ProjectOverview({ project: initialProject }: ProjectOverviewProp
           <span className={styles.contributorCount}>{peopleLabel(teamCount)}</span>
         </div>
 
-        <div className={styles.contributorGroup}>
-          <div className={styles.contributorItem}>
+        <ul className={styles.contributorGroup}>
+          <li className={styles.contributorItem}>
             <Avatar name={ownerName} size={32} />
             <Badge status="OWNER" />
-          </div>
+          </li>
           {project.members.map((member) => (
-            <div key={member.id} className={styles.contributorItem}>
+            <li key={member.id} className={styles.contributorItem}>
               <Avatar name={memberName(member.user)} size={24} className={styles.contributorAvatar} />
               <span className={styles.nameBadge}>{memberName(member.user)}</span>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
 
       {canEdit && (

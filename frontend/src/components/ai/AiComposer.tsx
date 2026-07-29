@@ -141,7 +141,7 @@ export function AiComposer({ projectId, owner, members, open, onClose, onAnnounc
         <form className={styles.form} onSubmit={handleSubmit} noValidate>
           <div className={styles.inputRow}>
             <label className={styles.srOnly} htmlFor="ai-prompt">
-              Décrivez les tâches à créer
+              Décrivez les tâches à créer *
             </label>
             <textarea
               id="ai-prompt"

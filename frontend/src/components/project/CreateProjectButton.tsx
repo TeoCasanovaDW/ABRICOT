@@ -105,6 +105,8 @@ export function CreateProjectButton({ label }: CreateProjectButtonProps) {
             Titre *
             <Input
               id="project-name"
+              required
+              aria-required="true"
               disabled={isSubmitting}
               error={errors.name?.message}
               {...register("name")}
@@ -115,6 +117,8 @@ export function CreateProjectButton({ label }: CreateProjectButtonProps) {
             Description *
             <Textarea
               id="project-description"
+              required
+              aria-required="true"
               disabled={isSubmitting}
               error={errors.description?.message}
               {...register("description")}

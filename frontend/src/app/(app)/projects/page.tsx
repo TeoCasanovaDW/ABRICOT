@@ -30,11 +30,13 @@ export default async function ProjectsPage() {
           <CreateProjectButton label="Créer un projet" />
         </div>
       ) : (
-        <div className={styles.grid}>
+        <ul className={styles.grid}>
           {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+            <li key={project.id}>
+              <ProjectCard project={project} />
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   );

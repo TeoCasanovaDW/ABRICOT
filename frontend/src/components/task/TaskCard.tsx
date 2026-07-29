@@ -116,14 +116,14 @@ export function TaskCard({ task, onEdit, onDelete, onAnnounce }: TaskCardProps) 
       <div className={styles.metaRow}>
         <span className={styles.metaLabel}>Assigné à :</span>
         {task.assignees.length > 0 ? (
-          <div className={styles.assigneeList}>
+          <ul className={styles.assigneeList}>
             {task.assignees.map((assignee) => (
-              <span key={assignee.user.id} className={styles.assigneeItem}>
+              <li key={assignee.user.id} className={styles.assigneeItem}>
                 <Avatar name={assigneeName(assignee.user)} size={25} variant="muted" />
                 <span className={styles.assigneeName}>{assigneeName(assignee.user)}</span>
-              </span>
+              </li>
             ))}
-          </div>
+          </ul>
         ) : (
           <span className={styles.unassigned}>Non assignée</span>
         )}
