@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AlertTriangle, CalendarDays, Clock, Folder, MessageSquare } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
+import { PriorityBadge } from "@/components/ui/PriorityBadge";
 import { TaskSearchFilter } from "@/components/dashboard/TaskSearchFilter";
 import { formatDueDate, isDueSoon, isOverdue } from "@/lib/dashboardDates";
 import { sortTasks } from "@/lib/sort";
@@ -57,6 +58,12 @@ function AssignedTaskRow({ task }: { task: AssignedTask }) {
     <Card className={styles.card}>
       <div className={styles.left}>
         <h3 className={styles.title}>{task.title}</h3>
+
+        <div className={styles.priorityRow}>
+          <span className={styles.priorityLabel}>Priorité :</span>
+          <PriorityBadge priority={task.priority} />
+        </div>
+
         {task.description && <p className={styles.description}>{task.description}</p>}
 
         <div className={styles.metaRow}>

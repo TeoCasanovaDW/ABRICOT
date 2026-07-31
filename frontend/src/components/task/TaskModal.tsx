@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { CalendarDays } from "lucide-react";
 import { useController, useForm, useWatch } from "react-hook-form";
 import { AssigneeSelect } from "@/components/task/AssigneeSelect";
+import { PriorityPicker } from "@/components/task/PriorityPicker";
 import { StatusPicker } from "@/components/task/StatusPicker";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -32,6 +33,7 @@ const DEFAULT_VALUES: TaskFormValues = {
   description: "",
   dueDate: "",
   status: "TODO",
+  priority: "MEDIUM",
   assigneeIds: [],
 };
 
@@ -50,6 +52,7 @@ function buildDefaultValues(task?: Task): TaskFormValues {
     description: task.description ?? "",
     dueDate: toDateInputValue(task.dueDate),
     status: task.status === "CANCELLED" ? "TODO" : task.status,
+    priority: task.priority,
     assigneeIds: task.assignees.map((assignee) => assignee.user.id),
   };
 }
@@ -78,6 +81,10 @@ export function TaskModal({ projectId, owner, members, task, open, onClose, onSu
   const {
     field: { value: statusValue, onChange: setStatusValue },
   } = useController({ control, name: "status" });
+
+  const {
+    field: { value: priorityValue, onChange: setPriorityValue },
+  } = useController({ control, name: "priority" });
 
   const dueDateField = register("dueDate");
 
@@ -117,11 +124,13 @@ export function TaskModal({ projectId, owner, members, task, open, onClose, onSu
       description: string;
       dueDate: string;
       status?: TaskFormValues["status"];
+      priority: TaskFormValues["priority"];
       assigneeIds: string[];
     } = {
       title: values.title,
       description: values.description,
       dueDate: values.dueDate,
+      priority: values.priority,
       assigneeIds: values.assigneeIds,
     };
 
@@ -247,6 +256,17 @@ export function TaskModal({ projectId, owner, members, task, open, onClose, onSu
             onChange={handleStatusChange}
             disabled={isSubmitting}
             noSelection={legacyCancelled}
+          />
+        </div>
+
+        <div className={styles.field}>
+          <span id="task-priority-label">Priorité</span>
+          <PriorityPicker
+            name="task-priority"
+            labelledBy="task-priority-label"
+            value={priorityValue}
+            onChange={setPriorityValue}
+            disabled={isSubmitting}
           />
         </div>
 

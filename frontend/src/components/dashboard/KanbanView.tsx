@@ -5,6 +5,7 @@ import Link from "next/link";
 import { CalendarDays, Folder, MessageSquare } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
+import { PriorityBadge } from "@/components/ui/PriorityBadge";
 import type { AssignedTask } from "@/components/dashboard/AssignedTaskList";
 import { formatDueDate, isInCurrentMonth } from "@/lib/dashboardDates";
 import { sortTasks } from "@/lib/sort";
@@ -95,6 +96,11 @@ function KanbanCard({ task }: { task: DatedTask }) {
       <div className={styles.cardHeader}>
         <h4 className={styles.title}>{task.title}</h4>
         <Badge status={task.status} />
+      </div>
+
+      <div className={styles.priorityRow}>
+        <span className={styles.priorityLabel}>Priorité :</span>
+        <PriorityBadge priority={task.priority} />
       </div>
 
       {task.description && <p className={styles.description}>{task.description}</p>}

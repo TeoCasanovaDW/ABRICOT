@@ -5,13 +5,20 @@ import { Pencil, Trash2 } from "lucide-react";
 import { useController, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { AssigneeSelect } from "@/components/task/AssigneeSelect";
+import { PriorityPicker } from "@/components/task/PriorityPicker";
 import { StatusPicker } from "@/components/task/StatusPicker";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { zodResolver } from "@/lib/validation";
-import { taskDescriptionSchema, taskDueDateSchema, taskStatusSchema, taskTitleSchema } from "@/lib/taskFieldRules";
+import {
+  taskDescriptionSchema,
+  taskDueDateSchema,
+  taskPrioritySchema,
+  taskStatusSchema,
+  taskTitleSchema,
+} from "@/lib/taskFieldRules";
 import type { Draft } from "@/lib/ai/validateDrafts";
 import type { ProjectMember, UserSummary } from "@/types";
 import styles from "./DraftCard.module.css";
@@ -23,6 +30,7 @@ export const draftFormSchema = z.object({
   description: taskDescriptionSchema,
   dueDate: taskDueDateSchema,
   status: taskStatusSchema,
+  priority: taskPrioritySchema,
   assigneeIds: z.array(z.string()),
 });
 
@@ -47,6 +55,7 @@ function buildDefaultValues(draft: DraftItem): DraftFormValues {
     description: draft.description,
     dueDate: toDateInputValue(draft.dueDate),
     status: draft.status,
+    priority: draft.priority,
     assigneeIds: draft.assigneeIds,
   };
 }
@@ -69,6 +78,10 @@ export function DraftCard({ draft, owner, members, onRemove, onUpdate, disabled 
   const {
     field: { value: statusValue, onChange: setStatusValue },
   } = useController({ control, name: "status" });
+
+  const {
+    field: { value: priorityValue, onChange: setPriorityValue },
+  } = useController({ control, name: "priority" });
 
   const watchedValues = useWatch({ control });
   const isValid = draftFormSchema.safeParse(watchedValues).success;
@@ -138,6 +151,16 @@ export function DraftCard({ draft, owner, members, onRemove, onUpdate, disabled 
             labelledBy={`draft-status-${draft.draftId}`}
             value={statusValue}
             onChange={setStatusValue}
+          />
+        </div>
+
+        <div className={styles.field}>
+          <span id={`draft-priority-${draft.draftId}`}>Priorité</span>
+          <PriorityPicker
+            name={`draft-priority-${draft.draftId}`}
+            labelledBy={`draft-priority-${draft.draftId}`}
+            value={priorityValue}
+            onChange={setPriorityValue}
           />
         </div>
 

@@ -5,6 +5,7 @@ import { CalendarDays, ChevronDown, MoreHorizontal } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
+import { PriorityBadge } from "@/components/ui/PriorityBadge";
 import { TaskComments } from "@/components/task/TaskComments";
 import type { Comment, Task } from "@/types";
 import styles from "./TaskCard.module.css";
@@ -101,6 +102,11 @@ export function TaskCard({ task, onEdit, onDelete, onAnnounce }: TaskCardProps) 
             </div>
           )}
         </div>
+      </div>
+
+      <div className={styles.metaRow}>
+        <span className={styles.metaLabel}>Priorité :</span>
+        <PriorityBadge priority={task.priority} />
       </div>
 
       {task.description && <p className={styles.description}>{task.description}</p>}

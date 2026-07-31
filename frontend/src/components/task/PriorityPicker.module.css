@@ -1,0 +1,51 @@
+.priorityGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.priorityPill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-secondary);
+  font-size: var(--font-body-s);
+  font-weight: var(--font-weight-label);
+  cursor: pointer;
+}
+
+.priorityRadio {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.priorityPill:has(.priorityRadio:focus-visible) {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+.priorityPill.low:has(.priorityRadio:checked) {
+  background-color: var(--color-grey-200);
+  color: var(--color-grey-600);
+}
+
+.priorityPill.medium:has(.priorityRadio:checked) {
+  background-color: var(--color-info-light);
+  color: var(--color-info);
+}
+
+.priorityPill.high:has(.priorityRadio:checked) {
+  background-color: var(--color-warning-light);
+  color: var(--color-warning);
+}
+
+.priorityPill.urgent:has(.priorityRadio:checked) {
+  background-color: var(--color-error-light);
+  color: var(--color-error);
+}

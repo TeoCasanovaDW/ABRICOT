@@ -1,6 +1,12 @@
 import { z } from "zod";
 import type { FieldErrors, FieldValues, Path, Resolver, UseFormSetError } from "react-hook-form";
-import { taskDescriptionSchema, taskDueDateSchema, taskStatusSchema, taskTitleSchema } from "@/lib/taskFieldRules";
+import {
+  taskDescriptionSchema,
+  taskDueDateSchema,
+  taskPrioritySchema,
+  taskStatusSchema,
+  taskTitleSchema,
+} from "@/lib/taskFieldRules";
 import type { ApiError } from "@/types";
 
 // Per-form zod schemas are added incrementally by specs/05, 06, 07, 09.
@@ -154,6 +160,7 @@ export const taskSchema = z.object({
   description: taskDescriptionSchema,
   dueDate: taskDueDateSchema,
   status: taskStatusSchema,
+  priority: taskPrioritySchema,
   assigneeIds: z.array(z.string()),
 });
 
