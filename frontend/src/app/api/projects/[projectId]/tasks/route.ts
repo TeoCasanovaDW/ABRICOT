@@ -8,6 +8,32 @@ interface RouteParams {
   params: Promise<{ projectId: string }>;
 }
 
+// Thin proxy to GET /projects/:id/tasks.
+export async function GET(_request: NextRequest, { params }: RouteParams) {
+  const { projectId } = await params;
+
+  try {
+    const { tasks } = await apiServer<{ tasks: Task[] }>(`/projects/${projectId}/tasks`);
+
+    return NextResponse.json({
+      success: true,
+      message: "Tâches récupérées avec succès",
+      data: { tasks },
+    });
+  } catch (error) {
+    if (!isApiError(error)) throw error;
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: error.message,
+        error: error.code,
+      },
+      { status: error.status }
+    );
+  }
+}
+
 // Thin proxy to POST /projects/:id/tasks.
 export async function POST(request: NextRequest, { params }: RouteParams) {
   const { projectId } = await params;

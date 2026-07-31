@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm, useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -15,7 +16,7 @@ import {
   zodResolver,
   type ProjectFormValues,
 } from "@/lib/validation";
-import type { ProjectDetail, ProjectMember, UserSummary } from "@/types";
+import type { ProjectDetail, ProjectMember, Task, UserSummary } from "@/types";
 import styles from "./EditProjectModal.module.css";
 
 interface EditProjectModalProps {
@@ -31,6 +32,7 @@ function contributorLabel(user: UserSummary): string {
 }
 
 export function EditProjectModal({ project, open, onClose, onSaved, onAnnounce }: EditProjectModalProps) {
+  const router = useRouter();
   const [generalError, setGeneralError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [selected, setSelected] = useState<UserSummary[]>(() => project.members.map((member) => member.user));
@@ -109,8 +111,35 @@ export function EditProjectModal({ project, open, onClose, onSaved, onAnnounce }
         });
       }
 
-      for (const member of removed) {
-        await apiClient(`/projects/${project.id}/contributors/${member.user.id}`, { method: "DELETE" });
+      if (removed.length > 0) {
+        try {
+          const { tasks } = await apiClient<{ tasks: Task[] }>(`/projects/${project.id}/tasks`);
+
+          for (const member of removed) {
+            const affectedTasks = tasks.filter((task) =>
+              task.assignees.some((assignee) => assignee.user.id === member.user.id),
+            );
+
+            for (const task of affectedTasks) {
+              await apiClient<{ task: Task }>(`/projects/${project.id}/tasks/${task.id}`, {
+                method: "PUT",
+                body: JSON.stringify({
+                  assigneeIds: task.assignees
+                    .filter((assignee) => assignee.user.id !== member.user.id)
+                    .map((assignee) => assignee.user.id),
+                }),
+              });
+            }
+
+            await apiClient(`/projects/${project.id}/contributors/${member.user.id}`, { method: "DELETE" });
+          }
+        } catch (error) {
+          // A failed step here leaves some tasks already updated and some
+          // contributors not yet removed — refetch so the UI reflects the
+          // server's actual (partial) state rather than the optimistic form.
+          router.refresh();
+          throw error;
+        }
       }
 
       const nextMembers: ProjectMember[] = selected.map((user) => {
