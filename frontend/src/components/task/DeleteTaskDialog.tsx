@@ -36,6 +36,8 @@ export function DeleteTaskDialog({
   };
 
   const handleConfirm = async () => {
+    if (submitting) return;
+
     setGeneralError("");
     setSubmitting(true);
 
@@ -45,9 +47,17 @@ export function DeleteTaskDialog({
     } catch (error) {
       if (!isApiError(error)) throw error;
 
+      if (error.status === 404) {
+        // Task list was stale (already deleted, e.g. a duplicate submission
+        // or another session) — sync the UI instead of just reporting.
+        onAnnounce("Cette tâche n'existe plus, la liste a été actualisée.");
+        onDeleted();
+        return;
+      }
+
       setGeneralError(error.message);
       onAnnounce(error.message);
-      if (error.status === 403 || error.status === 404) onClose();
+      if (error.status === 403) onClose();
     } finally {
       setSubmitting(false);
     }
@@ -67,7 +77,13 @@ export function DeleteTaskDialog({
       </p>
 
       <div className={styles.actions}>
-        <Button type="button" variant="danger" loading={submitting} onClick={handleConfirm}>
+        <Button
+          type="button"
+          variant="danger"
+          loading={submitting}
+          disabled={submitting}
+          onClick={handleConfirm}
+        >
           Supprimer la tâche
         </Button>
         <Button type="button" variant="secondary" disabled={submitting} onClick={handleClose}>
