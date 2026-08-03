@@ -15,9 +15,10 @@ interface ModalProps {
   title: ReactNode;
   children: ReactNode;
   className?: string;
+  size?: "default" | "wide";
 }
 
-export function Modal({ open, onClose, title, children, className }: ModalProps) {
+export function Modal({ open, onClose, title, children, className, size = "default" }: ModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
@@ -56,7 +57,7 @@ export function Modal({ open, onClose, title, children, className }: ModalProps)
   return (
     <dialog
       ref={dialogRef}
-      className={[styles.modal, className].filter(Boolean).join(" ")}
+      className={[styles.modal, size === "wide" && styles.wide, className].filter(Boolean).join(" ")}
       aria-labelledby={titleId}
       onCancel={(event) => {
         // Escape fires this before the browser closes the dialog on its own —

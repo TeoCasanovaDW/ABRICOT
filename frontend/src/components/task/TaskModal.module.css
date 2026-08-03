@@ -21,31 +21,12 @@
   font-size: var(--font-body-s);
 }
 
-.dateWrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-/* Input renders its own wrapper div around the <input> — this is the only
-   div directly inside .dateWrapper, so grow it instead of the icon (an svg)
-   to make the actual input fill the row. */
-.dateWrapper > div {
-  flex: 1;
-  min-width: 0;
-}
-
 .dateIconButton {
-  position: absolute;
-  top: 50%;
-  right: var(--space-4);
-  transform: translateY(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border: none;
   background: none;
   padding: 0;
@@ -61,22 +42,12 @@
   pointer-events: none;
 }
 
-.dateInput {
-  width: 100%;
-  padding-right: calc(var(--space-4) * 2 + 16px);
-}
-
-/* Native indicator is invisible but resized/repositioned to sit exactly
-   under the icon button's hit area, so clicks there also open the picker
-   in browsers where the button's showPicker() call isn't reached first. */
+/* Input's own `.adornment` reserves the icon's space via `.hasAdornment` —
+   the only thing this field still owns is hiding the browser's native
+   indicator, which Input.module.css has no opinion on, so there's nothing
+   here to collide with it. */
 .dateInput::-webkit-calendar-picker-indicator {
-  position: absolute;
-  right: 0;
-  width: calc(var(--space-4) * 2 + 16px);
-  height: 100%;
-  margin: 0;
-  opacity: 0;
-  cursor: pointer;
+  display: none;
 }
 
 .hint {

@@ -85,21 +85,7 @@
   min-width: 0;
 }
 
-.textarea {
-  min-height: 112px;
-  border-color: transparent;
-  background-color: var(--color-grey-100);
-}
-
-.textarea:focus-visible {
-  border-color: var(--color-border-focus);
-}
-
 .formActions {
   display: flex;
   justify-content: flex-end;
-}
-
-.sendButton {
-  min-width: 140px;
 }

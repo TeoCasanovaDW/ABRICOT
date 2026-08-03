@@ -204,32 +204,32 @@ export function TaskModal({ projectId, owner, members, task, open, onClose, onSu
 
         <label className={styles.field}>
           Échéance *
-          <div className={styles.dateWrapper}>
-            <Input
-              id="task-due-date"
-              type="date"
-              className={styles.dateInput}
-              required
-              aria-required="true"
-              disabled={isSubmitting}
-              error={errors.dueDate?.message}
-              {...dueDateField}
-              ref={(element) => {
-                dueDateField.ref(element);
-                dueDateInputRef.current = element;
-              }}
-            />
-            <button
-              type="button"
-              className={styles.dateIconButton}
-              tabIndex={-1}
-              aria-hidden="true"
-              disabled={isSubmitting}
-              onClick={openDueDatePicker}
-            >
-              <CalendarDays size={16} aria-hidden="true" className={styles.dateIcon} />
-            </button>
-          </div>
+          <Input
+            id="task-due-date"
+            type="date"
+            className={styles.dateInput}
+            required
+            aria-required="true"
+            disabled={isSubmitting}
+            error={errors.dueDate?.message}
+            endAdornment={
+              <button
+                type="button"
+                className={styles.dateIconButton}
+                tabIndex={-1}
+                aria-hidden="true"
+                disabled={isSubmitting}
+                onClick={openDueDatePicker}
+              >
+                <CalendarDays size={16} aria-hidden="true" className={styles.dateIcon} />
+              </button>
+            }
+            {...dueDateField}
+            ref={(element) => {
+              dueDateField.ref(element);
+              dueDateInputRef.current = element;
+            }}
+          />
         </label>
 
         <AssigneeSelect

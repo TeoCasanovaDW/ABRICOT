@@ -112,7 +112,7 @@ export function TaskComments({ projectId, taskId, comments, onCommentAdded, onAn
           <Textarea
             aria-label="Ajouter un commentaire"
             placeholder="Ajouter un commentaire..."
-            className={styles.textarea}
+            variant="flat"
             value={content}
             disabled={posting}
             error={fieldError}
@@ -121,8 +121,8 @@ export function TaskComments({ projectId, taskId, comments, onCommentAdded, onAn
           <div className={styles.formActions}>
             <Button
               type="submit"
-              variant="secondary"
-              className={styles.sendButton}
+              variant="primary"
+              size="wide"
               loading={posting}
               disabled={posting || content.trim().length === 0}
             >

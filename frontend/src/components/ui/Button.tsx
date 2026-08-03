@@ -6,14 +6,15 @@ type ButtonVariant = "primary" | "brand" | "secondary" | "ghost" | "danger";
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   loading?: boolean;
+  size?: "default" | "wide";
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ variant = "primary", loading = false, disabled, className, children, ...props }, ref) => {
+  ({ variant = "primary", loading = false, size = "default", disabled, className, children, ...props }, ref) => {
     return (
       <button
         ref={ref}
-        className={[styles.button, styles[variant], loading && styles.loading, className]
+        className={[styles.button, styles[variant], size === "wide" && styles.actionWide, loading && styles.loading, className]
           .filter(Boolean)
           .join(" ")}
         disabled={disabled}

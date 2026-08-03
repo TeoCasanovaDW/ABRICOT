@@ -92,43 +92,45 @@ function KanbanCard({ task }: { task: DatedTask }) {
   const accessibleName = `Ouvrir la tâche « ${task.title} » du projet « ${task.project.name} »`;
 
   return (
-    <Card className={styles.card}>
-      <div className={styles.cardHeader}>
-        <h4 className={styles.title}>{task.title}</h4>
-        <Badge status={task.status} />
+    <Card padding="none">
+      <div className={styles.card}>
+        <div className={styles.cardHeader}>
+          <h4 className={styles.title}>{task.title}</h4>
+          <Badge status={task.status} />
+        </div>
+
+        <div className={styles.priorityRow}>
+          <span className={styles.priorityLabel}>Priorité :</span>
+          <PriorityBadge priority={task.priority} />
+        </div>
+
+        {task.description && <p className={styles.description}>{task.description}</p>}
+
+        <div className={styles.metaRow}>
+          <span className={styles.metaItem}>
+            <Folder size={14} aria-hidden="true" fill="currentColor" />
+            {task.project.name}
+          </span>
+          <span className={styles.metaSeparator} aria-hidden="true" />
+          <span className={styles.metaItem}>
+            <CalendarDays size={14} aria-hidden="true" />
+            {formatDueDate(task.dueDate)}
+          </span>
+          <span className={styles.metaSeparator} aria-hidden="true" />
+          <span className={styles.metaItem}>
+            <MessageSquareText size={14} aria-hidden="true" fill="none" stroke="currentColor" />
+            {task.comments.length}
+          </span>
+        </div>
+
+        <Link
+          href={`/projects/${task.project.id}`}
+          className={`${buttonStyles.button} ${buttonStyles.primary} ${buttonStyles.wide}`}
+          aria-label={accessibleName}
+        >
+          Voir
+        </Link>
       </div>
-
-      <div className={styles.priorityRow}>
-        <span className={styles.priorityLabel}>Priorité :</span>
-        <PriorityBadge priority={task.priority} />
-      </div>
-
-      {task.description && <p className={styles.description}>{task.description}</p>}
-
-      <div className={styles.metaRow}>
-        <span className={styles.metaItem}>
-          <Folder size={14} aria-hidden="true" fill="currentColor" />
-          {task.project.name}
-        </span>
-        <span className={styles.metaSeparator} aria-hidden="true" />
-        <span className={styles.metaItem}>
-          <CalendarDays size={14} aria-hidden="true" />
-          {formatDueDate(task.dueDate)}
-        </span>
-        <span className={styles.metaSeparator} aria-hidden="true" />
-        <span className={styles.metaItem}>
-          <MessageSquareText size={14} aria-hidden="true" fill="none" stroke="currentColor" />
-          {task.comments.length}
-        </span>
-      </div>
-
-      <Link
-        href={`/projects/${task.project.id}`}
-        className={`${buttonStyles.button} ${buttonStyles.primary} ${buttonStyles.wide}`}
-        aria-label={accessibleName}
-      >
-        Voir
-      </Link>
     </Card>
   );
 }

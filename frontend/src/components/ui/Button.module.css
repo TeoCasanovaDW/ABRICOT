@@ -82,6 +82,14 @@
   min-width: 136px;
 }
 
+/* Declared in the same module as `.button` so source order always resolves
+   this in our favor, regardless of how other stylesheets are chunked/ordered
+   across client-side navigations. Opted into via `size="wide"` instead of a
+   page-local min-width override. */
+.actionWide {
+  min-width: 140px;
+}
+
 .spinner {
   width: 16px;
   height: 16px;

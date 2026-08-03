@@ -1,7 +1,3 @@
-.modal {
-  width: min(calc(100% - var(--space-4) * 2), 720px);
-}
-
 .titleRow {
   display: inline-flex;
   align-items: center;

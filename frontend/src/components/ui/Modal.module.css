@@ -12,6 +12,14 @@
   padding: var(--space-6);
 }
 
+/* Declared after `.modal` in the same module so source order always resolves
+   this in our favor, regardless of how other stylesheets are chunked/ordered
+   across client-side navigations (see Card's `.noPadding`). The mobile media
+   query below still comes after this and wins on small screens. */
+.wide {
+  width: min(calc(100% - var(--space-4) * 2), 720px);
+}
+
 .modal::backdrop {
   background-color: rgb(15 15 15 / 50%);
 }

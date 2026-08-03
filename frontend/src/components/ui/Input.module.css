@@ -4,6 +4,13 @@
   gap: var(--space-1);
 }
 
+.field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
 .input {
   min-height: 50px;
   width: 100%;
@@ -24,6 +31,24 @@
   outline: 2px solid var(--color-border-focus);
   outline-offset: 1px;
   border-color: var(--color-border-focus);
+}
+
+/* Declared in the same module as `.input` so source order always resolves
+   this in our favor, regardless of how other stylesheets are chunked/ordered
+   across client-side navigations — reserves room for `.adornment` without
+   any page-level padding-right override on `.input` itself. */
+.hasAdornment {
+  padding-right: calc(var(--space-4) * 2 + 16px);
+}
+
+.adornment {
+  position: absolute;
+  right: var(--space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .invalid {
