@@ -56,8 +56,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     <div className={styles.wrapper}>
       <ProjectOverview project={project} />
 
-      <Card className={styles.taskPanel}>
-        <TaskFilters projectId={projectId} owner={project.owner} members={project.members} tasks={tasks} />
+      <Card padding="none">
+        <div className={styles.taskPanel}>
+          <TaskFilters projectId={projectId} owner={project.owner} members={project.members} tasks={tasks} />
+        </div>
       </Card>
     </div>
   );

@@ -4,3 +4,10 @@
   border-radius: var(--radius-card);
   padding: var(--space-5);
 }
+
+/* Declared after `.card` in the same module so source order always resolves
+   this in our favor, regardless of how other stylesheets are chunked/ordered
+   across client-side navigations. */
+.noPadding {
+  padding: 0;
+}

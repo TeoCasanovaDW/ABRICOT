@@ -144,115 +144,117 @@ export function ProfileForm() {
 
   return (
     <div className={styles.wrapper}>
-      <Card className={styles.card}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>Mon compte</h1>
-          <p className={styles.subtitle}>{baseline.name || baseline.email}</p>
-        </div>
+      <Card padding="none">
+        <div className={styles.card}>
+          <div className={styles.header}>
+            <h1 className={styles.title}>Mon compte</h1>
+            <p className={styles.subtitle}>{baseline.name || baseline.email}</p>
+          </div>
 
-        {generalError && (
-          <p role="alert" className={styles.generalError}>
-            {generalError}
-          </p>
-        )}
-        {confirmation && (
-          <p role="status" className={styles.confirmation}>
-            {confirmation}
-          </p>
-        )}
-
-        <form className={styles.form} noValidate>
-          <label className={styles.field}>
-            Nom
-            <Input
-              id="name"
-              autoComplete="name"
-              disabled={!isEditing || isSubmitting}
-              error={errors.name?.message}
-              {...register("name")}
-            />
-          </label>
-
-          <label className={styles.field}>
-            E-mail
-            <Input
-              id="email"
-              type="email"
-              autoComplete="email"
-              disabled={!isEditing || isSubmitting}
-              error={errors.email?.message}
-              {...register("email")}
-            />
-          </label>
-
-          {isEditing ? (
-            <>
-              <label className={styles.checkboxField}>
-                <input
-                  type="checkbox"
-                  id="changePassword"
-                  disabled={isSubmitting}
-                  {...register("changePassword")}
-                />
-                Modifier mon mot de passe
-              </label>
-
-              {changePassword && (
-                <>
-                  <label className={styles.field}>
-                    Mot de passe actuel
-                    <Input
-                      id="currentPassword"
-                      type="password"
-                      autoComplete="current-password"
-                      required
-                      aria-required="true"
-                      disabled={isSubmitting}
-                      error={errors.currentPassword?.message}
-                      {...register("currentPassword")}
-                    />
-                  </label>
-
-                  <label className={styles.field}>
-                    Nouveau mot de passe
-                    <Input
-                      id="newPassword"
-                      type="password"
-                      autoComplete="new-password"
-                      required
-                      aria-required="true"
-                      disabled={isSubmitting}
-                      error={errors.newPassword?.message}
-                      {...register("newPassword")}
-                    />
-                  </label>
-                </>
-              )}
-            </>
-          ) : (
-            <label className={styles.field}>
-              Mot de passe
-              <Input id="password-display" type="password" value={MASKED_PASSWORD} disabled readOnly />
-            </label>
+          {generalError && (
+            <p role="alert" className={styles.generalError}>
+              {generalError}
+            </p>
+          )}
+          {confirmation && (
+            <p role="status" className={styles.confirmation}>
+              {confirmation}
+            </p>
           )}
 
-          <div className={styles.actions}>
+          <form className={styles.form} noValidate>
+            <label className={styles.field}>
+              Nom
+              <Input
+                id="name"
+                autoComplete="name"
+                disabled={!isEditing || isSubmitting}
+                error={errors.name?.message}
+                {...register("name")}
+              />
+            </label>
+
+            <label className={styles.field}>
+              E-mail
+              <Input
+                id="email"
+                type="email"
+                autoComplete="email"
+                disabled={!isEditing || isSubmitting}
+                error={errors.email?.message}
+                {...register("email")}
+              />
+            </label>
+
             {isEditing ? (
               <>
-                <Button type="button" variant="primary" loading={isSubmitting} disabled={isSubmitting} onClick={onSubmit}>
-                  Enregistrer les modifications
-                </Button>
-                <Button type="button" variant="secondary" disabled={isSubmitting} onClick={cancelEditing}>
-                  Annuler
-                </Button>
+                <label className={styles.checkboxField}>
+                  <input
+                    type="checkbox"
+                    id="changePassword"
+                    disabled={isSubmitting}
+                    {...register("changePassword")}
+                  />
+                  Modifier mon mot de passe
+                </label>
+
+                {changePassword && (
+                  <>
+                    <label className={styles.field}>
+                      Mot de passe actuel
+                      <Input
+                        id="currentPassword"
+                        type="password"
+                        autoComplete="current-password"
+                        required
+                        aria-required="true"
+                        disabled={isSubmitting}
+                        error={errors.currentPassword?.message}
+                        {...register("currentPassword")}
+                      />
+                    </label>
+
+                    <label className={styles.field}>
+                      Nouveau mot de passe
+                      <Input
+                        id="newPassword"
+                        type="password"
+                        autoComplete="new-password"
+                        required
+                        aria-required="true"
+                        disabled={isSubmitting}
+                        error={errors.newPassword?.message}
+                        {...register("newPassword")}
+                      />
+                    </label>
+                  </>
+                )}
               </>
             ) : (
-              <Button type="button" variant="primary" onClick={startEditing}>
-                Modifier les informations
-              </Button>
+              <label className={styles.field}>
+                Mot de passe
+                <Input id="password-display" type="password" value={MASKED_PASSWORD} disabled readOnly />
+              </label>
             )}
-          </div>
-        </form>
+
+            <div className={styles.actions}>
+              {isEditing ? (
+                <>
+                  <Button type="button" variant="primary" loading={isSubmitting} disabled={isSubmitting} onClick={onSubmit}>
+                    Enregistrer les modifications
+                  </Button>
+                  <Button type="button" variant="secondary" disabled={isSubmitting} onClick={cancelEditing}>
+                    Annuler
+                  </Button>
+                </>
+              ) : (
+                <Button type="button" variant="primary" onClick={startEditing}>
+                  Modifier les informations
+                </Button>
+              )}
+            </div>
+          </form>
+        </div>
       </Card>
     </div>
   );
