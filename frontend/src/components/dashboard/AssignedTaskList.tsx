@@ -59,56 +59,55 @@ function AssignedTaskRow({ task }: { task: AssignedTask }) {
   return (
     <Card padding="none">
       <div className={styles.card}>
-        <div className={styles.left}>
-          <h3 className={styles.title}>{task.title}</h3>
+        <h3 className={styles.title}>{task.title}</h3>
 
-          <div className={styles.priorityRow}>
-            <span className={styles.priorityLabel}>Priorité :</span>
-            <PriorityBadge priority={task.priority} />
-          </div>
+        <Badge status={task.status} className={styles.statusBadge} />
 
-          {task.description && <p className={styles.description}>{task.description}</p>}
+        <div className={styles.priorityRow}>
+          <span className={styles.priorityLabel}>Priorité :</span>
+          <PriorityBadge priority={task.priority} />
+        </div>
 
-          <div className={styles.metaRow}>
-            <span className={styles.metaItem}>
-              <Folder size={16} aria-hidden="true" fill="currentColor" />
-              {task.project.name}
-            </span>
+        {task.description && <p className={styles.description}>{task.description}</p>}
 
-            {task.dueDate && (
-              <>
-                <span className={styles.metaSeparator} aria-hidden="true" />
-                <span className={styles.metaItem}>
-                  <CalendarDays size={16} aria-hidden="true" />
-                  {formatDueDate(task.dueDate)}
-                </span>
-              </>
-            )}
+        <div className={styles.metaRow}>
+          <span className={styles.metaItem}>
+            <Folder size={16} aria-hidden="true" fill="currentColor" />
+            {task.project.name}
+          </span>
 
-            <span className={styles.metaSeparator} aria-hidden="true" />
-            <span className={styles.metaItem}>
-              <MessageSquareText size={16} aria-hidden="true" fill="none" stroke="currentColor" />
-              {task.comments.length}
-            </span>
-
-            {overdue && (
-              <span className={`${styles.metaItem} ${styles.overdue}`}>
-                <AlertTriangle size={16} aria-hidden="true" />
-                En retard
+          {task.dueDate && (
+            <>
+              <span className={styles.metaSeparator} aria-hidden="true" />
+              <span className={styles.metaItem}>
+                <CalendarDays size={16} aria-hidden="true" />
+                {formatDueDate(task.dueDate)}
               </span>
-            )}
+            </>
+          )}
 
-            {dueSoon && (
-              <span className={`${styles.metaItem} ${styles.dueSoon}`}>
-                <Clock size={16} aria-hidden="true" />
-                Échéance proche
-              </span>
-            )}
-          </div>
+          <span className={styles.metaSeparator} aria-hidden="true" />
+          <span className={styles.metaItem}>
+            <MessageSquareText size={16} aria-hidden="true" fill="none" stroke="currentColor" />
+            {task.comments.length}
+          </span>
+
+          {overdue && (
+            <span className={`${styles.metaItem} ${styles.overdue}`}>
+              <AlertTriangle size={16} aria-hidden="true" />
+              En retard
+            </span>
+          )}
+
+          {dueSoon && (
+            <span className={`${styles.metaItem} ${styles.dueSoon}`}>
+              <Clock size={16} aria-hidden="true" />
+              Échéance proche
+            </span>
+          )}
         </div>
 
         <div className={styles.right}>
-          <Badge status={task.status} />
           <Link
             href={`/projects/${task.project.id}`}
             className={`${buttonStyles.button} ${buttonStyles.primary} ${buttonStyles.wide}`}

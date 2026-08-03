@@ -73,6 +73,30 @@
   border-radius: var(--radius-control);
 }
 
+@media (max-width: 425px) {
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    min-width: 0;
+    gap: var(--space-3);
+  }
+
+  .statusField,
+  .searchField {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .statusSelect.statusSelect,
+  .searchInput.searchInput {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+}
+
 .list {
   display: flex;
   flex-direction: column;

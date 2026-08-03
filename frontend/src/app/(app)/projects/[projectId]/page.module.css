@@ -10,3 +10,9 @@
   gap: var(--space-6);
   padding: var(--space-7);
 }
+
+@media (max-width: 768px) {
+  .taskPanel {
+    padding: var(--space-4);
+  }
+}

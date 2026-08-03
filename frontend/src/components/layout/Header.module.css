@@ -149,3 +149,18 @@
     padding: var(--space-2);
   }
 }
+
+@media (max-width: 425px) {
+  .logoLink {
+    display: none;
+  }
+
+  .headerInner {
+    grid-template-columns: 1fr auto;
+    gap: var(--space-2);
+  }
+
+  .nav {
+    justify-self: start;
+  }
+}

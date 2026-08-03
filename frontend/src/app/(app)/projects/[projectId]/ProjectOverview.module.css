@@ -45,6 +45,43 @@
   }
 }
 
+@media (max-width: 768px) {
+  .headerRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .headerLeft {
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 100%;
+    gap: var(--space-3);
+  }
+
+  .headerActions {
+    margin-left: 0;
+  }
+
+  .headerMain {
+    gap: var(--space-3);
+  }
+
+  .titleRow {
+    flex-wrap: wrap;
+  }
+
+  .name {
+    flex-basis: 100%;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .description {
+    overflow-wrap: anywhere;
+  }
+}
+
 .backLink {
   display: inline-flex;
   align-items: center;

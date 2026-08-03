@@ -4,6 +4,12 @@
   padding: var(--space-7);
 }
 
+@media (max-width: 768px) {
+  .panel {
+    padding: var(--space-4);
+  }
+}
+
 .headingBlock {
   display: flex;
   flex-direction: column;
@@ -27,29 +33,99 @@
 }
 
 .card {
-  display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-  gap: var(--space-5);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: repeat(4, auto);
+  column-gap: var(--space-5);
+  row-gap: var(--space-3);
   padding: var(--space-6) var(--space-5);
+  min-width: 0;
 }
 
-.left {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  min-width: 0;
-  flex: 1;
+.card > .title {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.card > .priorityRow {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.card > .description {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.card > .metaRow {
+  grid-column: 1;
+  grid-row: 4;
+}
+
+.card > .statusBadge {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  align-self: start;
+  justify-self: end;
+}
+
+.card > .right {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  align-self: end;
+  justify-self: end;
+}
+
+@media (max-width: 768px) {
+  .card {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, auto);
+    row-gap: var(--space-3);
+    padding: var(--space-4) var(--space-3);
+  }
+
+  .card > .title {
+    grid-row: 1;
+  }
+
+  .card > .statusBadge {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: flex-start;
+    justify-self: start;
+  }
+
+  .card > .priorityRow {
+    grid-row: 3;
+  }
+
+  .card > .description {
+    grid-row: 4;
+  }
+
+  .card > .metaRow {
+    grid-row: 5;
+  }
+
+  .card > .right {
+    grid-column: 1;
+    grid-row: 6;
+    width: fit-content;
+    align-self: flex-start;
+    justify-self: start;
+  }
 }
 
 .title {
   font-size: var(--font-h4);
   line-height: var(--line-height-h4);
+  min-width: 0;
 }
 
 .description {
   color: var(--color-text-secondary);
   font-size: var(--font-body-s);
+  min-width: 0;
   display: -webkit-box;
   line-clamp: 2;
   -webkit-line-clamp: 2;
@@ -105,9 +181,6 @@
 
 .right {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: space-between;
-  flex-shrink: 0;
-  gap: var(--space-4);
+  justify-content: flex-end;
+  min-width: 0;
 }
