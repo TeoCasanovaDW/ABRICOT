@@ -14,20 +14,25 @@
 
 .searchField {
   position: relative;
-  width: 240px;
+  width: 360px;
 }
 
 .searchIcon {
   position: absolute;
   top: 50%;
-  left: var(--space-3);
+  right: var(--space-4);
   transform: translateY(-50%);
   color: var(--color-text-muted);
   pointer-events: none;
 }
 
 .searchInput.searchInput {
-  padding-left: 40px;
+  min-height: 56px;
+  padding-block: var(--space-3);
+  padding-left: var(--space-5);
+  padding-right: 48px;
+  font-size: 14px;
+  border-radius: var(--radius-control);
 }
 
 .emptyState {

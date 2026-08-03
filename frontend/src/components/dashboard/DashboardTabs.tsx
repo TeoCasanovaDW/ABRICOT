@@ -1,15 +1,15 @@
 "use client";
 
 import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
-import { Calendar, ListChecks } from "lucide-react";
+import { CalendarDays, CheckSquare } from "lucide-react";
 import { LiveRegion } from "@/components/ui/LiveRegion";
 import styles from "./DashboardTabs.module.css";
 
 export type DashboardTabId = "assigned" | "kanban";
 
-const TABS: { id: DashboardTabId; label: string; icon: typeof ListChecks }[] = [
-  { id: "assigned", label: "Liste", icon: ListChecks },
-  { id: "kanban", label: "Kanban", icon: Calendar },
+const TABS: { id: DashboardTabId; label: string; icon: typeof CheckSquare }[] = [
+  { id: "assigned", label: "Liste", icon: CheckSquare },
+  { id: "kanban", label: "Kanban", icon: CalendarDays },
 ];
 
 interface DashboardTabsProps {

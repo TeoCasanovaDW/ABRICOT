@@ -9,15 +9,15 @@
   --font-weight-emphasis: 600;
 
   /* Type scale — headings (Manrope) */
-  --font-h1: 40px;
+  --font-h1: 26px;
   --line-height-h1: 1.2;
-  --font-h2: 32px;
+  --font-h2: 24px;
   --line-height-h2: 1.25;
-  --font-h3: 28px;
+  --font-h3: 20px;
   --line-height-h3: 1.3;
-  --font-h4: 24px;
+  --font-h4: 18px;
   --line-height-h4: 1.35;
-  --font-h5: 18px;
+  --font-h5: 16px;
   --line-height-h5: 1.4;
 
   /* Type scale — body (Inter) */
@@ -90,6 +90,7 @@
 
   /* Radius tokens */
   --radius-field: 4px;
+  --radius-control: 8px;
   --radius-button: 10px;
   --radius-card: 10px;
   --radius-modal: 10px;

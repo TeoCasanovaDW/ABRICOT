@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { LayoutDashboard, FolderKanban, LogOut, User as UserIcon } from "lucide-react";
+import { LayoutDashboard, FolderOpen, LogOut, User as UserIcon } from "lucide-react";
 import { apiClient } from "@/lib/api/client";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { Avatar } from "@/components/ui/Avatar";
@@ -13,7 +13,7 @@ import styles from "./Header.module.css";
 
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Tableau de bord", icon: LayoutDashboard },
-  { href: "/projects", label: "Projets", icon: FolderKanban },
+  { href: "/projects", label: "Projets", icon: FolderOpen },
 ] as const;
 
 function isActive(pathname: string, href: string): boolean {
@@ -70,7 +70,7 @@ export function Header() {
   return (
     <div className={`container ${styles.headerInner}`}>
       <Link href="/dashboard" className={styles.logoLink} aria-label="Abricot, aller au tableau de bord">
-        <Logo />
+        <Logo height={20} className={styles.logo} />
       </Link>
 
       <nav aria-label="Primary" className={styles.nav}>
@@ -84,7 +84,7 @@ export function Header() {
               aria-current={active ? "page" : undefined}
               className={[styles.navLink, active && styles.navLinkActive].filter(Boolean).join(" ")}
             >
-              <Icon size={20} aria-hidden="true" />
+              <Icon size={20} fill="currentColor" aria-hidden="true" />
               <span className={styles.navLabel}>{label}</span>
             </Link>
           );
@@ -101,7 +101,11 @@ export function Header() {
           aria-label={`Menu du compte de ${accountLabel}`}
           onClick={() => setMenuOpen((open) => !open)}
         >
-          <Avatar name={accountLabel} size={36} />
+          <Avatar
+            name={accountLabel}
+            size={54}
+            className={pathname === "/profile" ? styles.accountAvatarProfile : undefined}
+          />
         </button>
 
         {menuOpen && (

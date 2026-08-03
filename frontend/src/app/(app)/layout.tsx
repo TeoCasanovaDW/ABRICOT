@@ -42,8 +42,8 @@ export default async function AppLayout({
         {children}
       </main>
       <footer className={styles.footer}>
-        <div className={`container ${styles.footerInner}`}>
-          <Logo variant="black" height={20} />
+        <div className={styles.footerInner}>
+          <Logo variant="black" height={14} className={styles.footerLogo} />
           <span>© {new Date().getFullYear()} Abricot</span>
         </div>
       </footer>

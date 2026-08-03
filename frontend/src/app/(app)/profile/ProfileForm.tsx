@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
@@ -32,12 +32,15 @@ export function ProfileForm() {
     register,
     handleSubmit,
     reset,
+    control,
     setError,
     formState: { errors, isSubmitting, dirtyFields },
   } = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
-    defaultValues: { ...baseline, currentPassword: "", newPassword: "" },
+    defaultValues: { ...baseline, changePassword: false, currentPassword: "", newPassword: "" },
   });
+
+  const changePassword = useWatch({ control, name: "changePassword" });
 
   const startEditing = () => {
     setGeneralError("");
@@ -46,7 +49,7 @@ export function ProfileForm() {
   };
 
   const cancelEditing = () => {
-    reset({ ...baseline, currentPassword: "", newPassword: "" });
+    reset({ ...baseline, changePassword: false, currentPassword: "", newPassword: "" });
     setGeneralError("");
     setIsEditing(false);
   };
@@ -64,7 +67,7 @@ export function ProfileForm() {
     if (dirtyFields.email) profilePayload.email = values.email;
 
     const hasProfileChanges = Object.keys(profilePayload).length > 0;
-    const wantsPasswordChange = Boolean(values.currentPassword && values.newPassword);
+    const wantsPasswordChange = values.changePassword;
 
     if (!hasProfileChanges && !wantsPasswordChange) {
       setIsEditing(false);
@@ -84,7 +87,12 @@ export function ProfileForm() {
         // Marks name/email clean against the new baseline so a password-only
         // retry below never resends this already-applied profile update.
         reset(
-          { ...nextBaseline, currentPassword: values.currentPassword, newPassword: values.newPassword },
+          {
+            ...nextBaseline,
+            changePassword: values.changePassword,
+            currentPassword: values.currentPassword,
+            newPassword: values.newPassword,
+          },
           { keepErrors: true }
         );
       } catch (error) {
@@ -130,7 +138,7 @@ export function ProfileForm() {
 
     setConfirmation("Profil mis à jour.");
     setIsEditing(false);
-    reset({ ...nextBaseline, currentPassword: "", newPassword: "" });
+    reset({ ...nextBaseline, changePassword: false, currentPassword: "", newPassword: "" });
     router.refresh();
   });
 
@@ -179,29 +187,47 @@ export function ProfileForm() {
 
           {isEditing ? (
             <>
-              <label className={styles.field}>
-                Mot de passe actuel
-                <Input
-                  id="currentPassword"
-                  type="password"
-                  autoComplete="current-password"
+              <label className={styles.checkboxField}>
+                <input
+                  type="checkbox"
+                  id="changePassword"
                   disabled={isSubmitting}
-                  error={errors.currentPassword?.message}
-                  {...register("currentPassword")}
+                  {...register("changePassword")}
                 />
+                Modifier mon mot de passe
               </label>
 
-              <label className={styles.field}>
-                Nouveau mot de passe
-                <Input
-                  id="newPassword"
-                  type="password"
-                  autoComplete="new-password"
-                  disabled={isSubmitting}
-                  error={errors.newPassword?.message}
-                  {...register("newPassword")}
-                />
-              </label>
+              {changePassword && (
+                <>
+                  <label className={styles.field}>
+                    Mot de passe actuel
+                    <Input
+                      id="currentPassword"
+                      type="password"
+                      autoComplete="current-password"
+                      required
+                      aria-required="true"
+                      disabled={isSubmitting}
+                      error={errors.currentPassword?.message}
+                      {...register("currentPassword")}
+                    />
+                  </label>
+
+                  <label className={styles.field}>
+                    Nouveau mot de passe
+                    <Input
+                      id="newPassword"
+                      type="password"
+                      autoComplete="new-password"
+                      required
+                      aria-required="true"
+                      disabled={isSubmitting}
+                      error={errors.newPassword?.message}
+                      {...register("newPassword")}
+                    />
+                  </label>
+                </>
+              )}
             </>
           ) : (
             <label className={styles.field}>

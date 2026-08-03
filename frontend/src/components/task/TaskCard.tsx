@@ -72,7 +72,7 @@ export function TaskCard({ task, onEdit, onDelete, onAnnounce }: TaskCardProps) 
             aria-label={`Actions pour la tâche ${task.title}`}
             onClick={() => setMenuOpen((current) => !current)}
           >
-            <MoreHorizontal size={18} aria-hidden="true" />
+            <MoreHorizontal size={22} aria-hidden="true" />
           </button>
 
           {menuOpen && (
@@ -104,12 +104,12 @@ export function TaskCard({ task, onEdit, onDelete, onAnnounce }: TaskCardProps) 
         </div>
       </div>
 
+      {task.description && <p className={styles.description}>{task.description}</p>}
+
       <div className={styles.metaRow}>
         <span className={styles.metaLabel}>Priorité :</span>
         <PriorityBadge priority={task.priority} />
       </div>
-
-      {task.description && <p className={styles.description}>{task.description}</p>}
 
       {task.dueDate && (
         <div className={styles.metaRow}>
@@ -145,7 +145,7 @@ export function TaskCard({ task, onEdit, onDelete, onAnnounce }: TaskCardProps) 
         >
           <span className={styles.commentsLabel}>Commentaires ({comments.length})</span>
           <ChevronDown
-            size={16}
+            size={20}
             aria-hidden="true"
             className={[styles.commentsChevron, commentsOpen && styles.commentsChevronOpen]
               .filter(Boolean)

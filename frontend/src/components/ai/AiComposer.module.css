@@ -44,8 +44,8 @@
 .inputRow {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  border-radius: var(--radius-modal);
+  gap: var(--space-2);
+  border-radius: var(--radius-pill);
   background-color: var(--color-surface-muted);
   padding: var(--space-2);
 }
@@ -53,22 +53,23 @@
 .textarea {
   flex: 1;
   min-width: 0;
-  min-height: 44px;
-  max-height: 120px;
+  min-height: 52px;
+  max-height: 250px;
   overflow-y: auto;
   border: none;
   margin: 0;
   background: transparent;
-  padding: var(--space-3);
+  padding: var(--space-4);
   font-family: var(--font-family-body);
-  font-size: var(--font-body-m);
+  font-size: var(--font-body-s);
   line-height: 1.4;
   color: var(--color-text-primary);
   resize: none;
+  border-radius: var(--radius-pill);
 }
 
 .textarea::placeholder {
-  color: var(--color-grey-400);
+  color: var(--color-grey-950);
 }
 
 .textarea:focus-visible {

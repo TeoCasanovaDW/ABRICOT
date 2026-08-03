@@ -22,7 +22,7 @@
   background-color: var(--color-surface);
   padding-inline: var(--space-4);
   font-family: var(--font-family-body);
-  font-size: var(--font-body-m);
+  font-size: var(--font-body-s);
   font-weight: var(--font-weight-body);
   color: var(--color-text-primary);
   cursor: pointer;

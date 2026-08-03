@@ -1,6 +1,7 @@
 .board {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-width: 0;
   gap: var(--space-5);
 }
 
@@ -30,6 +31,13 @@
   }
 }
 
+@media (min-width: 1024px) {
+  .column {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
 .columnHeader {
   display: flex;
   align-items: center;
@@ -37,8 +45,8 @@
 }
 
 .columnTitle {
-  font-size: var(--font-h5);
-  line-height: var(--line-height-h5);
+  font-size: var(--font-h4);
+  line-height: var(--line-height-h4);
 }
 
 .countPill {
@@ -75,6 +83,8 @@
   align-items: flex-start;
   gap: var(--space-3);
   padding: var(--space-5);
+  min-width: 0;
+  max-width: 100%;
 }
 
 .cardHeader {
@@ -108,9 +118,12 @@
   color: var(--color-text-secondary);
   font-size: var(--font-body-s);
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  overflow-wrap: anywhere;
+  width: 400px;
 }
 
 .metaRow {

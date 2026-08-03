@@ -170,7 +170,6 @@ export function TaskModal({ projectId, owner, members, task, open, onClose, onSu
       open={open}
       onClose={handleClose}
       title={isEditMode ? "Modifier la tâche" : "Créer une tâche"}
-      className={styles.modal}
     >
       {generalError && (
         <p role="alert" className={styles.generalError}>

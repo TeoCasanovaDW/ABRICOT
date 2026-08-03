@@ -2,7 +2,7 @@
 
 import { useMemo, useSyncExternalStore } from "react";
 import Link from "next/link";
-import { CalendarDays, Folder, MessageSquare } from "lucide-react";
+import { CalendarDays, Folder, MessageSquareText } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { PriorityBadge } from "@/components/ui/PriorityBadge";
@@ -117,7 +117,7 @@ function KanbanCard({ task }: { task: DatedTask }) {
         </span>
         <span className={styles.metaSeparator} aria-hidden="true" />
         <span className={styles.metaItem}>
-          <MessageSquare size={14} aria-hidden="true" fill="currentColor" />
+          <MessageSquareText size={14} aria-hidden="true" fill="none" stroke="currentColor" />
           {task.comments.length}
         </span>
       </div>

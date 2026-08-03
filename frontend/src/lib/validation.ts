@@ -76,8 +76,10 @@ export const loginSchema = z.object({
 export type LoginFormValues = z.infer<typeof loginSchema>;
 
 // Same name/email rules as registration, applied to profile edits. Password
-// fields are optional here — the profile form only sends a password change
-// when the user fills both, so the pair is validated together below.
+// fields are optional here — validated only when `changePassword` is
+// explicitly on, never inferred from whether the fields happen to hold a
+// value (a password manager can autofill `currentPassword` even when the
+// user never intended to change it).
 export const profileSchema = z
   .object({
     name: z.string().trim().min(2, "Le nom doit contenir au moins 2 caractères."),
@@ -86,14 +88,15 @@ export const profileSchema = z
       .trim()
       .min(1, "L'adresse e-mail est requise.")
       .email("Adresse e-mail invalide."),
+    changePassword: z.boolean(),
     currentPassword: z.string().optional(),
     newPassword: z.string().optional(),
   })
   .superRefine((data, ctx) => {
+    if (!data.changePassword) return;
+
     const current = data.currentPassword ?? "";
     const next = data.newPassword ?? "";
-
-    if (!current && !next) return;
 
     if (!current) {
       ctx.addIssue({

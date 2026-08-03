@@ -113,12 +113,12 @@ export function DraftCard({ draft, owner, members, onRemove, onUpdate, disabled 
             onClick={() => onRemove(draft.draftId)}
             disabled={disabled}
           >
-            <Trash2 size={16} aria-hidden="true" />
+            <Trash2 size={16} aria-hidden="true" fill="currentColor" />
             Supprimer
           </button>
           <span className={styles.actionSeparator} aria-hidden="true" />
           <button type="button" className={styles.action} onClick={startEditing} disabled={disabled}>
-            <Pencil size={16} aria-hidden="true" />
+            <Pencil size={16} aria-hidden="true" fill="currentColor" />
             Modifier
           </button>
         </div>

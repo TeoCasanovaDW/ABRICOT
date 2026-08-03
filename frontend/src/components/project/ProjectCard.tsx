@@ -39,7 +39,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
         <div className={styles.team}>
           <div className={styles.teamHeader}>
-            <Users size={16} aria-hidden="true" />
+            <Users size={16} aria-hidden="true" fill="currentColor" />
             <p className={styles.teamLabel}>{teamLabel}</p>
           </div>
           <div className={styles.avatars}>

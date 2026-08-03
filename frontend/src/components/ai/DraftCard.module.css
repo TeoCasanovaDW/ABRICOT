@@ -6,8 +6,8 @@
 }
 
 .title {
-  font-size: var(--font-h5);
-  line-height: var(--line-height-h5);
+  font-size: var(--font-h4);
+  line-height: var(--line-height-h4);
 }
 
 .description {
@@ -61,4 +61,8 @@
   gap: var(--space-2);
   font-size: var(--font-body-s);
   font-weight: var(--font-weight-label);
+}
+
+.field :is(input, textarea, select) {
+  font-size: var(--font-body-s);
 }

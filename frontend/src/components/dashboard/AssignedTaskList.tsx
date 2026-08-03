@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import Link from "next/link";
-import { AlertTriangle, CalendarDays, Clock, Folder, MessageSquare } from "lucide-react";
+import { AlertTriangle, CalendarDays, Clock, Folder, MessageSquareText } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { PriorityBadge } from "@/components/ui/PriorityBadge";
@@ -84,7 +84,7 @@ function AssignedTaskRow({ task }: { task: AssignedTask }) {
 
           <span className={styles.metaSeparator} aria-hidden="true" />
           <span className={styles.metaItem}>
-            <MessageSquare size={16} aria-hidden="true" fill="currentColor" />
+            <MessageSquareText size={16} aria-hidden="true" fill="none" stroke="currentColor" />
             {task.comments.length}
           </span>
 

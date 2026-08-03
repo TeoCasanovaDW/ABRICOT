@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Calendar, List, Search } from "lucide-react";
+import { ChevronDown, Search } from "lucide-react";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { TaskList } from "@/components/task/TaskList";
@@ -39,32 +39,19 @@ export function TaskFilters({ projectId, owner, members, tasks }: TaskFiltersPro
         </div>
 
         <div className={styles.controls}>
-          <div className={styles.viewToggle} role="group" aria-label="Affichage des tâches">
-            <button
-              type="button"
-              className={`${styles.viewButton} ${styles.viewButtonActive}`}
-              aria-pressed="true"
-            >
-              <List size={16} aria-hidden="true" />
-              Liste
-            </button>
-            <button type="button" className={`${styles.viewButton} ${styles.viewButtonCalendar}`} aria-pressed="false">
-              <Calendar size={16} aria-hidden="true" />
-              Calendrier
-            </button>
-          </div>
-
           <div className={styles.statusField}>
             <Select
               aria-label="Statut"
               value={status}
               onChange={(event) => setStatus(event.target.value as StatusFilter)}
+              className={styles.statusSelect}
             >
-              <option value="ALL">Tous les statuts</option>
+              <option value="ALL">Statut</option>
               <option value="TODO">À faire</option>
               <option value="IN_PROGRESS">En cours</option>
               <option value="DONE">Terminée</option>
             </Select>
+            <ChevronDown size={18} aria-hidden="true" className={styles.statusChevron} />
           </div>
 
           <div className={styles.searchField}>

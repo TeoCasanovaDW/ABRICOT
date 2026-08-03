@@ -15,6 +15,7 @@
 }
 
 .header {
+  padding-block: 8px;
   background: var(--color-surface);
   box-shadow: 0 4px 16px rgb(15 15 15 / 0.04);
 }
@@ -32,8 +33,24 @@
 .footerInner {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--space-3);
   min-height: 64px;
+  width: 100%;
+  max-width: 1400px;
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+  padding-block: var(--space-3);
   color: var(--color-text-secondary);
   font-size: var(--font-caption-l);
+}
+
+/* Logo.module.css's shared .logo rule forces height/width to auto, which
+   overrides the `height` prop and falls back to the SVG's own natural size.
+   The doubled selector raises specificity above that rule so the footer's
+   compact logo size actually takes effect, without touching Logo globally. */
+.footerLogo.footerLogo {
+  height: 14px;
+  width: auto;
+  flex-shrink: 0;
 }

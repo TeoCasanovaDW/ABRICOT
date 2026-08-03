@@ -45,7 +45,6 @@ export function TaskSearchFilter<T extends FilterableTask>({
         {header}
 
         <div className={styles.searchField}>
-          <Search size={16} aria-hidden="true" className={styles.searchIcon} />
           <Input
             type="search"
             aria-label="Rechercher une tâche par titre"
@@ -54,6 +53,7 @@ export function TaskSearchFilter<T extends FilterableTask>({
             value={search}
             onChange={(event) => setSearch(event.target.value)}
           />
+          <Search size={16} aria-hidden="true" className={styles.searchIcon} />
         </div>
       </div>
 

@@ -19,6 +19,15 @@
   flex: 1;
   min-width: 0;
   max-width: 720px;
+  position: relative;
+}
+
+@media (min-width: 1440px) {
+  .backLink {
+    position: absolute;
+    top: 0;
+    left: -68px;
+  }
 }
 
 .headerActions {
@@ -26,6 +35,14 @@
   align-items: center;
   gap: var(--space-3);
   flex-shrink: 0;
+}
+
+@media (max-width: 1024px) {
+  .headerActions {
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    margin-left: 60px;
+  }
 }
 
 .backLink {
@@ -75,13 +92,10 @@
   border: none;
   padding: 0;
   color: var(--color-brand-dark);
-  font-size: var(--font-body-m);
+  font-size: var(--font-body-s);
   font-weight: var(--font-weight-label);
-  cursor: pointer;
-}
-
-.editAction:hover {
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .editAction:focus-visible {
@@ -102,14 +116,14 @@
   background: none;
   border-radius: var(--radius-field);
   color: rgba(239, 68, 68, 0.75);
-  font-size: var(--font-body-m);
+  font-size: var(--font-body-s);
   font-weight: var(--font-weight-label);
+  text-decoration: underline;
   cursor: pointer;
 }
 
 .deleteAction:hover {
   color: var(--color-error);
-  text-decoration: underline;
 }
 
 .deleteAction:focus-visible {
@@ -181,7 +195,7 @@
 }
 
 .nameBadge {
-  background-color: var(--color-grey-100);
+  background-color: var(--color-grey-200);
   border-radius: var(--radius-pill);
   padding: var(--space-1) var(--space-3);
   font-size: var(--font-body-s);

@@ -104,7 +104,7 @@ export function ProjectOverview({ project: initialProject }: ProjectOverviewProp
           </li>
           {project.members.map((member) => (
             <li key={member.id} className={styles.contributorItem}>
-              <Avatar name={memberName(member.user)} size={24} className={styles.contributorAvatar} />
+              <Avatar name={memberName(member.user)} size={32} className={styles.contributorAvatar} />
               <span className={styles.nameBadge}>{memberName(member.user)}</span>
             </li>
           ))}
