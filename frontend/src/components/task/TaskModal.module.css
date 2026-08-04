@@ -41,12 +41,6 @@
   display: none;
 }
 
-.hint {
-  font-size: var(--font-body-xs);
-  font-weight: var(--font-weight-body);
-  color: var(--color-text-secondary);
-}
-
 .legacyStatus {
   display: flex;
 }

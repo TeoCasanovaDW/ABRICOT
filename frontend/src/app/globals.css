@@ -186,10 +186,6 @@ h5 {
   }
 }
 
-@media (max-width: 480px) {
-  /* compact mobile */
-}
-
 .alertError {
   border-radius: var(--radius-field);
   background-color: var(--color-error-light);
