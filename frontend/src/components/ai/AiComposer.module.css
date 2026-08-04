@@ -132,11 +132,3 @@
   font-size: var(--font-caption-l);
   color: var(--color-text-secondary);
 }
-
-.generalError {
-  border-radius: var(--radius-field);
-  background-color: var(--color-error-light);
-  color: var(--color-error);
-  padding: var(--space-3) var(--space-4);
-  font-size: var(--font-body-s);
-}

@@ -1,5 +1,6 @@
 import type { HTMLAttributes } from "react";
 import type { TaskStatus } from "@/types";
+import { STATUS_LABEL } from "@/lib/status";
 import styles from "./Badge.module.css";
 
 export type BadgeStatus = TaskStatus | "OWNER";
@@ -12,11 +13,8 @@ const STATUS_STYLE: Record<BadgeStatus, string> = {
   OWNER: styles.owner,
 };
 
-const STATUS_LABEL: Record<BadgeStatus, string> = {
-  TODO: "À faire",
-  IN_PROGRESS: "En cours",
-  DONE: "Terminée",
-  CANCELLED: "Annulée",
+const BADGE_LABEL: Record<BadgeStatus, string> = {
+  ...STATUS_LABEL,
   OWNER: "Propriétaire",
 };
 
@@ -30,7 +28,7 @@ export function Badge({ status, className, ...props }: BadgeProps) {
       className={[styles.badge, STATUS_STYLE[status], className].filter(Boolean).join(" ")}
       {...props}
     >
-      {STATUS_LABEL[status]}
+      {BADGE_LABEL[status]}
     </span>
   );
 }

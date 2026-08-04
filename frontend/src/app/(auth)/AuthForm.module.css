@@ -31,27 +31,17 @@
   width: 100%;
 }
 
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  font-size: var(--font-body-s);
-  font-weight: var(--font-weight-label);
+/* The shared `.alertError` utility has no opinion on width — inside this
+   centered (align-items: center) column, a block-level <p> shrinks to its
+   content instead of filling the column, so this reinstates that. */
+.generalError {
+  width: 100%;
 }
 
 .submit {
   align-self: center;
   width: 200px;
   margin-top: var(--space-2);
-}
-
-.generalError {
-  width: 100%;
-  border-radius: var(--radius-field);
-  background-color: var(--color-error-light);
-  color: var(--color-error);
-  padding: var(--space-3) var(--space-4);
-  font-size: var(--font-body-s);
 }
 
 .altAction {

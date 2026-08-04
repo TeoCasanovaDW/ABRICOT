@@ -98,10 +98,10 @@ export function CreateProjectButton({ label }: CreateProjectButtonProps) {
       </Button>
 
       <Modal open={open} onClose={closeModal} title="Créer un projet">
-        {generalError && <p className={styles.generalError}>{generalError}</p>}
+        {generalError && <p className="alertError">{generalError}</p>}
 
         <form className={styles.form} onSubmit={onSubmit} noValidate>
-          <label className={styles.field}>
+          <label className="formField">
             Titre *
             <Input
               id="project-name"
@@ -113,7 +113,7 @@ export function CreateProjectButton({ label }: CreateProjectButtonProps) {
             />
           </label>
 
-          <label className={styles.field}>
+          <label className="formField">
             Description *
             <Textarea
               id="project-description"

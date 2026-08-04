@@ -152,7 +152,7 @@ export function ProfileForm() {
           </div>
 
           {generalError && (
-            <p role="alert" className={styles.generalError}>
+            <p role="alert" className="alertError">
               {generalError}
             </p>
           )}
@@ -163,7 +163,7 @@ export function ProfileForm() {
           )}
 
           <form className={styles.form} noValidate>
-            <label className={styles.field}>
+            <label className="formField">
               Nom
               <Input
                 id="name"
@@ -174,7 +174,7 @@ export function ProfileForm() {
               />
             </label>
 
-            <label className={styles.field}>
+            <label className="formField">
               E-mail
               <Input
                 id="email"
@@ -200,7 +200,7 @@ export function ProfileForm() {
 
                 {changePassword && (
                   <>
-                    <label className={styles.field}>
+                    <label className="formField">
                       Mot de passe actuel
                       <Input
                         id="currentPassword"
@@ -214,7 +214,7 @@ export function ProfileForm() {
                       />
                     </label>
 
-                    <label className={styles.field}>
+                    <label className="formField">
                       Nouveau mot de passe
                       <Input
                         id="newPassword"
@@ -231,7 +231,7 @@ export function ProfileForm() {
                 )}
               </>
             ) : (
-              <label className={styles.field}>
+              <label className="formField">
                 Mot de passe
                 <Input id="password-display" type="password" value={MASKED_PASSWORD} disabled readOnly />
               </label>

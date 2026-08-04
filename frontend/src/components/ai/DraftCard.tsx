@@ -132,22 +132,22 @@ export function DraftCard({ draft, owner, members, onRemove, onUpdate, disabled 
     <Card padding="none">
       <div className={styles.card}>
         <form className={styles.form} onSubmit={onSubmit} noValidate>
-          <label className={styles.field}>
+          <label className={`formField ${styles.field}`}>
             Titre *
             <Input error={errors.title?.message} {...register("title")} />
           </label>
 
-          <label className={styles.field}>
+          <label className={`formField ${styles.field}`}>
             Description *
             <Textarea error={errors.description?.message} {...register("description")} />
           </label>
 
-          <label className={styles.field}>
+          <label className={`formField ${styles.field}`}>
             Échéance *
             <Input type="date" error={errors.dueDate?.message} {...register("dueDate")} />
           </label>
 
-          <div className={styles.field}>
+          <div className={`formField ${styles.field}`}>
             <span id={`draft-status-${draft.draftId}`}>Statut</span>
             <StatusPicker
               name={`draft-status-${draft.draftId}`}
@@ -157,7 +157,7 @@ export function DraftCard({ draft, owner, members, onRemove, onUpdate, disabled 
             />
           </div>
 
-          <div className={styles.field}>
+          <div className={`formField ${styles.field}`}>
             <span id={`draft-priority-${draft.draftId}`}>Priorité</span>
             <PriorityPicker
               name={`draft-priority-${draft.draftId}`}

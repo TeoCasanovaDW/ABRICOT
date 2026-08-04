@@ -172,13 +172,13 @@ export function TaskModal({ projectId, owner, members, task, open, onClose, onSu
       title={isEditMode ? "Modifier la tâche" : "Créer une tâche"}
     >
       {generalError && (
-        <p role="alert" className={styles.generalError}>
+        <p role="alert" className="alertError">
           {generalError}
         </p>
       )}
 
       <form className={styles.form} onSubmit={onSubmit} noValidate>
-        <label className={styles.field}>
+        <label className={`formField ${styles.field}`}>
           Titre *
           <Input
             id="task-title"
@@ -190,7 +190,7 @@ export function TaskModal({ projectId, owner, members, task, open, onClose, onSu
           />
         </label>
 
-        <label className={styles.field}>
+        <label className={`formField ${styles.field}`}>
           Description *
           <Textarea
             id="task-description"
@@ -202,7 +202,7 @@ export function TaskModal({ projectId, owner, members, task, open, onClose, onSu
           />
         </label>
 
-        <label className={styles.field}>
+        <label className={`formField ${styles.field}`}>
           Échéance *
           <Input
             id="task-due-date"
@@ -241,7 +241,7 @@ export function TaskModal({ projectId, owner, members, task, open, onClose, onSu
           disabled={isSubmitting}
         />
 
-        <div className={styles.field}>
+        <div className={`formField ${styles.field}`}>
           <span id="task-status-label">Statut</span>
           {legacyCancelled && (
             <div className={styles.legacyStatus}>
@@ -258,7 +258,7 @@ export function TaskModal({ projectId, owner, members, task, open, onClose, onSu
           />
         </div>
 
-        <div className={styles.field}>
+        <div className={`formField ${styles.field}`}>
           <span id="task-priority-label">Priorité</span>
           <PriorityPicker
             name="task-priority"

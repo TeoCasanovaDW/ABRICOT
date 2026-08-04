@@ -15,7 +15,7 @@ import {
   zodResolver,
   type RegisterFormValues,
 } from "@/lib/validation";
-import styles from "./RegisterForm.module.css";
+import styles from "../AuthForm.module.css";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -61,13 +61,13 @@ export function RegisterForm() {
         <h1 className={styles.heading}>Inscription</h1>
 
         {generalError && (
-          <p role="alert" className={styles.generalError}>
+          <p role="alert" className={`alertError ${styles.generalError}`}>
             {generalError}
           </p>
         )}
 
         <form className={styles.form} onSubmit={onSubmit} noValidate>
-          <label className={styles.field}>
+          <label className="formField">
             Nom *
             <Input
               id="name"
@@ -80,7 +80,7 @@ export function RegisterForm() {
             />
           </label>
 
-          <label className={styles.field}>
+          <label className="formField">
             E-mail *
             <Input
               id="email"
@@ -94,7 +94,7 @@ export function RegisterForm() {
             />
           </label>
 
-          <label className={styles.field}>
+          <label className="formField">
             Mot de passe *
             <Input
               id="password"

@@ -15,11 +15,3 @@
   justify-content: center;
   margin-top: var(--space-2);
 }
-
-.generalError {
-  border-radius: var(--radius-field);
-  background-color: var(--color-error-light);
-  color: var(--color-error);
-  padding: var(--space-3) var(--space-4);
-  font-size: var(--font-body-s);
-}

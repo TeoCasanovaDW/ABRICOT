@@ -92,7 +92,7 @@ export function DraftList({
   return (
     <div className={styles.list}>
       {generalError && (
-        <p role="alert" className={styles.generalError}>
+        <p role="alert" className="alertError">
           {generalError}
         </p>
       )}

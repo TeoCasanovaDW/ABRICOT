@@ -10,7 +10,7 @@ import { Logo } from "@/components/ui/Logo";
 import { apiClient } from "@/lib/api/client";
 import { isApiError } from "@/lib/api/errors";
 import { loginSchema, zodResolver, type LoginFormValues } from "@/lib/validation";
-import styles from "./LoginForm.module.css";
+import styles from "../AuthForm.module.css";
 
 export function LoginForm() {
   const router = useRouter();
@@ -47,13 +47,13 @@ export function LoginForm() {
         <h1 className={styles.heading}>Connexion</h1>
 
         {generalError && (
-          <p role="alert" className={styles.generalError}>
+          <p role="alert" className={`alertError ${styles.generalError}`}>
             {generalError}
           </p>
         )}
 
         <form className={styles.form} onSubmit={onSubmit} noValidate>
-          <label className={styles.field}>
+          <label className="formField">
             E-mail *
             <Input
               id="email"
@@ -67,7 +67,7 @@ export function LoginForm() {
             />
           </label>
 
-          <label className={styles.field}>
+          <label className="formField">
             Mot de passe *
             <Input
               id="password"

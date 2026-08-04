@@ -47,19 +47,19 @@ export default function DevUiPage() {
       <section className={styles.section}>
         <h2>Input</h2>
         <div className={styles.column}>
-          <label className={styles.field}>
+          <label className="formField">
             Default
             <Input placeholder="Default input" />
           </label>
-          <label className={styles.field}>
+          <label className="formField">
             Focused (autofocus)
             <Input placeholder="Focused input" autoFocus />
           </label>
-          <label className={styles.field}>
+          <label className="formField">
             Disabled
             <Input placeholder="Disabled input" disabled />
           </label>
-          <label className={styles.field}>
+          <label className="formField">
             Error
             <Input placeholder="Invalid input" error="This field is required" />
           </label>
@@ -69,11 +69,11 @@ export default function DevUiPage() {
       <section className={styles.section}>
         <h2>Textarea</h2>
         <div className={styles.column}>
-          <label className={styles.field}>
+          <label className="formField">
             Default
             <Textarea placeholder="Default textarea" rows={3} />
           </label>
-          <label className={styles.field}>
+          <label className="formField">
             Disabled
             <Textarea placeholder="Disabled textarea" rows={3} disabled />
           </label>
@@ -83,7 +83,7 @@ export default function DevUiPage() {
       <section className={styles.section}>
         <h2>Select</h2>
         <div className={styles.column}>
-          <label className={styles.field}>
+          <label className="formField">
             Default
             <Select defaultValue="">
               <option value="" disabled>

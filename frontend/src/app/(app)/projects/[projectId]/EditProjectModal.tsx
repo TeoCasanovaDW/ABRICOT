@@ -175,13 +175,13 @@ export function EditProjectModal({ project, open, onClose, onSaved, onAnnounce }
   return (
     <Modal open={open} onClose={handleClose} title="Modifier un projet">
       {generalError && (
-        <p role="alert" className={styles.generalError}>
+        <p role="alert" className="alertError">
           {generalError}
         </p>
       )}
 
       <form className={styles.form} onSubmit={onSubmit} noValidate>
-        <label className={styles.field}>
+        <label className="formField">
           Titre *
           <Input
             id="edit-project-name"
@@ -193,7 +193,7 @@ export function EditProjectModal({ project, open, onClose, onSaved, onAnnounce }
           />
         </label>
 
-        <label className={styles.field}>
+        <label className="formField">
           Description *
           <Textarea
             id="edit-project-description"

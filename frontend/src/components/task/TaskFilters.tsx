@@ -5,6 +5,7 @@ import { ChevronDown, Search } from "lucide-react";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { TaskList } from "@/components/task/TaskList";
+import { STATUS_LABEL, STATUS_ORDER } from "@/lib/status";
 import type { ProjectMember, Task, TaskStatus, UserSummary } from "@/types";
 import styles from "./TaskFilters.module.css";
 
@@ -47,9 +48,11 @@ export function TaskFilters({ projectId, owner, members, tasks }: TaskFiltersPro
               className={styles.statusSelect}
             >
               <option value="ALL">Statut</option>
-              <option value="TODO">À faire</option>
-              <option value="IN_PROGRESS">En cours</option>
-              <option value="DONE">Terminée</option>
+              {STATUS_ORDER.map((status) => (
+                <option key={status} value={status}>
+                  {STATUS_LABEL[status]}
+                </option>
+              ))}
             </Select>
             <ChevronDown size={18} aria-hidden="true" className={styles.statusChevron} />
           </div>

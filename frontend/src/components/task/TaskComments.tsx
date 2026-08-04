@@ -101,7 +101,7 @@ export function TaskComments({ projectId, taskId, comments, onCommentAdded, onAn
       )}
 
       {generalError && (
-        <p role="alert" className={styles.generalError}>
+        <p role="alert" className="alertError">
           {generalError}
         </p>
       )}

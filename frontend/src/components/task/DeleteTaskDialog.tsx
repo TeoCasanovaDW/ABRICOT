@@ -66,7 +66,7 @@ export function DeleteTaskDialog({
   return (
     <Modal open={open} onClose={handleClose} title="Supprimer la tâche">
       {generalError && (
-        <p role="alert" className={styles.generalError}>
+        <p role="alert" className="alertError">
           {generalError}
         </p>
       )}

@@ -1,5 +1,6 @@
 "use client";
 
+import { STATUS_LABEL, STATUS_ORDER } from "@/lib/status";
 import styles from "./StatusPicker.module.css";
 
 export type StatusPickerValue = "TODO" | "IN_PROGRESS" | "DONE";
@@ -13,27 +14,27 @@ interface StatusPickerProps {
   noSelection?: boolean;
 }
 
-const STATUS_OPTIONS: { value: StatusPickerValue; label: string; className: string }[] = [
-  { value: "TODO", label: "À faire", className: styles.todo },
-  { value: "IN_PROGRESS", label: "En cours", className: styles.inProgress },
-  { value: "DONE", label: "Terminée", className: styles.done },
-];
+const STATUS_CLASS: Record<StatusPickerValue, string> = {
+  TODO: styles.todo,
+  IN_PROGRESS: styles.inProgress,
+  DONE: styles.done,
+};
 
 export function StatusPicker({ name, labelledBy, value, onChange, disabled, noSelection }: StatusPickerProps) {
   return (
     <div className={styles.statusGroup} role="radiogroup" aria-labelledby={labelledBy}>
-      {STATUS_OPTIONS.map((option) => (
-        <label key={option.value} className={[styles.statusPill, option.className].join(" ")}>
+      {STATUS_ORDER.map((status) => (
+        <label key={status} className={[styles.statusPill, STATUS_CLASS[status]].join(" ")}>
           <input
             type="radio"
             name={name}
-            value={option.value}
+            value={status}
             className={styles.statusRadio}
             disabled={disabled}
-            checked={!noSelection && value === option.value}
-            onChange={() => onChange(option.value)}
+            checked={!noSelection && value === status}
+            onChange={() => onChange(status)}
           />
-          {option.label}
+          {STATUS_LABEL[status]}
         </label>
       ))}
     </div>

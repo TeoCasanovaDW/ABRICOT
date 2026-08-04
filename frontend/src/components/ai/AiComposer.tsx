@@ -117,7 +117,7 @@ export function AiComposer({ projectId, owner, members, open, onClose, onAnnounc
   return (
     <Modal open={open} onClose={handleClose} title={title} size="wide">
       {generalError && (
-        <p role="alert" className={styles.generalError}>
+        <p role="alert" className="alertError">
           {generalError}
         </p>
       )}
