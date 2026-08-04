@@ -22,6 +22,11 @@ export default async function AppLayout({
   let user: User;
   try {
     ({ user } = await apiServer<{ user: User }>("/auth/profile"));
+    // The backend's auth middleware turns a null `name` into an omitted JSON
+    // key on this endpoint specifically (unlike login/register/updateProfile,
+    // which send an explicit `null`) — normalize here so `User.name` is
+    // reliably `string | null`, never `undefined`, everywhere it's consumed.
+    user = { ...user, name: user.name ?? null };
   } catch {
     // Expired/invalid token past proxy.ts's presence-only check: treat as
     // unauthenticated. Cookie clearing happens via the logout Route Handler,
