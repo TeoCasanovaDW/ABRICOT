@@ -77,3 +77,10 @@
     padding: var(--space-5);
   }
 }
+
+@media (max-width: 425px) {
+  .wide {
+    width: calc(100% - var(--space-4) * 2);
+    padding: var(--space-4);
+  }
+}

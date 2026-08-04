@@ -103,84 +103,88 @@ export function DraftCard({ draft, owner, members, onRemove, onUpdate, disabled 
 
   if (!isEditing) {
     return (
-      <Card className={styles.card}>
-        <h3 className={styles.title}>{draft.title}</h3>
-        <p className={styles.description}>{draft.description}</p>
-        <div className={styles.cardActions}>
-          <button
-            type="button"
-            className={[styles.action, styles.actionDanger].join(" ")}
-            onClick={() => onRemove(draft.draftId)}
-            disabled={disabled}
-          >
-            <Trash2 size={16} aria-hidden="true" fill="currentColor" />
-            Supprimer
-          </button>
-          <span className={styles.actionSeparator} aria-hidden="true" />
-          <button type="button" className={styles.action} onClick={startEditing} disabled={disabled}>
-            <Pencil size={16} aria-hidden="true" fill="currentColor" />
-            Modifier
-          </button>
+      <Card padding="none">
+        <div className={styles.card}>
+          <h3 className={styles.title}>{draft.title}</h3>
+          <p className={styles.description}>{draft.description}</p>
+          <div className={styles.cardActions}>
+            <button
+              type="button"
+              className={[styles.action, styles.actionDanger].join(" ")}
+              onClick={() => onRemove(draft.draftId)}
+              disabled={disabled}
+            >
+              <Trash2 size={16} aria-hidden="true" fill="currentColor" />
+              Supprimer
+            </button>
+            <span className={styles.actionSeparator} aria-hidden="true" />
+            <button type="button" className={styles.action} onClick={startEditing} disabled={disabled}>
+              <Pencil size={16} aria-hidden="true" fill="currentColor" />
+              Modifier
+            </button>
+          </div>
         </div>
       </Card>
     );
   }
 
   return (
-    <Card className={styles.card}>
-      <form className={styles.form} onSubmit={onSubmit} noValidate>
-        <label className={styles.field}>
-          Titre *
-          <Input error={errors.title?.message} {...register("title")} />
-        </label>
+    <Card padding="none">
+      <div className={styles.card}>
+        <form className={styles.form} onSubmit={onSubmit} noValidate>
+          <label className={styles.field}>
+            Titre *
+            <Input error={errors.title?.message} {...register("title")} />
+          </label>
 
-        <label className={styles.field}>
-          Description *
-          <Textarea error={errors.description?.message} {...register("description")} />
-        </label>
+          <label className={styles.field}>
+            Description *
+            <Textarea error={errors.description?.message} {...register("description")} />
+          </label>
 
-        <label className={styles.field}>
-          Échéance *
-          <Input type="date" error={errors.dueDate?.message} {...register("dueDate")} />
-        </label>
+          <label className={styles.field}>
+            Échéance *
+            <Input type="date" error={errors.dueDate?.message} {...register("dueDate")} />
+          </label>
 
-        <div className={styles.field}>
-          <span id={`draft-status-${draft.draftId}`}>Statut</span>
-          <StatusPicker
-            name={`draft-status-${draft.draftId}`}
-            labelledBy={`draft-status-${draft.draftId}`}
-            value={statusValue}
-            onChange={setStatusValue}
+          <div className={styles.field}>
+            <span id={`draft-status-${draft.draftId}`}>Statut</span>
+            <StatusPicker
+              name={`draft-status-${draft.draftId}`}
+              labelledBy={`draft-status-${draft.draftId}`}
+              value={statusValue}
+              onChange={setStatusValue}
+            />
+          </div>
+
+          <div className={styles.field}>
+            <span id={`draft-priority-${draft.draftId}`}>Priorité</span>
+            <PriorityPicker
+              name={`draft-priority-${draft.draftId}`}
+              labelledBy={`draft-priority-${draft.draftId}`}
+              value={priorityValue}
+              onChange={setPriorityValue}
+            />
+          </div>
+
+          <AssigneeSelect
+            id={`draft-assignees-${draft.draftId}`}
+            label="Assigné à :"
+            name="assigneeIds"
+            options={assigneeOptions}
+            control={control}
           />
-        </div>
 
-        <div className={styles.field}>
-          <span id={`draft-priority-${draft.draftId}`}>Priorité</span>
-          <PriorityPicker
-            name={`draft-priority-${draft.draftId}`}
-            labelledBy={`draft-priority-${draft.draftId}`}
-            value={priorityValue}
-            onChange={setPriorityValue}
-          />
-        </div>
-
-        <AssigneeSelect
-          id={`draft-assignees-${draft.draftId}`}
-          label="Assigné à :"
-          name="assigneeIds"
-          options={assigneeOptions}
-          control={control}
-        />
-
-        <div className={styles.cardActions}>
-          <Button type="submit" variant="primary" disabled={!isValid}>
-            Enregistrer
-          </Button>
-          <Button type="button" variant="secondary" onClick={cancelEditing}>
-            Annuler
-          </Button>
-        </div>
-      </form>
+          <div className={[styles.cardActions, styles.formActions].join(" ")}>
+            <Button type="submit" variant="primary" disabled={!isValid}>
+              Enregistrer
+            </Button>
+            <Button type="button" variant="secondary" onClick={cancelEditing}>
+              Annuler
+            </Button>
+          </div>
+        </form>
+      </div>
     </Card>
   );
 }

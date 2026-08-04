@@ -237,7 +237,7 @@ export function ProfileForm() {
               </label>
             )}
 
-            <div className={styles.actions}>
+            <div className={isEditing ? [styles.actions, styles.editActions].join(" ") : styles.actions}>
               {isEditing ? (
                 <>
                   <Button type="button" variant="primary" loading={isSubmitting} disabled={isSubmitting} onClick={onSubmit}>
