@@ -21,6 +21,7 @@ interface DraftListProps {
   onUpdate: (draftId: string, values: DraftFormValues) => void;
   onClose: () => void;
   onSavingChange: (saving: boolean) => void;
+  onAnnounce: (message: string) => void;
 }
 
 export function DraftList({
@@ -32,6 +33,7 @@ export function DraftList({
   onUpdate,
   onClose,
   onSavingChange,
+  onAnnounce,
 }: DraftListProps) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
@@ -50,7 +52,7 @@ export function DraftList({
     onSavingChange(true);
 
     const total = drafts.length;
-    const { succeededIds, stopReason } = await saveDrafts({
+    const { succeededIds, failedIds, stopReason } = await saveDrafts({
       projectId,
       drafts,
       onProgress: (current, count) => setProgressMessage(`Création de la tâche ${current} sur ${count}`),
@@ -73,19 +75,33 @@ export function DraftList({
     succeededIds.forEach((draftId) => onRemove(draftId));
     if (succeededIds.length > 0) router.refresh();
 
-    // 401/403/404 hand off to session-expiry redirect / exiting the AI flow
-    // entirely, regardless of how many drafts succeeded beforehand.
+    // 401 hands off to session-expiry redirect regardless of how many
+    // drafts succeeded beforehand.
     if (stopReason === "unauthorized") {
       router.push("/login");
       return;
     }
+
+    // 403/404 exits the AI flow entirely — the modal is about to unmount, so
+    // local generalError would never be seen. Route the explanation through
+    // the parent's persistent announcement region instead.
     if (stopReason === "forbidden") {
+      onAnnounce("La création des tâches a été interrompue : vous n'avez plus accès à ce projet.");
       onClose();
       return;
     }
 
     if (succeededIds.length === 0) {
       setGeneralError("Aucune tâche n'a pu être créée. Réessayez.");
+      return;
+    }
+
+    if (succeededIds.length < total) {
+      setGeneralError(
+        failedIds.length === 1
+          ? "1 tâche n'a pas pu être créée. Corrigez-la et réessayez."
+          : `${failedIds.length} tâches n'ont pas pu être créées. Corrigez-les et réessayez.`
+      );
     }
   };
 

@@ -134,6 +134,7 @@ export function AiComposer({ projectId, owner, members, open, onClose, onAnnounc
               onUpdate={updateDraft}
               onClose={handleClose}
               onSavingChange={setSaving}
+              onAnnounce={onAnnounce}
             />
           )}
         </div>
