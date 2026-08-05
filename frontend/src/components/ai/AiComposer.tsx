@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { SubmitEvent, useEffect, useRef, useState } from "react";
 import { Astroid } from "lucide-react";
 import { Modal } from "@/components/ui/Modal";
 import { apiClient } from "@/lib/api/client";
@@ -66,7 +66,7 @@ export function AiComposer({ projectId, owner, members, open, onClose, onAnnounc
     onClose();
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (generating || !prompt.trim()) return;
 

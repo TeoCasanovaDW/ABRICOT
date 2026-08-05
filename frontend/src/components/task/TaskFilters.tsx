@@ -58,7 +58,6 @@ export function TaskFilters({ projectId, owner, members, tasks }: TaskFiltersPro
           </div>
 
           <div className={styles.searchField}>
-            <Search size={16} aria-hidden="true" className={styles.searchIcon} />
             <Input
               type="search"
               aria-label="Rechercher une tâche"
@@ -67,6 +66,7 @@ export function TaskFilters({ projectId, owner, members, tasks }: TaskFiltersPro
               value={search}
               onChange={(event) => setSearch(event.target.value)}
             />
+            <Search size={16} aria-hidden="true" className={styles.searchIcon} />
           </div>
         </div>
       </div>
