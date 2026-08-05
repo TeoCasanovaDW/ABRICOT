@@ -38,7 +38,7 @@
   gap: var(--space-2);
   padding: 22px var(--space-5);
   border-radius: var(--radius-button);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-darker);
   font-weight: var(--font-weight-label);
   text-decoration: none;
 }
@@ -66,8 +66,8 @@
   justify-self: end;
 }
 
-.accountAvatarProfile.accountAvatarProfile {
-  background-color: var(--color-brand-dark);
+.accountAvatarProfile {
+  background-color: var(--color-brand-darker);
   color: var(--color-text-inverse);
 }
 

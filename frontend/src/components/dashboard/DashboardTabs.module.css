@@ -27,7 +27,7 @@
   border: none;
   border-radius: var(--radius-button);
   background-color: var(--color-surface);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-darker);
   font-size: var(--font-body-s);
   font-weight: var(--font-weight-label);
   white-space: nowrap;
@@ -46,7 +46,7 @@
 .tabActive,
 .tabActive:hover {
   background-color: var(--color-brand-light);
-  color: var(--color-brand-dark);
+  color: var(--color-brand-darker);
 }
 
 .panel {

@@ -36,8 +36,9 @@
 
   /* Colour tokens */
   --color-brand-main: #ff8b42;
-  --color-brand-light: #ffe8d9;
+  --color-brand-light: #fcf1e9;
   --color-brand-dark: #d3590b;
+  --color-brand-darker: #b84c07;
 
   --color-grey-950: #0f0f0f;
   --color-grey-800: #1f1f1f;
@@ -48,22 +49,22 @@
   --color-grey-50: #f9fafb;
   --color-white: #ffffff;
 
-  --color-success: #27ae60;
+  --color-success: #1a7941;
   --color-success-light: #f1fff7;
 
-  --color-error: #ef4444;
+  --color-error: #b93636;
   --color-error-light: #ffe0e0;
 
-  --color-info: #3b82f6;
+  --color-info: #2a5baa;
   --color-info-light: #e0ecff;
 
-  --color-warning: #e08d00;
+  --color-warning: #925d00;
   --color-warning-light: #fff0d7;
 
   /* Semantic colour usage */
   --color-text-primary: var(--color-grey-950);
-  --color-text-secondary: var(--color-grey-600);
-  --color-text-muted: var(--color-grey-400);
+  --color-text-secondary: var(--color-grey-800);
+  --color-text-muted: var(--color-grey-600);
   --color-text-inverse: var(--color-white);
 
   --color-page-background: var(--color-grey-50);
@@ -75,7 +76,7 @@
 
   --color-action-primary: var(--color-grey-800);
   --color-action-primary-hover: var(--color-grey-950);
-  --color-action-brand: var(--color-brand-dark);
+  --color-action-brand: var(--color-brand-darker);
 
   /* Spacing scale */
   --space-1: 4px;

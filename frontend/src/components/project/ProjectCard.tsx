@@ -53,7 +53,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   <Avatar
                     key={member.id}
                     name={member.user.name ?? member.user.email}
-                    size={28}
+                    size={32}
                     className={styles.stackedAvatar}
                   />
                 ))}

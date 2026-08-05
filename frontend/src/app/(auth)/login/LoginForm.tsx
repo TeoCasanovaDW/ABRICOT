@@ -94,7 +94,7 @@ export function LoginForm() {
       </div>
 
       <p className={styles.altAction}>
-        Pas encore de compte ? <Link href="/register" className={styles.link}>S’inscrire</Link>
+        Pas encore de compte ? <Link href="/register" className={styles.link}>Créer un compte</Link>
       </p>
     </div>
   );

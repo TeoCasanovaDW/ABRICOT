@@ -30,6 +30,6 @@
 }
 
 .owner {
-  color: var(--color-brand-dark);
+  color: var(--color-brand-darker);
   background-color: var(--color-brand-light);
 }

@@ -20,7 +20,7 @@
 }
 
 .heading {
-  color: var(--color-brand-main);
+  color: var(--color-brand-dark);
   text-align: center;
 }
 
@@ -51,9 +51,9 @@
 }
 
 .link {
-  color: var(--color-brand-main);
+  color: var(--color-brand-darker);
   text-decoration: underline;
-  text-decoration-color: var(--color-brand-main);
+  text-decoration-color: var(--color-brand-darker);
 }
 
 /* Desktop split-panel only: three vertical zones spanning the panel's full

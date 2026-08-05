@@ -128,7 +128,7 @@
   background: none;
   border: none;
   padding: 0;
-  color: var(--color-brand-dark);
+  color: var(--color-brand-darker);
   font-size: var(--font-body-s);
   font-weight: var(--font-weight-label);
   text-decoration: underline;
@@ -152,7 +152,7 @@
   border: none;
   background: none;
   border-radius: var(--radius-field);
-  color: rgba(239, 68, 68, 0.75);
+  color: var(--color-error);
   font-size: var(--font-body-s);
   font-weight: var(--font-weight-label);
   text-decoration: underline;
@@ -226,9 +226,9 @@
   gap: var(--space-1);
 }
 
-.contributorAvatar.contributorAvatar {
+.contributorAvatar {
   background-color: var(--color-grey-200);
-  color: var(--color-grey-600);
+  color: var(--color-grey-950);
 }
 
 .nameBadge {
