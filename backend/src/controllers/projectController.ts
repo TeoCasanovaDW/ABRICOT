@@ -770,11 +770,13 @@ export const searchUsers = async (
           {
             email: {
               contains: searchQuery,
+              mode: "insensitive",
             },
           },
           {
             name: {
               contains: searchQuery,
+              mode: "insensitive",
             },
           },
         ],
