@@ -31,12 +31,14 @@ const PORT = process.env.PORT || 8000;
 app.use(helmet());
 
 // Middleware CORS
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? [process.env.FRONTEND_URL].filter(Boolean) as string[]
+    : ["http://localhost:3000"];
+
 app.use(
   cors({
-    origin:
-      process.env.NODE_ENV === "production"
-        ? ["https://votre-domaine.com"]
-        : ["http://localhost:8000", "http://localhost:8001"],
+    origin: allowedOrigins,
     credentials: true,
   })
 );
