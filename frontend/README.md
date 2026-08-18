@@ -20,6 +20,27 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Tests
+
+Unit and component tests use [Vitest](https://vitest.dev) and [React Testing Library](https://testing-library.com/react):
+
+```bash
+npm run test
+```
+
+Critical user journeys are covered with [Cypress](https://www.cypress.io):
+
+- login → dashboard
+- create a project → create a task
+- AI generation up to the draft list, with the AI call mocked
+
+```bash
+npm run cypress:open   # interactive
+npm run test:e2e       # headless
+```
+
+E2E tests need the frontend and the backend both running (backend locally or via Docker) against a seeded Supabase database.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

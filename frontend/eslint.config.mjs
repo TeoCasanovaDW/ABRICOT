@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Cypress specs use ambient globals (cy, describe, it, Cypress) from
+    // cypress/tsconfig.json rather than this app's ESLint/TS setup.
+    "cypress/**",
   ]),
 ]);
 
