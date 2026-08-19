@@ -85,7 +85,6 @@ jobs:
     env:
       DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
       JWT_SECRET: ci-test-secret
-      PORT: 8000
       FRONTEND_URL: http://localhost:3000
       BACKEND_API_URL: http://localhost:8000
       # The e2e AI-generation spec mocks the browser-side fetch to
@@ -124,6 +123,7 @@ jobs:
 
       - name: Start backend
         working-directory: backend
+        PORT: 8000
         run: |
           node dist/index.js &
           timeout 60 bash -c 'until curl -sf http://localhost:8000/health > /dev/null; do sleep 2; done'
@@ -138,6 +138,7 @@ jobs:
 
       - name: Start frontend
         working-directory: frontend
+        PORT: 3000
         run: |
           npm start &
           timeout 60 bash -c 'until curl -sf http://localhost:3000 > /dev/null; do sleep 2; done'
